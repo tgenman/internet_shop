@@ -7,7 +7,8 @@ public class AddressTest {
 
     @Test
     public void fakeTestForJacoco() {
-        Address address = new Address("1", "2", 3, "4", "5", "6");
+        Address address = new Address();
+        address.setCountry("1");
         Assert.assertEquals(1, Integer.parseInt(address.getCountry()));
     }
 
