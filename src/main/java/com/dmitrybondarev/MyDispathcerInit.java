@@ -1,23 +1,21 @@
 package com.dmitrybondarev;
 
 import com.dmitrybondarev.config.MainConfig;
-import org.springframework.web.WebApplicationInitializer;
-import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
-import org.springframework.web.servlet.DispatcherServlet;
+import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRegistration;
-
-public class MyDispathcerInit implements WebApplicationInitializer {
+public class MyDispathcerInit extends AbstractAnnotationConfigDispatcherServletInitializer {
     @Override
-    public void onStartup(ServletContext servletContext) throws ServletException {
-        AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
-        context.register(MainConfig.class);
-        context.refresh();
+    protected Class<?>[] getRootConfigClasses() {
+        return null;
+    }
 
-        ServletRegistration.Dynamic registration = servletContext.addServlet("example", new DispatcherServlet(context));
-        registration.setLoadOnStartup(1);
-        registration.addMapping("/*");
+    @Override
+    protected Class<?>[] getServletConfigClasses() {
+        return new Class<?>[] {  MainConfig.class };
+    }
+
+    @Override
+    protected String[] getServletMappings() {
+        return new String[] { "/*" };
     }
 }
