@@ -1,9 +1,9 @@
 package com.dmitrybondarev;
 
-import com.dmitrybondarev.config.MainConfig;
+import com.dmitrybondarev.config.MvcConfig;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-public class MyDispathcerInit extends AbstractAnnotationConfigDispatcherServletInitializer {
+public class AppInit extends AbstractAnnotationConfigDispatcherServletInitializer {
     @Override
     protected Class<?>[] getRootConfigClasses() {
         return null;
@@ -11,11 +11,11 @@ public class MyDispathcerInit extends AbstractAnnotationConfigDispatcherServletI
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class<?>[] {  MainConfig.class };
+        return new Class<?>[] {  MvcConfig.class };
     }
 
     @Override
     protected String[] getServletMappings() {
-        return new String[] { "/*" };
+        return new String[] { "/" };
     }
 }
