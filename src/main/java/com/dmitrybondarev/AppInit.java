@@ -1,6 +1,6 @@
 package com.dmitrybondarev;
 
-import com.dmitrybondarev.config.MvcConfig;
+import com.dmitrybondarev.config.MVCConfig;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 public class AppInit extends AbstractAnnotationConfigDispatcherServletInitializer {
@@ -11,7 +11,7 @@ public class AppInit extends AbstractAnnotationConfigDispatcherServletInitialize
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class<?>[] {  MvcConfig.class };
+        return new Class<?>[] {  MVCConfig.class };
     }
 
     @Override

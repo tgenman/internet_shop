@@ -10,7 +10,12 @@ public class MainController {
 
     @GetMapping
     public String home() {
-        System.out.println("HomeController: Passing through...");
         return "home";
     }
+
+//    @RequestMapping(value = "/helloagain", method = RequestMethod.GET)
+//    public String sayHelloAgain(ModelMap model) {
+//        model.addAttribute("greeting", "Hello World from Spring 4 MVC");
+//        return "welcome";
+//    }
 }

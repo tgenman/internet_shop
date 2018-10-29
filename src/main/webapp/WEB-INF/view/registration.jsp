@@ -1,10 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Hello</title>
+    <title>Registration</title>
 </head>
 <body>
-    <div> hello world </div>
-    <div> <a href="registration">Registration</a> </div>
+    Registration page
 </body>
 </html>

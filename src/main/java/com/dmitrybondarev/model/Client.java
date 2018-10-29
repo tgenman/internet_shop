@@ -3,9 +3,13 @@ package com.dmitrybondarev.model;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 public class Client {
+
+    private int id;
 
     private String name;
 
@@ -17,5 +21,5 @@ public class Client {
 
     private String password;        //TODO See logic to twidder
 
-    private Address address;
+    private List<Address> addresses;
 }

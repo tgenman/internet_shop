@@ -11,8 +11,8 @@ import org.springframework.web.servlet.view.JstlView;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = "com.dmitrybondarev.controller")
-public class MvcConfig implements WebMvcConfigurer {
+@ComponentScan(basePackages = "com.dmitrybondarev")
+public class MVCConfig implements WebMvcConfigurer {
 
     @Bean
     public ViewResolver viewResolver() {
