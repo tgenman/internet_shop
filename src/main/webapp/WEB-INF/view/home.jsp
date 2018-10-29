@@ -4,7 +4,8 @@
     <title>Hello</title>
 </head>
 <body>
-    <div> hello world </div>
-    <div> <a href="registration">Registration</a> </div>
+    <div> <a href="/client/registration">Registration</a> </div>
+    <div> <a href="/client/login">Login</a> </div>
+    <div> <a href="/client/all">All profiles</a> </div>
 </body>
 </html>
