@@ -1,15 +1,11 @@
 package com.dmitrybondarev.model;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
-import java.util.List;
 
 @Data
 @Entity
@@ -23,7 +19,7 @@ public class Client {
 
     private String familyName;
 
-//    private String dateOfBirth;     //TODO find appropriate time class
+    //    private String dateOfBirth;     //TODO find appropriate time class
 
     private String email;
 

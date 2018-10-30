@@ -2,6 +2,7 @@ package com.dmitrybondarev.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
@@ -18,6 +19,7 @@ import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
+@ComponentScan("com.dmitrybondarev")
 @PropertySource("classpath:jpa.properties")
 public class JpaConfig {
 
@@ -67,6 +69,7 @@ public class JpaConfig {
         properties.put("hibernate.show_sql", env.getProperty("spring.jpa.hibernate.show_sql"));
         properties.put("hibernate.id.new_generator_mappings",env.getProperty("spring.jpa.hibernate.id.new_generator_mappings"));
         properties.put("hibernate.format_sql",env.getProperty("spring.jpa.hibernate.format_sql"));
+        properties.put("logging.level.org.hibernate.SQL",env.getProperty("logging.level.org.hibernate.SQL"));
         return properties;
     }
 }
