@@ -3,6 +3,8 @@ package com.dmitrybondarev.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
@@ -16,7 +18,11 @@ import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
+@PropertySource("classpath:jpa.properties")
 public class JpaConfig {
+
+    @Autowired
+    private Environment env;
 
     @Bean
     @Autowired
@@ -26,18 +32,18 @@ public class JpaConfig {
         bean.setDataSource(dataSource);
         bean.setJpaVendorAdapter(jpaVendorAdapter);
         bean.setJpaProperties(getHibernateProperties());
-        bean.setPackagesToScan("com.dmitrybondarev.model");
-        bean.setPersistenceUnitName("spring-jpa-unit");
+        bean.setPackagesToScan(env.getProperty("spring.jpa.entity_manager_factory.packages_to_scan"));
+        bean.setPersistenceUnitName(env.getProperty("spring.jpa.entity_manager_factory.persistence_unit_name"));
         return bean;
     }
 
     @Bean
     public DriverManagerDataSource getDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/internet_shop?serverTimezone=UTC");
-        dataSource.setUsername("non-root");
-        dataSource.setPassword("123");
+        dataSource.setDriverClassName(env.getProperty("spring.dataSource.driver_class_name"));
+        dataSource.setUrl(env.getProperty("spring.dataSource.url"));
+        dataSource.setUsername(env.getProperty("spring.datasource.username"));
+        dataSource.setPassword(env.getProperty("spring.datasource.password"));
         return dataSource;
     }
 
@@ -56,11 +62,11 @@ public class JpaConfig {
 
     private Properties getHibernateProperties() {
         Properties properties = new Properties();
-        properties.put("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
-        properties.put("hibernate.hbm2ddl.auto", "update");
-        properties.put("hibernate.show_sql", "true");
-        properties.put("hibernate.id.new_generator_mappings","false");
-        properties.put("hibernate.format_sql","false");
+        properties.put("hibernate.dialect", env.getProperty("spring.jpa.hibernate.dialect"));
+        properties.put("hibernate.hbm2ddl.auto", env.getProperty("spring.jpa.hibernate.hbm2ddl.auto"));
+        properties.put("hibernate.show_sql", env.getProperty("spring.jpa.hibernate.show_sql"));
+        properties.put("hibernate.id.new_generator_mappings",env.getProperty("spring.jpa.hibernate.id.new_generator_mappings"));
+        properties.put("hibernate.format_sql",env.getProperty("spring.jpa.hibernate.format_sql"));
         return properties;
     }
 }
