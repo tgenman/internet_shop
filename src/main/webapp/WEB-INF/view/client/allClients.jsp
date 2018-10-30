@@ -21,7 +21,7 @@
             <div>${client.name} ${client.familyName}</div>
             <div>email: ${client.email}</div>
             <div>id: ${client.id}</div>
-            <div></div>
+            <div> </div>
         </c:forEach>
     </div>
 </body>

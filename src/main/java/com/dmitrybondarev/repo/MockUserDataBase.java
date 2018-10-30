@@ -1,4 +1,4 @@
-package com.dmitrybondarev.dao;
+package com.dmitrybondarev.repo;
 
 // Mock storage for testing
 
@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Component

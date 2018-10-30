@@ -16,7 +16,7 @@
     <h2>Login Page</h2>
 
     <div>
-        <form action="login" method="post">
+        <form method="post">
             <div class="form-group">
                 <input type="text" class="form-control" name="email" placeholder="email" />
             </div>

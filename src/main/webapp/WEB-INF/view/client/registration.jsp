@@ -8,7 +8,7 @@
 
     <div><h2>Registration form</h2></div>
     <div>
-        <form action="registration" method="post">
+        <form method="post">
             <div class="form-group">
                 <input type="text" class="form-control" name="name" placeholder="First Name" />
             </div>
