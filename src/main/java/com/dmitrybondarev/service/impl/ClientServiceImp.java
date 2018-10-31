@@ -6,7 +6,7 @@ import com.dmitrybondarev.service.api.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
+import java.util.List;
 
 @Service
 public class ClientServiceImp implements ClientService {
@@ -14,9 +14,8 @@ public class ClientServiceImp implements ClientService {
     @Autowired
     private ClientRepo clientRepo;
 
-    public Collection<Client> getAllClients() {
-        return null;
-//        return mockUserDataBase.getAllClients();
+    public List<Client> getAllClients() {
+        return clientRepo.getAllClients();
     }
 
     public void registerNewClient(String name, String familyName, String email, String password) {

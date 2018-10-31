@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 
 @Repository
 @Transactional
@@ -17,9 +18,13 @@ public class ClientRepoImp implements ClientRepo {
     private EntityManager entityManager;
 
     @Override
+    @Transactional
     public void addClient(Client client) {
         entityManager.persist(client);
     }
 
-
+    @Transactional(readOnly=true)
+    public List<Client> getAllClients() {
+        return entityManager.createQuery("select client from Client client").getResultList();
+    }
 }

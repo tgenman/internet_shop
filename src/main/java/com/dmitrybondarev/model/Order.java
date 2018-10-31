@@ -1,9 +1,5 @@
 package com.dmitrybondarev.model;
 
-import com.dmitrybondarev.model.enums.StatusOfDelivery;
-import com.dmitrybondarev.model.enums.StatusOfPayment;
-import com.dmitrybondarev.model.enums.TypeOfDelivery;
-import com.dmitrybondarev.model.enums.TypeOfPayment;
 import lombok.Data;
 
 import javax.persistence.Entity;
@@ -11,15 +7,18 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
-import java.util.Map;
+import javax.persistence.Table;
 
 @Data
 @Entity
+@Table(name = "Order_list")
 public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+
+    private String name;
 
     @OneToOne
     private Client client;
