@@ -9,7 +9,7 @@
     <div> <a href="/client/all">All profiles</a> </div>
     <div>
         <form action="/logout" method="post">
-            <%--<input type="hidden" name="_csrf" value="{{_csrf.token}}" />--%>
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             <input type="submit" value="Sign Out"/>
         </form>
     </div>

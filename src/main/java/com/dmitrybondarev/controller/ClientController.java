@@ -27,7 +27,7 @@ public class ClientController {
 
         boolean check = clientService.registerNewClient(clientDto);
 
-        if (check) return "redirect:/client/home";
+        if (check) return "redirect:/client/login";
 
         model.addAttribute("message", "User exists!");
         return "redirect:/client/registration";

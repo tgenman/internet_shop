@@ -28,16 +28,15 @@ public class ClientRepoImp implements ClientRepo {
     }
 
     @Transactional(readOnly=true)
-    public boolean findByEmail(String email) {
+    public Client findByEmail(String email) {
 
 //        boolean result = entityManager.createQuery("select client from Client client where client = email")
 //                .getResultList().isEmpty();
 //
 //
 //        if (result) return true;
-        return false;
+        return null;
 
-//        return true;
     }
 
 }

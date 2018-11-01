@@ -1,5 +1,6 @@
 package com.dmitrybondarev.config;
 
+import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -25,13 +26,16 @@ public class MvcConfig implements WebMvcConfigurer {
     public ViewResolver viewResolver() {
         InternalResourceViewResolver resolver = new InternalResourceViewResolver();
         resolver.setPrefix(env.getProperty("spring.view_resolver_prefix"));
-//        resolver.setPrefix("/WEB-INF/view/");
         resolver.setSuffix(env.getProperty("spring.view_resolver_suffix"));
-//        resolver.setSuffix(".jsp");
         return resolver;
     }
 
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/client/login").setViewName("client/login");
+    }
+
+    @Bean
+    public DozerBeanMapper getDozerBeanMapper() {
+        return new DozerBeanMapper();
     }
 }
