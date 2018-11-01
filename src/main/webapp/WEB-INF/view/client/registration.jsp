@@ -7,6 +7,9 @@
     <div> <a href="/">Home page</a> </div>
 
     <div><h2>Registration form</h2></div>
+
+    <div><h3>${message}</h3></div>
+
     <div>
         <form method="post">
             <div class="form-group">
@@ -21,11 +24,16 @@
             <div class="form-group">
                 <input type="text" class="form-control" name="password" placeholder="password" />
             </div>
+            <div class="form-group">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+            </div>
+
             <%--<div class="form-group">--%>
                 <%--<input type="text" class="form-control" name="passwordAgain" placeholder="password again" />--%>
             <%--</div>--%>
             <div class="form-group">
-                <input type="submit" value="submit" />
+                <button type="submit">Register</button>
+                <%--<input type="submit" value="submit" />--%>
             </div>
         </form>
     </div>

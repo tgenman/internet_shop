@@ -1,12 +1,13 @@
 package com.dmitrybondarev.controller;
 
+import com.dmitrybondarev.model.dto.ClientDto;
 import com.dmitrybondarev.service.api.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -22,23 +23,14 @@ public class ClientController {
     }
 
     @PostMapping("/registration")
-    public String register(@RequestParam String name,
-                           @RequestParam String familyName,
-                           @RequestParam String email,
-                           @RequestParam String password) {
-        clientService.registerNewClient(name, familyName, email, password);
-        return "home";
-    }
+    public String register(ClientDto clientDto, Model model) {
 
-    @GetMapping("/login")
-    public String getLoginPage() {
-        return "client/login";
-    }
+        boolean check = clientService.registerNewClient(clientDto);
 
-    @PostMapping("/login")
-    public String login(@RequestParam String email,
-                        @RequestParam String password) {
-        return "home";
+        if (check) return "redirect:/client/home";
+
+        model.addAttribute("message", "User exists!");
+        return "redirect:/client/registration";
     }
 
     @PostMapping("/logout")

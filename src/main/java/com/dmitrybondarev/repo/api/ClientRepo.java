@@ -12,5 +12,7 @@ public interface ClientRepo {
 
     void addClient(Client client);
 
+    boolean findByEmail(String email);
+
     List<Client> getAllClients();
 }

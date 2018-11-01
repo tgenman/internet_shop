@@ -1,6 +1,7 @@
 package com.dmitrybondarev.service.api;
 
 import com.dmitrybondarev.model.Client;
+import com.dmitrybondarev.model.dto.ClientDto;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -10,5 +11,5 @@ public interface ClientService {
 
     Collection<Client> getAllClients();
 
-    void registerNewClient(String name, String familyName, String email, String password);
+    boolean registerNewClient(ClientDto clientDto);
 }

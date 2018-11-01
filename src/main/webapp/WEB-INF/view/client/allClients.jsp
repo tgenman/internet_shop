@@ -18,10 +18,9 @@
 
     <div>
         <c:forEach var="client" items="${clients}">
-            <div>${client.name} ${client.familyName}</div>
-            <div>email: ${client.email}</div>
-            <div>id: ${client.id}</div>
-            <div> </div>
+            <div><b>${client.name} ${client.familyName}</b></div>
+            <div><i>email: ${client.email}</i></div>
+            <div><i>id: ${client.id}</i></div>
         </c:forEach>
     </div>
 </body>

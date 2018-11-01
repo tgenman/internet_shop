@@ -13,7 +13,6 @@ import java.util.List;
 @Transactional
 public class ClientRepoImp implements ClientRepo {
 
-
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -27,4 +26,18 @@ public class ClientRepoImp implements ClientRepo {
     public List<Client> getAllClients() {
         return entityManager.createQuery("select client from Client client").getResultList();
     }
+
+    @Transactional(readOnly=true)
+    public boolean findByEmail(String email) {
+
+//        boolean result = entityManager.createQuery("select client from Client client where client = email")
+//                .getResultList().isEmpty();
+//
+//
+//        if (result) return true;
+        return false;
+
+//        return true;
+    }
+
 }

@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Import;
 @Configuration
 @ComponentScan("com.dmitrybondarev")
 @Import({MvcConfig.class,
-        JpaConfig.class})
+        JpaConfig.class,
+        WebSecurityConfig.class})
 public class AppConfig {
 }

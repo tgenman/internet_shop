@@ -24,9 +24,15 @@
                 <input type="text" class="form-control" name="password" placeholder="password" />
             </div>
             <div class="form-group">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="submit" />
             </div>
         </form>
     </div>
+
+    <div> <a href="/client/registration">Registration</a> </div>
+
 </body>
 </html>

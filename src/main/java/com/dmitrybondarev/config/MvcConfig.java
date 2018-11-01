@@ -8,6 +8,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
@@ -24,7 +25,13 @@ public class MvcConfig implements WebMvcConfigurer {
     public ViewResolver viewResolver() {
         InternalResourceViewResolver resolver = new InternalResourceViewResolver();
         resolver.setPrefix(env.getProperty("spring.view_resolver_prefix"));
+//        resolver.setPrefix("/WEB-INF/view/");
         resolver.setSuffix(env.getProperty("spring.view_resolver_suffix"));
+//        resolver.setSuffix(".jsp");
         return resolver;
+    }
+
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/client/login").setViewName("client/login");
     }
 }
