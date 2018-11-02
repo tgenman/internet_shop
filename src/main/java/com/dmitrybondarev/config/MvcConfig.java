@@ -31,7 +31,7 @@ public class MvcConfig implements WebMvcConfigurer {
     }
 
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/client/login").setViewName("client/login");
+        registry.addViewController("/user/login").setViewName("user/login");
     }
 
     @Bean

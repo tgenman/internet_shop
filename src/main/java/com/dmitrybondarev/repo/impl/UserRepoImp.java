@@ -1,7 +1,7 @@
 package com.dmitrybondarev.repo.impl;
 
-import com.dmitrybondarev.model.Client;
-import com.dmitrybondarev.repo.api.ClientRepo;
+import com.dmitrybondarev.model.User;
+import com.dmitrybondarev.repo.api.UserRepo;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,26 +11,26 @@ import java.util.List;
 
 @Repository
 @Transactional
-public class ClientRepoImp implements ClientRepo {
+public class UserRepoImp implements UserRepo {
 
     @PersistenceContext
     private EntityManager entityManager;
 
     @Override
     @Transactional
-    public void addClient(Client client) {
-        entityManager.persist(client);
+    public void addClient(User user) {
+        entityManager.persist(user);
     }
 
     @Transactional(readOnly=true)
-    public List<Client> getAllClients() {
-        return entityManager.createQuery("select client from Client client").getResultList();
+    public List<User> getAllClients() {
+        return entityManager.createQuery("select user from usr user").getResultList();
     }
 
     @Transactional(readOnly=true)
-    public Client findByEmail(String email) {
+    public User findByEmail(String email) {
 
-//        boolean result = entityManager.createQuery("select client from Client client where client = email")
+//        boolean result = entityManager.createQuery("select user from User user where user = email")
 //                .getResultList().isEmpty();
 //
 //

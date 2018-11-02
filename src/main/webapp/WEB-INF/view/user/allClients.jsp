@@ -17,10 +17,10 @@
     <div><h2>All Clients:</h2></div>
 
     <div>
-        <c:forEach var="client" items="${clients}">
-            <div><b>${client.name} ${client.familyName}</b></div>
-            <div><i>email: ${client.email}</i></div>
-            <div><i>id: ${client.id}</i></div>
+        <c:forEach var="user" items="${clients}">
+            <div><b>${user.name} ${user.familyName}</b></div>
+            <div><i>email: ${user.email}</i></div>
+            <div><i>id: ${user.id}</i></div>
         </c:forEach>
     </div>
 </body>

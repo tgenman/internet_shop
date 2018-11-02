@@ -21,19 +21,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.jdbcAuthentication()
                 .dataSource(dataSource)
                 .passwordEncoder(NoOpPasswordEncoder.getInstance())
-                .usersByUsernameQuery("select email, password from Client where email = ?")
-                .authoritiesByUsernameQuery("select c.email, cr.roles from Client c inner join client_role cr on c.id = cr.client_id where c.email=?");
+                .usersByUsernameQuery("select username, password, active from usr where username=?")
+                .authoritiesByUsernameQuery("select usr.username, user_role.roles from usr inner join user_role on usr.id = user_role.user_id where usr.username=?");
+
+
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                    .antMatchers("/", "/client/registration").permitAll()
+                    .antMatchers("/", "/user/registration").permitAll()
                     .anyRequest().authenticated()
                 .and()
                     .formLogin()
-                    .loginPage("/client/login")
+                    .loginPage("/user/login")
                     .permitAll()
                 .and()
                     .logout()

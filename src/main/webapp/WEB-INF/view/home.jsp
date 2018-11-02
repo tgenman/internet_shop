@@ -4,9 +4,9 @@
     <title>Hello</title>
 </head>
 <body>
-    <div> <a href="/client/registration">Registration</a> </div>
-    <div> <a href="/client/login">Login</a> </div>
-    <div> <a href="/client/all">All profiles</a> </div>
+    <div> <a href="/user/registration">Registration</a> </div>
+    <div> <a href="/user/login">Login</a> </div>
+    <div> <a href="/user/all">All profiles</a> </div>
     <div>
         <form action="/logout" method="post">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>

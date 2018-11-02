@@ -21,7 +21,7 @@ public class Order {
     private String name;
 
     @OneToOne
-    private Client client;
+    private User user;
 
     @OneToOne
     private Address address;

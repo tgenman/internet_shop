@@ -1,6 +1,6 @@
 package com.dmitrybondarev.repo.api;
 
-import com.dmitrybondarev.model.Client;
+import com.dmitrybondarev.model.User;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -8,11 +8,11 @@ import java.util.List;
 
 @Repository
 @Transactional
-public interface ClientRepo {
+public interface UserRepo {
 
-    void addClient(Client client);
+    void addClient(User user);
 
-    Client findByEmail(String email);
+    User findByEmail(String email);
 
-    List<Client> getAllClients();
+    List<User> getAllClients();
 }

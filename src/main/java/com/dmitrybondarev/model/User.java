@@ -6,6 +6,8 @@ import lombok.Data;
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,12 +18,14 @@ import java.util.Set;
 
 @Data
 @Entity
-@Table(name = "Client")
-public class Client {
+@Table(name = "usr")
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+
+    private String username;
 
     private String name;
 
@@ -34,7 +38,8 @@ public class Client {
     private boolean active;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "client_role", joinColumns = @JoinColumn(name = "client_id"))
+    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
+    @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
 //    private String dateOfBirth;     //TODO find appropriate time class
