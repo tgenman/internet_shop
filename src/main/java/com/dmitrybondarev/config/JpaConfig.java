@@ -20,7 +20,7 @@ import java.util.Properties;
 @Configuration
 @EnableTransactionManagement
 @ComponentScan("com.dmitrybondarev")
-@PropertySource("classpath:jpa.properties")
+@PropertySource("classpath:application.properties")
 public class JpaConfig {
 
     @Autowired

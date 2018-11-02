@@ -16,7 +16,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @Configuration
 @EnableWebMvc
 @ComponentScan("com.dmitrybondarev")
-@PropertySource("classpath:mvc.properties")
+@PropertySource("classpath:application.properties")
 public class MvcConfig implements WebMvcConfigurer {
 
     @Autowired
