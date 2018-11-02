@@ -12,7 +12,7 @@ public interface UserRepo {
 
     void addClient(User user);
 
-    User findByEmail(String email);
+    User findByUsername(String email);
 
     List<User> getAllClients();
 }

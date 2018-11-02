@@ -28,7 +28,7 @@ public class UserRepoImp implements UserRepo {
     }
 
     @Transactional(readOnly=true)
-    public User findByEmail(String email) {
+    public User findByUsername(String email) {
 
 //        boolean result = entityManager.createQuery("select user from User user where user = email")
 //                .getResultList().isEmpty();

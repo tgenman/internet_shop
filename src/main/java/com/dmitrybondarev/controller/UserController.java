@@ -1,10 +1,12 @@
 package com.dmitrybondarev.controller;
 
+import com.dmitrybondarev.model.User;
 import com.dmitrybondarev.model.dto.UserDto;
 import com.dmitrybondarev.service.api.UserService;
 import lombok.extern.log4j.Log4j;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,8 +52,8 @@ public class UserController {
     }
 
     @PostMapping("/logout")
-    public String logout() {
-        log.info("User logout.");
+    public String logout(@AuthenticationPrincipal User user) {
+        log.info("User logout. Username = " + user.getUsername());
         return "home";
     }
 
