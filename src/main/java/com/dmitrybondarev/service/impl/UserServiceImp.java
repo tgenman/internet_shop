@@ -8,9 +8,9 @@ import com.dmitrybondarev.service.api.UserService;
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
@@ -24,11 +24,9 @@ public class UserServiceImp implements UserService {
     @Autowired
     private DozerBeanMapper mapper;
 
-    public List<User> getAllClients() {
-        return userRepo.getAllClients();
-    }
-
-    public boolean registerNewClient(UserDto userDto) {
+    @Override
+    @Transactional
+    public boolean registerNewUser(UserDto userDto) {
 
         User byEmail = userRepo.findByUsername(userDto.getEmail());
         if (byEmail != null) return false;
@@ -39,11 +37,19 @@ public class UserServiceImp implements UserService {
 
         user.setActive(true);
         user.setRoles(Collections.singleton(Role.USER));
-        userRepo.addClient(user);
+        userRepo.save(user);
         return true;
     }
 
     @Override
+    @Transactional
+    public List<User> getAllUsers() {
+        return userRepo.findAll();
+    }
+
+
+    @Override
+    @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepo.findByUsername(username);
     }

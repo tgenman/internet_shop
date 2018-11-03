@@ -1,19 +1,23 @@
 package com.dmitrybondarev.model;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Table;
+import java.io.Serializable;
 import java.util.Map;
 
 @Entity
 @Data
-@EqualsAndHashCode(exclude = {"quantity", "parameters"})       //TODO find how to hashcode Map
+//@EqualsAndHashCode(exclude = {"quantity", "parameters"})       //TODO find how to hashcode Map
+@Table(name = "product")
 public class Product {
 
     @Id
@@ -26,7 +30,9 @@ public class Product {
 
     private String category;
 
-//    private Map<String, String> parameters;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "product_parameter", joinColumns = @JoinColumn(name = "product_id"))
+    private Map<String, String> parameters;
 
     private int weight;
 

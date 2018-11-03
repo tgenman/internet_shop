@@ -10,7 +10,7 @@ import java.util.Collection;
 @Service
 public interface UserService extends UserDetailsService {
 
-    Collection<User> getAllClients();
+    Collection<User> getAllUsers();
 
-    boolean registerNewClient(UserDto userDto);
+    boolean registerNewUser(UserDto userDto);
 }

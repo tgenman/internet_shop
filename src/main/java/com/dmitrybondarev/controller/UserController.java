@@ -4,7 +4,6 @@ import com.dmitrybondarev.model.User;
 import com.dmitrybondarev.model.dto.UserDto;
 import com.dmitrybondarev.service.api.UserService;
 import lombok.extern.log4j.Log4j;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -38,7 +37,7 @@ public class UserController {
                 + " familyName = " + userDto.getFamilyName()
                 + " email = " + userDto.getEmail());
 
-        boolean check = userService.registerNewClient(userDto);
+        boolean check = userService.registerNewUser(userDto);
 
         if (check) {
             log.info("User with username = " + userDto.getEmail() + " already exists");
@@ -61,6 +60,6 @@ public class UserController {
     public ModelAndView getAllUsers() {
         log.info("Get all users GET request");
         return new ModelAndView("/user/allClients")
-                .addObject("clients", userService.getAllClients());
+                .addObject("clients", userService.getAllUsers());
     }
 }

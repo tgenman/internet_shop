@@ -10,9 +10,15 @@ import java.util.List;
 @Transactional
 public interface UserRepo {
 
-    void addClient(User user);
+    void save(User user);
+
+    User findById(int id);
 
     User findByUsername(String email);
 
-    List<User> getAllClients();
+    List<User> findAll();
+
+    boolean remove(User user);
+
+    boolean removeById(int id);
 }
