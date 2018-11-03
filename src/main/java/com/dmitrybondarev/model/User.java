@@ -50,7 +50,7 @@ public class User implements UserDetails {
 
 //    private String dateOfBirth;     //TODO find appropriate time class
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @CollectionTable(name = "user_addresses", joinColumns = @JoinColumn(name = "user_id"))
     private Set<Address> addresses;
 
@@ -59,7 +59,8 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
-    @OneToMany(cascade = CascadeType.ALL)
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Order> orders;
 
 

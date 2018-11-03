@@ -5,6 +5,7 @@ import com.dmitrybondarev.model.dto.UserDto;
 import com.dmitrybondarev.model.enums.Role;
 import com.dmitrybondarev.repo.api.UserRepo;
 import com.dmitrybondarev.service.api.UserService;
+import lombok.extern.log4j.Log4j;
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +17,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
+@Log4j
 public class UserServiceImp implements UserService {
 
     @Autowired
@@ -25,11 +27,14 @@ public class UserServiceImp implements UserService {
     private DozerBeanMapper mapper;
 
     @Override
-    @Transactional
+//    @Transactional
     public boolean registerNewUser(UserDto userDto) {
 
-        User byEmail = userRepo.findByUsername(userDto.getEmail());
-        if (byEmail != null) return false;
+        log.info("Register new User. UserDto(email=" + userDto.getEmail()
+                + " name/family=" + userDto.getName() + " " + userDto.getFamilyName());
+
+//        User byEmail = userRepo.findByUsername(userDto.getEmail());
+//        if (byEmail != null) return false;
 
         User user = new User();
         mapper.map(userDto, user);
@@ -38,18 +43,22 @@ public class UserServiceImp implements UserService {
         user.setActive(true);
         user.setRoles(Collections.singleton(Role.USER));
         userRepo.save(user);
+        log.info("Register new User. End");
         return true;
     }
 
     @Override
-    @Transactional
+//    @Transactional
     public List<User> getAllUsers() {
-        return userRepo.findAll();
+        log.info("Get All Users. Start");
+        List<User> all = userRepo.findAll();
+        log.info("Get all Users. end");
+        return all;
     }
 
 
     @Override
-    @Transactional
+//    @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepo.findByUsername(username);
     }
