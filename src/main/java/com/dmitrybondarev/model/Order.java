@@ -35,8 +35,7 @@ public class Order {
     @OneToOne
     private User user;
 
-    @OneToOne
-    private Address address;
+    private String address;
 
     @Enumerated(EnumType.STRING)
     private TypeOfPayment typeOfPayment;

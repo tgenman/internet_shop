@@ -28,22 +28,21 @@ public class UserController {
     }
 
     @PostMapping("/registration")
-    public String register(UserDto userDto, Model model) {
+    public ModelAndView register(UserDto userDto) {
 
-        log.info("Registry POST request:"
-                + " name = " + userDto.getName()
-                + " familyName = " + userDto.getFamilyName()
-                + " email = " + userDto.getEmail());
+        log.info("Registry POST request:" + " email = " + userDto.getEmail());
 
         boolean check = userService.registerNewUser(userDto);
 
         if (check) {
             log.info("User with username = " + userDto.getEmail() + " was register.");
-            return "redirect:/user/login";
+            return new ModelAndView("/user/login");
+
         } else {
-            model.addAttribute("message", "User exists!");
+            ModelAndView modelAndView = new ModelAndView("/user/registration");
+            modelAndView.addObject("existMessage", "User exists!");
             log.info("User with username = " + userDto.getEmail() + " already exists.");
-            return "redirect:/user/registration";
+            return modelAndView;
         }
 
     }
@@ -57,7 +56,7 @@ public class UserController {
     @GetMapping("/all")
     public ModelAndView getAllUsers() {
         log.info("Get all users GET request");
-        return new ModelAndView("/user/allClients")
-                .addObject("clients", userService.getAllUsers());
+        return new ModelAndView("/user/allUsers")
+                .addObject("users", userService.getAllUsers());
     }
 }

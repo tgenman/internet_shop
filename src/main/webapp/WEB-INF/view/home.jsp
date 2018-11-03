@@ -1,9 +1,11 @@
+<!DOCTYPE html>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>Hello</title>
-</head>
-<body>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+
+<c:set var="title" value="Home Page"  scope="session"/>
+<c:import url="templates/header.jsp" />
+
     <div> <a href="/user/registration">Registration</a> </div>
     <div> <a href="/user/login">Login</a> </div>
     <div> <a href="/user/all">All profiles</a> </div>
@@ -13,5 +15,6 @@
             <input type="submit" value="Sign Out"/>
         </form>
     </div>
-</body>
-</html>
+
+<c:import url="templates/footer.jsp" />
+

@@ -1,12 +1,10 @@
+<!DOCTYPE html>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>LoginPage</title>
-</head>
-<body>
-    <div> <a href="/">Home page</a> </div>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-    <h2>Login Page</h2>
+
+<c:set var="title" value="Login Page"  scope="session"/>
+<c:import url="../templates/header.jsp" />
 
     <div>
         <form action="/user/login" method="post">
@@ -27,5 +25,5 @@
 
     <div> <a href="/user/registration">Registration</a> </div>
 
-</body>
-</html>
+<c:import url="../templates/footer.jsp" />
+

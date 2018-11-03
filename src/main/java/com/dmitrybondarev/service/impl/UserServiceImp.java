@@ -31,10 +31,10 @@ public class UserServiceImp implements UserService {
     public boolean registerNewUser(UserDto userDto) {
         boolean result = false;
 
-        log.info("Register new User. UserDto(email=" + userDto.getEmail()
-                + " name/family=" + userDto.getName() + " " + userDto.getFamilyName());
+        log.info("Register new User. UserDto(email=" + userDto.getEmail());
 
-        User byEmail = userRepo.findByUsername(userDto.getEmail());
+//        User byEmail = userRepo.findByUsername(userDto.getEmail());
+        User byEmail = null;
         if (byEmail == null) {
             User user = new User();
             mapper.map(userDto, user);
@@ -54,7 +54,7 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    @Transactional
+//    @Transactional
     public List<User> getAllUsers() {
         log.info("Get All Users. Start");
         List<User> all = userRepo.findAll();
