@@ -1,4 +1,4 @@
-package com.dmitrybondarev.repo.api;
+package com.dmitrybondarev.repositories.api;
 
 import com.dmitrybondarev.model.User;
 import org.springframework.stereotype.Repository;

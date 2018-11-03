@@ -1,7 +1,7 @@
-package com.dmitrybondarev.repo.impl;
+package com.dmitrybondarev.repositories.impl;
 
 import com.dmitrybondarev.model.User;
-import com.dmitrybondarev.repo.api.UserRepo;
+import com.dmitrybondarev.repositories.api.UserRepo;
 import lombok.extern.log4j.Log4j;
 import org.springframework.stereotype.Repository;
 

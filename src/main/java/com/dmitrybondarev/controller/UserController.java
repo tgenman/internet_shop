@@ -18,8 +18,6 @@ import org.springframework.web.servlet.ModelAndView;
 @Log4j
 public class UserController {
 
-//    private static final Logger log = Logger.getLogger(UserController.class);
-
     @Autowired
     private UserService userService;
 
@@ -40,11 +38,11 @@ public class UserController {
         boolean check = userService.registerNewUser(userDto);
 
         if (check) {
-            log.info("User with username = " + userDto.getEmail() + " already exists");
+            log.info("User with username = " + userDto.getEmail() + " was register.");
             return "redirect:/user/login";
         } else {
             model.addAttribute("message", "User exists!");
-            log.info("User was register ");
+            log.info("User with username = " + userDto.getEmail() + " already exists.");
             return "redirect:/user/registration";
         }
 

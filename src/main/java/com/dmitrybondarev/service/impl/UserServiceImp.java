@@ -3,7 +3,7 @@ package com.dmitrybondarev.service.impl;
 import com.dmitrybondarev.model.User;
 import com.dmitrybondarev.model.dto.UserDto;
 import com.dmitrybondarev.model.enums.Role;
-import com.dmitrybondarev.repo.api.UserRepo;
+import com.dmitrybondarev.repositories.api.UserRepo;
 import com.dmitrybondarev.service.api.UserService;
 import lombok.extern.log4j.Log4j;
 import org.dozer.DozerBeanMapper;
@@ -29,26 +29,32 @@ public class UserServiceImp implements UserService {
     @Override
 //    @Transactional
     public boolean registerNewUser(UserDto userDto) {
+        boolean result = false;
 
         log.info("Register new User. UserDto(email=" + userDto.getEmail()
                 + " name/family=" + userDto.getName() + " " + userDto.getFamilyName());
 
-//        User byEmail = userRepo.findByUsername(userDto.getEmail());
-//        if (byEmail != null) return false;
+        User byEmail = userRepo.findByUsername(userDto.getEmail());
+        if (byEmail == null) {
+            User user = new User();
+            mapper.map(userDto, user);
+            user.setUsername(userDto.getEmail());
 
-        User user = new User();
-        mapper.map(userDto, user);
-        user.setUsername(userDto.getEmail());
+            log.trace("Converted UserDto to User");
+            user.setActive(true);
+            user.setRoles(Collections.singleton(Role.USER));
 
-        user.setActive(true);
-        user.setRoles(Collections.singleton(Role.USER));
-        userRepo.save(user);
-        log.info("Register new User. End");
-        return true;
+            userRepo.save(user);
+            result = true;
+            log.info("Register new User. End");
+        } else {
+            log.warn("User with username/email = " + userDto.getEmail() + " already exists");
+        }
+        return result;
     }
 
     @Override
-//    @Transactional
+    @Transactional
     public List<User> getAllUsers() {
         log.info("Get All Users. Start");
         List<User> all = userRepo.findAll();
