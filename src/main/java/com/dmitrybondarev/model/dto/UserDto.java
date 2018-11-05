@@ -8,6 +8,8 @@ import java.util.Set;
 @Data
 public class UserDto {
 
+    private String username;
+
     private String name;
 
     private String familyName;
@@ -20,4 +22,8 @@ public class UserDto {
 
     private Set<Role> roles;
 
+    public void setUsername(String username) {
+        this.username = username;
+        this.email = username;
+    }
 }
