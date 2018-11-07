@@ -20,8 +20,10 @@
         <spring-webmvc.version>5.1.2.RELEASE</spring-webmvc.version>
         <spring-orm.version>5.1.2.RELEASE</spring-orm.version>
         <spring-data-jpa.version>2.1.2.RELEASE</spring-data-jpa.version>
+        <spring-security-core.version>5.1.1.RELEASE</spring-security-core.version>
         <spring-security-web.version>5.1.1.RELEASE</spring-security-web.version>
         <spring-security-config.version>5.1.1.RELEASE</spring-security-config.version>
+        <spring-security-taglibs.version>5.1.1.RELEASE</spring-security-taglibs.version>
         <junit.version>4.12</junit.version>
         <slf4j-api.version>1.7.7</slf4j-api.version>
         <slf4j-log4j12.version>1.7.7</slf4j-log4j12.version>
@@ -65,6 +67,13 @@
             <version>${spring-data-jpa.version}</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <version>${spring-security-core.version}</version>
+        </dependency>
+
         <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-web -->
         <dependency>
             <groupId>org.springframework.security</groupId>
@@ -77,6 +86,13 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
             <version>${spring-security-config.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-taglibs -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-taglibs</artifactId>
+            <version>${spring-security-taglibs.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/junit/junit -->
@@ -151,7 +167,16 @@
             <version>${dozer.version}</version>
         </dependency>
 
-
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>2.0.0.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>2.0.1.Final</version>
+        </dependency>
 
     </dependencies>
 

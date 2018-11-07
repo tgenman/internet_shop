@@ -1,7 +1,7 @@
 <div>
     <form action=${path} method="post">
         <div class="form-group">
-            <input type="text" class="form-control" name="username" placeholder="email" />
+            <input type="text" class="form-control" name="username" placeholder="username" />
         </div>
         <div class="form-group">
             <input type="text" class="form-control" name="password" placeholder="password" />

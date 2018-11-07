@@ -1,20 +1,20 @@
-package com.dmitrybondarev.repositories.api;
+package com.dmitrybondarev.repository.api;
 
 import com.dmitrybondarev.model.User;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Repository
-@Transactional
 public interface UserRepo {
 
-    void save(User user);
+    User save(User user);
 
     User findById(int id);
 
     User findByUsername(String email);
+
+    User findByEmail(String email);
 
     List<User> findAll();
 

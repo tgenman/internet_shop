@@ -1,62 +1,49 @@
 package com.dmitrybondarev.controller;
 
-import com.dmitrybondarev.model.User;
 import com.dmitrybondarev.model.dto.UserDto;
+import com.dmitrybondarev.model.enums.Role;
 import com.dmitrybondarev.service.api.UserService;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Map;
+
+@Log4j
 @Controller
 @RequestMapping("/user")
-@Log4j
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @GetMapping("/registration")
-    public String getRegistrationPage() {
-        log.info("Registration GET request");
-        return "user/registration";
-    }
-
-    @PostMapping("/registration")
-    public ModelAndView register(UserDto userDto) {
-
-        log.info("Registry POST request:" + " email = " + userDto.getEmail());
-
-        boolean check = userService.registerNewUser(userDto);
-
-        if (check) {
-            log.info("User with username = " + userDto.getEmail() + " was register.");
-            return new ModelAndView("/user/login");
-
-        } else {
-            ModelAndView modelAndView = new ModelAndView("/user/registration");
-            modelAndView.addObject("existMessage", "User exists!");
-            log.info("User with username = " + userDto.getEmail() + " already exists.");
-            return modelAndView;
-        }
-
-    }
-
-    @PostMapping("/logout")
-    public String logout(@AuthenticationPrincipal User user) {
-        log.info("User logout. Username = " + user.getUsername());
-        return "home";
-    }
-
-    @GetMapping("/all")
+    @GetMapping
     public ModelAndView getAllUsers() {
         log.info("Get all users GET request");
-        return new ModelAndView("/user/allUsers")
-                .addObject("users", userService.getAllUsers());
+        return new ModelAndView("/user/userList")
+                .addObject("userDtos", userService.getAllUsers());
     }
+
+//    @GetMapping("{id}")
+//    public String userEditForm(@PathVariable(required = true) String username, Model model) {
+//        UserDto userDtoByUsername = userService.getUserDtoByUsername(username);
+//        model.addAttribute("userDto", userDtoByUsername);
+//        model.addAttribute("roles", Role.values());
+//        return "user/userEdit";
+//    }
+//
+//    @PostMapping
+//    public String saveUser(@RequestParam String username,
+//                           @RequestParam Map<String, String> form) {
+//        UserDto userDtoByUsername = userService.getUserDtoByUsername(username);
+////TODO logic
+//        return "redirect:/user";
+//    }
 }

@@ -1,11 +1,13 @@
-package com.dmitrybondarev.repositories.impl;
+package com.dmitrybondarev.repository.impl;
 
 import com.dmitrybondarev.model.User;
-import com.dmitrybondarev.repositories.api.UserRepo;
+import com.dmitrybondarev.repository.api.UserRepo;
 import lombok.extern.log4j.Log4j;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
@@ -18,12 +20,14 @@ public class UserRepoImp implements UserRepo {
     private EntityManager entityManager;
 
     @Override
-    public void save(User user) {
+    @Transactional
+    public User save(User user) {
         log.info("Saving start. User(username=" + user.getUsername()
                 + ", role="  + user.getRoles()
-                + " name/family=" + user.getName() + " " + user.getFamilyName());
+                + " firstName/family=" + user.getFirstName() + " " + user.getLastName());
         entityManager.persist(user);
         log.info("Saving end. Successful");
+        return user;
     }
 
     @Override
@@ -43,11 +47,28 @@ public class UserRepoImp implements UserRepo {
         log.info("Finding User by username = " + username + " start.");
         TypedQuery<User> query = entityManager.createQuery("select u from User u where u.username = :username", User.class);
         query.setParameter("username", username);
-        User singleResult = query.getSingleResult();
-        if (singleResult == null) {
+        User singleResult;
+        try {
+            singleResult = query.getSingleResult();
+            log.info("Finding end. User found");
+        } catch (NoResultException e) {
             log.warn("Finding end. User doesnt find");
-        } else {
-            log.info("Finding end. User = " + singleResult.getId());
+            return null;
+        }
+        return singleResult;
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        TypedQuery<User> query = entityManager.createQuery("select u from User u where u.email = :email", User.class);
+        query.setParameter("email", email);
+        User singleResult;
+        try {
+            singleResult = query.getSingleResult();  //TODO Delete Duplication
+            log.info("Finding end. User found");
+        } catch (NoResultException e) {
+            log.warn("Finding end. User doesnt find");
+            return null;
         }
         return singleResult;
     }

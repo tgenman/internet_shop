@@ -23,16 +23,17 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 @Data
 @Entity
 @Table(name = "user")
-public class User implements UserDetails {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private long id;
 
     private String username;
 
@@ -44,9 +45,9 @@ public class User implements UserDetails {
 
 
 
-    private String name;
+    private String firstName;
 
-    private String familyName;
+    private String lastName;
 
 //    private String dateOfBirth;     //TODO find appropriate time class
 
@@ -54,38 +55,18 @@ public class User implements UserDetails {
     @CollectionTable(name = "user_addresses", joinColumns = @JoinColumn(name = "user_id"))
     private Set<Address> addresses;
 
-    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+//    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+//    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
+//    @Enumerated(EnumType.STRING)
+//    private Set<Role> roles;
+
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
-    @Enumerated(EnumType.STRING)
-    private Set<Role> roles;
+    private List<String> roles;
 
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Order> orders;
 
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return getRoles();
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return isActive();
-    }
 }

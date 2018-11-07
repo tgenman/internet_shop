@@ -1,5 +1,7 @@
 package com.dmitrybondarev.config;
 
+import com.dmitrybondarev.util.validation.EmailValidator;
+import com.dmitrybondarev.util.validation.PasswordMatchesValidator;
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -31,11 +33,21 @@ public class MvcConfig implements WebMvcConfigurer {
     }
 
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/user/login").setViewName("user/login");
+        registry.addViewController("/login").setViewName("login");
     }
 
     @Bean
     public DozerBeanMapper getDozerBeanMapper() {
         return new DozerBeanMapper();
+    }
+
+    @Bean
+    public EmailValidator usernameValidator() {
+        return new EmailValidator();
+    }
+
+    @Bean
+    public PasswordMatchesValidator passwordMatchesValidator() {
+        return new PasswordMatchesValidator();
     }
 }

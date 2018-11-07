@@ -4,7 +4,8 @@
 
 
 <c:set var="title" value="Registration form"  scope="request"/>
-<c:import url="../templates/header.jsp" />
+<c:set var="title2" value="Registration form"  scope="request"/>
+<c:import url="templates/header.jsp" />
 
 
 <div>
@@ -14,9 +15,9 @@
 </div>
 
 
-<c:set var="path" value="/user/registration"  scope="request"/>
+<c:set var="path" value="/registration"  scope="request"/>
 <c:set var="buttonTitle" value="Sign Up"  scope="request"/>
-<c:import url="../templates/login_form.jsp" />
+<c:import url="templates/login_form.jsp" />
 
 
-<c:import url="../templates/footer.jsp" />
+<c:import url="templates/footer.jsp" />
