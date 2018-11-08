@@ -2,17 +2,17 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<c:set var="title" value="Registration page"     scope="request"/>
-<c:set var="title2" value="Registration"  scope="request"/>
+<c:set var="title" value="Add new product"     scope="request"/>
+<c:set var="title2" value="Add new product"  scope="request"/>
 <%@ include file="../templates/header.jsp" %>
 
 
-<form:form method="POST" action="/user/registration" modelAttribute="userDto">
+<form:form method="POST" action="/user/registration" modelAttribute="productDto">
 
     <div class="form-group row">
         <form:label path="firstName" class="col-sm-2 col-form-label">First Name</form:label>
         <div class="col-sm-3">
-                <form:input path="firstName" class="form-control" id="inputEmail3" />
+            <form:input path="firstName" class="form-control" id="inputEmail3" />
         </div>
         <form:errors path="firstName" />
     </div>

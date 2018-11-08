@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
-<c:set var="title" value="Home Page"  scope="request"/>
+<c:set var="title" value="Inventory"  scope="request"/>
 <%@ include file="../templates/header.jsp" %>
 
 <h2>Inventory</h2>

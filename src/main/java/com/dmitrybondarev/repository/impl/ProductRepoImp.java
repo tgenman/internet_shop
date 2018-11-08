@@ -7,7 +7,9 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
@@ -41,6 +43,21 @@ public class ProductRepoImp implements ProductRepo {
     @Override
     public Product findByWord(String word) {
         throw new UnsupportedOperationException();
+    }
+
+    public Product findByTitle(String title) {
+        log.info("Finding Product by Title = " + title + " start.");
+        TypedQuery<Product> query = entityManager.createQuery("select p from Product p where p.title = :title", Product.class);
+        query.setParameter("title", title);
+        Product singleResult;
+        try {
+            singleResult = query.getSingleResult();
+            log.info("Finding end. User found");
+        } catch (NoResultException e) {
+            log.warn("Finding end. User doesnt find");
+            return null;
+        }
+        return singleResult;
     }
 
     @Override

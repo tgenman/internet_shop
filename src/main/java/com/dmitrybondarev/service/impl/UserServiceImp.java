@@ -27,6 +27,23 @@ public class UserServiceImp implements UserService {
 
     @Override
     @Transactional
+    public User registerNewUserAccount(UserDto accountDto) throws EmailExistsException {
+
+        if (emailExist(accountDto.getEmail())) {
+            throw new EmailExistsException("There is an account with that email address: " + accountDto.getEmail());
+        }
+
+        User user = new User();
+        mapper.map(accountDto, user);
+        user.setUsername(accountDto.getEmail());   // TODO See after
+        user.setRoles(Arrays.asList("ROLE_USER"));
+
+        return userRepo.save(user);
+
+    }
+
+    @Override
+    @Transactional
     public List<UserDto> getAllUsers() {
         log.info("Get All Users. Start");
 
@@ -53,29 +70,6 @@ public class UserServiceImp implements UserService {
     }
 
 
-//    @Override
-//    @Transactional
-//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        return userRepo.findByUsername(username);
-//    }
-
-    @Override
-    @Transactional
-    public User registerNewUserAccount(UserDto accountDto) throws EmailExistsException {
-
-        if (emailExist(accountDto.getEmail())) {
-            throw new EmailExistsException("There is an account with that email address: " + accountDto.getEmail());
-        }
-
-        User user = new User();
-        mapper.map(accountDto, user);
-        user.setUsername(accountDto.getEmail());   // TODO See after
-        user.setRoles(Arrays.asList("ROLE_USER"));
-
-        return userRepo.save(user);
-
-    }
-
 // ============== NON-API ============
 
     private boolean emailExist(String email) {
@@ -85,30 +79,4 @@ public class UserServiceImp implements UserService {
         }
         return false;
     }
-
-//    @Override
-//    @Transactional
-//    public boolean registerNewUser(UserDto userDto) {
-//        boolean result = false;
-//
-//        log.info("Register new User. UserDto(email=" + userDto.getEmail());
-//
-//        User byEmail = userRepo.findByUsername(userDto.getEmail());
-//        if (byEmail == null) {
-//            User user = new User();
-//            mapper.map(userDto, user);
-//            user.setUsername(userDto.getEmail());
-//
-//            log.trace("Converted UserDto to User");
-//            user.setActive(true);
-//            user.setRoles(Collections.singleton(Role.USER));
-//
-//            userRepo.save(user);
-//            result = true;
-//            log.info("Register new User. End");
-//        } else {
-//            log.warn("User with username/email = " + userDto.getEmail() + " already exists");
-//        }
-//        return result;
-//    }
 }

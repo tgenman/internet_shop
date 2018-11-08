@@ -12,6 +12,8 @@ public interface ProductRepo {
 
     Product findByWord(String word);
 
+    Product findByTitle(String title);
+
     List<Product> findAll();
 
     List<Product> findNonZeroQuantityProducts();

@@ -26,9 +26,9 @@ public class Product {
 
     private String title;
 
-    private int price;
-
     private String category;
+
+    private int price;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "product_parameter", joinColumns = @JoinColumn(name = "product_id"))

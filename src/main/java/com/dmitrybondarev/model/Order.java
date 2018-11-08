@@ -37,6 +37,8 @@ public class Order {
 
     private String address;
 
+    private String dateOfOrder;     //TODO find appropriate time class
+
     @Enumerated(EnumType.STRING)
     private TypeOfPayment typeOfPayment;
 

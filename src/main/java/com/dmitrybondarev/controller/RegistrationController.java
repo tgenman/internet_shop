@@ -61,7 +61,7 @@ public class RegistrationController {
 // ============== NON-API ============
 
 
-    private User createUserAccount(UserDto accountDto, BindingResult result) {
+    private User createUserAccount(UserDto accountDto, BindingResult result) { //TODO Resolve by ExceptionHandler
         User registered = null;
         try {
             registered = userService.registerNewUserAccount(accountDto);
