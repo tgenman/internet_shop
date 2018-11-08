@@ -36,7 +36,7 @@ public class Product {
 
     private int weight;
 
-    private int volume;         //TODO decide about type of units of measure
+    private int volume;
 
     private int quantity;
 }
