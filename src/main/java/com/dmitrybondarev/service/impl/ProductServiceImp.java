@@ -1,6 +1,5 @@
 package com.dmitrybondarev.service.impl;
 
-import com.dmitrybondarev.exception.TitleExistException;
 import com.dmitrybondarev.model.Product;
 import com.dmitrybondarev.model.dto.ProductDto;
 import com.dmitrybondarev.repository.api.ProductRepo;
@@ -28,21 +27,17 @@ public class ProductServiceImp implements ProductService {
 
     @Override
     @Transactional
-    public Product addNewProductToStock(ProductDto productDto) throws TitleExistException {
+    public ProductDto addNewProductToStock(ProductDto productDto) {
         log.info("Adding new Product. ProductDto title=" + productDto.getTitle());
 
-        if (this.titleExist(productDto.getTitle())) {
-            log.warn("Product with title = " + productDto.getTitle() + " already exists");
-            throw new TitleExistException("There is an product with that title: " + productDto.getTitle());
-        }
-
         Product product = this.mapProductDtoToProduct(productDto);
-
-        return productRepo.save(product);
+        productRepo.save(product);
+        return productDto;
 
     }
 
     @Override
+    @Transactional
     public Map<String, List<ProductDto>> getAllProducts() {
         log.info("Get All Products. Start");
 
@@ -52,10 +47,10 @@ public class ProductServiceImp implements ProductService {
 
         log.info("Get All Products. end");
         return productDtos;
-
     }
 
     @Override
+    @Transactional
     public Map<String, List<ProductDto>> getProductsFromStock() {
         log.info("Get Products from stock. Start");
 
@@ -67,7 +62,29 @@ public class ProductServiceImp implements ProductService {
         return productDtos;
     }
 
-// ============== NON-API ============
+    @Override
+    @Transactional
+    public ProductDto getProductById(long id) {
+        Product byId = productRepo.findById(id);
+        return this.mapProductToProductDto(byId);
+    }
+
+    @Override
+    @Transactional
+    public ProductDto editProductToStock(ProductDto productDto) {
+        Product product = this.mapProductDtoToProduct(productDto);
+        productRepo.updateProduct(product);
+        return productDto;
+    }
+
+    @Override
+    @Transactional
+    public boolean removeProductFromStock(long id) {
+        return productRepo.removeById(id);
+    }
+
+
+    // ============== NON-API ============
 
     private ProductDto mapProductToProductDto(Product product) {
         ProductDto productDto = new ProductDto();
@@ -98,13 +115,4 @@ public class ProductServiceImp implements ProductService {
         }
         return map;
     }
-
-    private boolean titleExist(String title) {
-        Product product = productRepo.findByTitle(title);
-        if (product != null) {
-            return true;
-        }
-        return false;
-    }
-
 }

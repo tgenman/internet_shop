@@ -10,7 +10,7 @@ public interface UserRepo {
 
     User save(User user);
 
-    User findById(int id);
+    User findById(long id);
 
     User findByUsername(String email);
 
@@ -20,5 +20,5 @@ public interface UserRepo {
 
     boolean remove(User user);
 
-    boolean removeById(int id);
+    boolean removeById(long id);
 }

@@ -22,4 +22,8 @@ public class ProductDto {
     private int volume;
 
     private int quantity;
+
+    public boolean isImage() {
+        return false;
+    }
 }

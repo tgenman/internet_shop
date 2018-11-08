@@ -8,7 +8,7 @@ public interface ProductRepo {
 
     Product save(Product product);
 
-    Product findById(int id);
+    Product findById(long id);
 
     Product findByWord(String word);
 
@@ -18,7 +18,7 @@ public interface ProductRepo {
 
     List<Product> findNonZeroQuantityProducts();
 
-    boolean remove(Product Product);
+    boolean removeById(long id);
 
-    boolean removeById(int id);
+    void updateProduct(Product product);
 }

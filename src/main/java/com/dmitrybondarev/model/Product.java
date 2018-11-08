@@ -39,4 +39,5 @@ public class Product {
     private int volume;
 
     private int quantity;
+
 }

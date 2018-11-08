@@ -16,7 +16,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="/product/all">Products</a>
+                <a class="nav-link" href="/product/all">Market</a>
             </li>
 
             <li class="nav-item">
@@ -39,14 +39,14 @@
         <div class="navbar-text mr-3">Username</div>
 
         <form:form method="GET" action="/login" class="form-inline">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
+            <button class="btn btn-primary mr-2 my-2 my-sm-0" type="submit">Login</button>
         </form:form>
         <form:form method="GET" action="/user/registration" class="form-inline">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Registration</button>
+            <button class="btn btn-primary  mr-2 my-2 my-sm-0" type="submit">Registration</button>
         </form:form>
         <form:form method="POST" action="/logout" class="form-inline">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Logout</button>
+            <button class="btn btn-secondary my-2 my-sm-0" type="submit">Logout</button>
         </form:form>
     </div>
 </nav>

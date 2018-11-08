@@ -31,7 +31,7 @@ public class UserRepoImp implements UserRepo {
     }
 
     @Override
-    public User findById(int id) {
+    public User findById(long id) {
         log.info("Finding User by id = " + id + " start.");
         User user = entityManager.find(User.class, id);
         if (user == null) {
@@ -91,7 +91,7 @@ public class UserRepoImp implements UserRepo {
     }
 
     @Override
-    public boolean removeById(int id) {
+    public boolean removeById(long id) {
         User user = entityManager.find(User.class, id);
         if (user != null) {
             entityManager.remove(user);

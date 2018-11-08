@@ -8,9 +8,9 @@
 
 <h2>Inventory</h2>
 
-<a class="btn btn-primary" href="/product/new" role="button">Create new product</a>
+<a class="btn btn-success" href="/product/new" role="button">Create new product</a>
 
-<table class="table table-bordered">
+<table class="table table-bordered table-sm">
     <thead>
         <tr>
             <th scope="col">art.</th>
@@ -18,8 +18,8 @@
             <th scope="col">Price</th>
             <th scope="col">Weight</th>
             <th scope="col">Volume</th>
-            <th scope="col">Volume</th>
             <th scope="col">Quantity</th>
+            <th scope="col">Edit</th>
         </tr>
     </thead>
     <tbody>
@@ -28,15 +28,17 @@
             <td colspan="7" class="table-info">${category.key}</td>
         </tr>
 
-        <c:forEach var="product" items="${category.value}">
+        <c:forEach var="productDto" items="${category.value}">
             <tr>
-                <td scope="col">${product.id}</td>
-                <td scope="col">${product.title}</td>
-                <td scope="col">${product.price}</td>
-                <td scope="col">${product.weight}</td>
-                <td scope="col">${product.volume}</td>
-                <td scope="col">${product.quantity}</td>
-                <td scope="col"><a href="/product/${product.id}/edit">edit</a></td>
+                <td scope="col">${productDto.id}</td>
+                <td scope="col">${productDto.title}</td>
+                <td scope="col">${productDto.price}</td>
+                <td scope="col">${productDto.weight}</td>
+                <td scope="col">${productDto.volume}</td>
+                <td scope="col">${productDto.quantity}</td>
+                <td scope="col">
+                    <a class="btn btn-warning btn-sm" href="/product/${productDto.id}" role="button">edit</a>
+                </td>
             </tr>
         </c:forEach>
     </c:forEach>

@@ -29,7 +29,7 @@ public class ProductRepoImp implements ProductRepo {
     }
 
     @Override
-    public Product findById(int id) {
+    public Product findById(long id) {
         log.info("Finding Product by id = " + id + " start.");
         Product product = entityManager.find(Product.class, id);
         if (product == null) {
@@ -77,21 +77,17 @@ public class ProductRepoImp implements ProductRepo {
     }
 
     @Override
-    public boolean remove(Product product) {
-        if (entityManager.contains(product)) {
-            entityManager.remove(product);
-            return true;
-        }
-        return  false;
-    }
-
-    @Override
-    public boolean removeById(int id) {
+    public boolean removeById(long id) {
         Product product = entityManager.find(Product.class, id);
         if (product != null) {
             entityManager.remove(product);
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void updateProduct(Product product) {
+        Product merge = entityManager.merge(product);
     }
 }
