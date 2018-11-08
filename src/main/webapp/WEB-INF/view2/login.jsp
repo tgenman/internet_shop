@@ -8,44 +8,30 @@
 <%@ include file="templates/header.jsp" %>
 
 
-<%--<form:form method="POST" action="/login">--%>
-    <%--<table>--%>
-        <%--<tr class="form-group">--%>
-            <%--<td><form:label path="username">Username</form:label></td>--%>
-            <%--<td><form:input path="username" /></td>--%>
-        <%--</tr>--%>
-        <%--<tr class="form-group">--%>
-            <%--<td><form:label path="password">Password</form:label></td>--%>
-            <%--<td><form:input path="password" /></td>--%>
-        <%--</tr>--%>
-        <%--<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>--%>
-        <%--</tr>--%>
-        <%--<tr class="form-group">--%>
-            <%--<td><input type="submit" value="Sign In" /></td>--%>
-        <%--</tr>--%>
-    <%--</table>--%>
-<%--</form:form>--%>
+<form action="/login" method="post">
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Email</label>
+        <div class="col-sm-3">
+            <input type="text" class="form-control" name="username"/>
+        </div>
+    </div>
 
-<div>
-    <form action="/login" method="post">
-        <table>
-            <tr class="form-group">
-                <td><label>Username</label></td>
-                <td><input type="text" class="form-control" name="username"/></td>
-            </tr>
-            <tr class="form-group">
-                <td><label>Password</label></td>
-                <td><input type="text" class="form-control" name="password"/></td>
-            </tr>
-            <tr class="form-group">
-                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-            </tr>
-            <tr class="form-group">
-                <td><button type="submit">Login</button></td>
-            </tr>
-        </table>
-    </form>
-</div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Password</label>
+        <div class="col-sm-3">
+            <input type="text" class="form-control" name="password"/>
+        </div>
+    </div>
 
+    <div class="form-group">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-3">
+            <button type="submit" class="btn btn-primary">Login</button>
+        </div>
+    </div>
+</form>
 
 <%@ include file="templates/footer.jsp" %>

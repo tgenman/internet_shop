@@ -7,83 +7,56 @@
 <%@ include file="../templates/header.jsp" %>
 
 
-    <form:form method="POST" action="/user/registration" modelAttribute="userDto">
-        <table>
-            <tr>
-                <td><form:label path="firstName">First Name</form:label></td>
-                <td><form:input path="firstName" /></td>
-                <td><form:errors path="firstName"  /></td>
-            </tr>
-            <tr>
-                <td><form:label path="lastName">Last Name</form:label></td>
-                <td><form:input path="lastName" /></td>
-                <td><form:errors path="lastName"  /></td>
-            </tr>
-            <tr>
-                <td><form:label path="email">Email</form:label></td>
-                <td><form:input path="email" /></td>
-                <td><form:errors path="email"  /></td>
-            </tr>
-            <tr>
-                <td><form:label path="password">Password</form:label></td>
-                <td><form:input path="password" /></td>
-                <td><form:errors path="password"  /></td>
-            </tr>
-            <tr>
-                <td><form:label path="matchingPassword">Confirm password</form:label></td>
-                <td><form:input path="matchingPassword" /></td>
-                <td><form:errors path="matchingPassword"  /></td>
-            </tr>
-                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-            </tr>
-            <tr>
-                <td><input type="submit" value="Register" /></td>
-            </tr>
-        </table>
-    </form:form>
+<form:form method="POST" action="/user/registration" modelAttribute="userDto">
+
+    <div class="form-group row">
+        <form:label path="firstName" class="col-sm-2 col-form-label">First Name</form:label>
+        <div class="col-sm-3">
+                <form:input path="firstName" class="form-control" id="inputEmail3" />
+        </div>
+        <form:errors path="firstName" />
+    </div>
+
+    <div class="form-group row">
+        <form:label path="lastName" class="col-sm-2 col-form-label">Last Name</form:label>
+        <div class="col-sm-3">
+            <form:input path="lastName" class="form-control" id="inputEmail3" />
+        </div>
+        <form:errors path="lastName" />
+    </div>
+
+    <div class="form-group row">
+        <form:label path="email" class="col-sm-2 col-form-label">Email</form:label>
+        <div class="col-sm-3">
+            <form:input path="email" class="form-control" id="inputEmail3" />
+        </div>
+        <form:errors path="email"  />
+    </div>
+
+    <div class="form-group row">
+        <form:label path="password" class="col-sm-2 col-form-label">Password</form:label>
+        <div class="col-sm-3">
+            <form:input path="password" class="form-control" id="inputEmail3" />
+        </div>
+        <form:errors path="password"  />
+    </div>
+
+    <div class="form-group row">
+        <form:label path="matchingPassword" class="col-sm-2 col-form-label">Confirm password</form:label>
+        <div class="col-sm-3">
+            <form:input path="matchingPassword" class="form-control" id="inputEmail3" />
+        </div>
+        <form:errors path="matchingPassword"/>
+    </div>
+
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+
+    <div class="form-group row">
+        <div class="col-sm-3">
+            <button type="submit" class="btn btn-primary">Sign in</button>
+        </div>
+    </div>
+</form:form>
 
 
 <%@ include file="../templates/footer.jsp" %>
-
-
-
-
-
-
-
-<%--<h1 th:text="#{label.form.title}">form</h1>--%>
-<%--<form action="/" th:object="${user}" method="POST" enctype="utf8">--%>
-    <%--<div>--%>
-        <%--<label th:text="#{label.user.firstName}">first</label>--%>
-        <%--<input th:field="*{firstName}"/>--%>
-        <%--<p th:each="error: ${#fields.errors('firstName')}"--%>
-           <%--th:text="${error}">Validation error</p>--%>
-    <%--</div>--%>
-    <%--<div>--%>
-        <%--<label th:text="#{label.user.lastName}">last</label>--%>
-        <%--<input th:field="*{lastName}"/>--%>
-        <%--<p th:each="error : ${#fields.errors('lastName')}"--%>
-           <%--th:text="${error}">Validation error</p>--%>
-    <%--</div>--%>
-    <%--<div>--%>
-        <%--<label th:text="#{label.user.email}">email</label>--%>
-        <%--<input type="email" th:field="*{email}"/>--%>
-        <%--<p th:each="error : ${#fields.errors('email')}"--%>
-           <%--th:text="${error}">Validation error</p>--%>
-    <%--</div>--%>
-    <%--<div>--%>
-        <%--<label th:text="#{label.user.password}">password</label>--%>
-        <%--<input type="password" th:field="*{password}"/>--%>
-        <%--<p th:each="error : ${#fields.errors('password')}"--%>
-           <%--th:text="${error}">Validation error</p>--%>
-    <%--</div>--%>
-    <%--<div>--%>
-        <%--<label th:text="#{label.user.confirmPass}">confirm</label>--%>
-        <%--<input type="password" th:field="*{matchingPassword}"/>--%>
-    <%--</div>--%>
-    <%--<button type="submit" th:text="#{label.form.submit}">submit</button>--%>
-<%--</form>--%>
-
-<%--<a th:href="@{/login.html}" th:text="#{label.form.loginLink}">login</a>--%>
-<%--</body>--%>
-<%--</html>--%>
