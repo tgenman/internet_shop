@@ -2,12 +2,12 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<c:set var="title" value="Add new product"     scope="request"/>
-<c:set var="title2" value="Add new product"  scope="request"/>
+<c:set var="title" value="Registration"     scope="request"/>
+<c:set var="title2" value="Registration"  scope="request"/>
 <%@ include file="../templates/header.jsp" %>
 
 
-<form:form method="POST" action="/user/registration" modelAttribute="productDto">
+<form:form method="POST" action="/user/registration" modelAttribute="userDto">
 
     <div class="form-group row">
         <form:label path="firstName" class="col-sm-2 col-form-label">First Name</form:label>

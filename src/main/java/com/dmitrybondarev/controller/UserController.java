@@ -39,11 +39,5 @@ public class UserController {
 //        return "user/userEdit";
 //    }
 //
-//    @PostMapping
-//    public String saveUser(@RequestParam String username,
-//                           @RequestParam Map<String, String> form) {
-//        UserDto userDtoByUsername = userService.getUserDtoByUsername(username);
-////TODO logic
-//        return "redirect:/user";
-//    }
+
 }

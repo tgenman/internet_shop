@@ -78,7 +78,7 @@ public class ProductController {
         } else {
             productService.editProductToStock(productDto);
             log.info("Everything is ok. redirect");
-            return new ModelAndView("redirect:/product/{" + productDto.getId() + "}/info");
+            return new ModelAndView("redirect:/store/inventory");
         }
     }
 

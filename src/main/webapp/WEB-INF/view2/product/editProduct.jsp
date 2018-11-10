@@ -78,7 +78,4 @@
     </div>
 </form:form>
 
-
-
-
 <%@ include file="../templates/footer.jsp" %>

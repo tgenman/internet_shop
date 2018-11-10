@@ -3,11 +3,11 @@ package com.dmitrybondarev.controller;
 import com.dmitrybondarev.exception.EmailExistsException;
 import com.dmitrybondarev.model.User;
 import com.dmitrybondarev.model.dto.UserDto;
+import com.dmitrybondarev.model.enums.Role;
 import com.dmitrybondarev.service.api.UserService;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +18,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.Collections;
 
 @Log4j
 @Controller
@@ -38,23 +39,25 @@ public class RegistrationController {
     @PostMapping("/registration")
     public ModelAndView registerUserAccount(@ModelAttribute("userDto") @Valid UserDto userDto,
                                             BindingResult result, WebRequest request, Errors errors) {
-        log.info("into post registration controller");
-        User registered = new User();
+        log.info("registerUserAccount");
+        User user = new User();
         if (!result.hasErrors()) {
-            log.info("1");
-            registered = createUserAccount(userDto, result);
+            log.info("There are not errors. Start registration");
+            userDto.setActive(true);
+            userDto.setRoles(Collections.singleton(Role.USER));
+            user = createUserAccount(userDto, result);
         }
-        if (registered == null) {
-            log.info("2");
+        if (user == null) {
+            log.info("Check error username existence");
             result.rejectValue("email", "message.regError");
         }
         if (result.hasErrors()) {
-            log.info("3");
+            log.info("There is error");
             return new ModelAndView("user/registration", "user", userDto);
         }
         else {
-            log.info("4");
-            return new ModelAndView("user/successRegister", "user", userDto);
+            log.info("Registration complete.");
+            return new ModelAndView("redirect:/login");
         }
     }
 
@@ -70,23 +73,4 @@ public class RegistrationController {
         }
         return registered;
     }
-
-//    @PostMapping("/registration")
-//    public ModelAndView register(UserDto userDto) {
-//
-//        log.info("Registry POST request:" + " email = " + userDto.getEmail());
-//
-//        boolean check = userService.registerNewUser(userDto);
-//
-//        if (check) {
-//            log.info("User with username = " + userDto.getEmail() + " was register.");
-//            return new ModelAndView("/login");
-//
-//        } else {
-//            ModelAndView modelAndView = new ModelAndView("/registration");
-//            modelAndView.addObject("existMessage", "User exists!");
-//            log.info("User with username = " + userDto.getEmail() + " already exists.");
-//            return modelAndView;
-//        }
-//    }
 }

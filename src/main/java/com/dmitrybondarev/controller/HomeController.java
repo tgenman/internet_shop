@@ -23,11 +23,4 @@ public class HomeController {
         log.info("Home GET request");
         return "home";
     }
-
-//    @ExceptionHandler(ResourceNotFoundException.class)
-//    @ExceptionHandler(NoHandlerFoundException.class)
-//    @ResponseStatus(HttpStatus.NOT_FOUND)
-//    public ModelAndView handlerNotFound() {
-//        return new ModelAndView("redirect:/error");
-//    }
 }
