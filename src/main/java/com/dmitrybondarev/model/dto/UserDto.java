@@ -1,5 +1,6 @@
 package com.dmitrybondarev.model.dto;
 
+import com.dmitrybondarev.model.Address;
 import com.dmitrybondarev.model.enums.Role;
 
 import javax.validation.constraints.NotEmpty;
@@ -42,6 +43,11 @@ public class UserDto {
     private boolean active;
 
     private Set<Role> roles;
+
+    private String dateOfBirth;
+
+    private Set<Address> addresses;
+
 
     public void setUsername(String username) {
         this.username = username;

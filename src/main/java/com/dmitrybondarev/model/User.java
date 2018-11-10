@@ -4,6 +4,7 @@ import com.dmitrybondarev.model.enums.Role;
 import com.dmitrybondarev.util.validation.PasswordMatches;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.Basic;
@@ -23,6 +24,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -51,7 +53,7 @@ public class User implements UserDetails {
 
     private String lastName;
 
-//    private String dateOfBirth;     //TODO find appropriate time class
+    private String dateOfBirth;     //TODO find appropriate time class
 
     @ManyToMany(fetch = FetchType.EAGER)
     @CollectionTable(name = "user_addresses", joinColumns = @JoinColumn(name = "user_id"))
@@ -96,8 +98,19 @@ public class User implements UserDetails {
     }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return getRoles();
+    public Collection<GrantedAuthority> getAuthorities() {
+        Collection<GrantedAuthority> authorities = new ArrayList<>();
+        for (Role role : getRoles()) {
+            authorities.add(new SimpleGrantedAuthority(role.name()));
+        }
+        return authorities;
+    }
+
+    public boolean isAdmin() {
+        if (roles.contains(Role.ADMIN)) {
+            return true;
+        }
+        return false;
     }
 
 }

@@ -6,7 +6,17 @@
 <c:set var="title" value="Home Page"  scope="request"/>
 <%@ include file="templates/header.jsp" %>
 
-<h5>Hello, sessionId = ${pageContext.request.requestedSessionId}</h5>
+<h5>
+    Hello,
+    <security:authorize access="isAuthenticated()">
+        <security:authentication property="principal.username" />
+    </security:authorize>
+    <security:authorize access="!isAuthenticated()">
+        Guest
+    </security:authorize>
+</h5>
+
+<%--<h1>${pageContext.request.userPrincipal.name}</h1>--%>
 <div>This is a simple shop</div>
 
 

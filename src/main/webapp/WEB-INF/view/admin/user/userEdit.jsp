@@ -10,7 +10,19 @@
 
 
 
-<form action="/user" method="post">
+
+
+
+
+
+
+
+
+
+
+
+
+<form action="admin/user/{id}" method="post">
     <div class="form-group">
         <input type="text" name="username" value="${userDto.username}">
     </div>
@@ -51,13 +63,6 @@
         <button type="submit">Save</button>
     </div>
 </form>
-
-
-<%--<select id="roles" firstName="roles">--%>
-    <%--<#list roles as role>--%>
-    <%--<option value="${role}" selected="selected">${role}</option>--%>
-<%--</#list>--%>
-<%--</select>﻿--%>
 
 
 <c:import url="../../templates/footer.jsp" />

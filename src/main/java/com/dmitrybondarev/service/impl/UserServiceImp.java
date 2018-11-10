@@ -1,7 +1,9 @@
 package com.dmitrybondarev.service.impl;
 
 import com.dmitrybondarev.exception.EmailExistsException;
+import com.dmitrybondarev.model.Product;
 import com.dmitrybondarev.model.User;
+import com.dmitrybondarev.model.dto.ProductDto;
 import com.dmitrybondarev.model.dto.UserDto;
 import com.dmitrybondarev.model.enums.Role;
 import com.dmitrybondarev.repository.api.UserRepo;
@@ -15,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -31,15 +32,14 @@ public class UserServiceImp implements UserService {
 
     @Override
     @Transactional
-    public User registerNewUserAccount(UserDto accountDto) throws EmailExistsException {
+    public User registerNewUserAccount(UserDto userDto) throws EmailExistsException {
 
-        if (emailExist(accountDto.getEmail())) {
-            throw new EmailExistsException("There is an account with that email address: " + accountDto.getEmail());
+        if (emailExist(userDto.getEmail())) {
+            throw new EmailExistsException("There is an account with that email address: " + userDto.getEmail());
         }
 
-        User user = new User();
-        mapper.map(accountDto, user);
-        user.setUsername(accountDto.getEmail());   // TODO See after
+        User user = this.mapUserDtoToUser(userDto);
+        user.setUsername(userDto.getEmail());   // TODO See after
         user.setRoles(Collections.singleton(Role.USER));
 
         return userRepo.save(user);
@@ -55,8 +55,7 @@ public class UserServiceImp implements UserService {
         List<UserDto> userDtos = new ArrayList<>();
 
         for (User user: users) {
-            UserDto userDto = new UserDto();
-            mapper.map(user, userDto);
+            UserDto userDto = this.mapUserToUserDto(user);
             userDtos.add(userDto);
         }
 
@@ -67,18 +66,31 @@ public class UserServiceImp implements UserService {
     @Override
     @Transactional
     public UserDto getUserDtoByUsername(String username) {
-        User byUsername = userRepo.findByUsername(username);
-        UserDto userDto = new UserDto();
-        mapper.map(byUsername, userDto);
+        User user = userRepo.findByUsername(username);
+        UserDto userDto = this.mapUserToUserDto(user);
         return userDto;
     }
 
     @Override
     @Transactional
     public UserDto getUserDtoById(long id) {
-        User byUsername = userRepo.findById(id);
-        UserDto userDto = new UserDto();
-        mapper.map(byUsername, userDto);
+        User user = userRepo.findById(id);
+        UserDto userDto = this.mapUserToUserDto(user);
+        return userDto;
+    }
+
+    @Override
+    @Transactional
+    public UserDto editUser(UserDto userDto) {
+        log.info("editUser start");
+        log.info("input: " + userDto.toString());
+
+        User user = this.mapUserDtoToUser(userDto);
+
+        log.info("dto: " + user.toString());
+
+        userRepo.updateUser(user);
+        log.info("editUser end");
         return userDto;
     }
 
@@ -102,5 +114,17 @@ public class UserServiceImp implements UserService {
             return true;
         }
         return false;
+    }
+
+    private UserDto mapUserToUserDto(User user) {
+        UserDto userDto = new UserDto();
+        mapper.map(user, userDto);
+        return userDto;
+    }
+
+    private User mapUserDtoToUser(UserDto userDto) {
+        User user = new User();
+        mapper.map(userDto, user);
+        return user;
     }
 }

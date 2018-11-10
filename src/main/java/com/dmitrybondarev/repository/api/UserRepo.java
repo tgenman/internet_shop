@@ -21,4 +21,6 @@ public interface UserRepo {
     boolean remove(User user);
 
     boolean removeById(long id);
+
+    void updateUser(User user);
 }

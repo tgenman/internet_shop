@@ -19,4 +19,6 @@ public interface UserService extends UserDetailsService {
     User registerNewUserAccount(UserDto accountDto) throws EmailExistsException;
 
     UserDto getUserDtoById(long id);
+
+    UserDto editUser(UserDto userDto);
 }

@@ -28,11 +28,15 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/user")
+    @GetMapping
     public ModelAndView showMyUserEditForm() {
         log.info("user showMyUserEditForm start");
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        log.info("input principal: " + user.toString());
+
         UserDto userDtoByUsername = userService.getUserDtoById(user.getId());
+
+        log.info("input userDtoByUsername: " + userDtoByUsername.toString());
 
         ModelAndView mAV = new ModelAndView("user/editProfile.jsp");
         mAV.addObject("userDto", userDtoByUsername);
@@ -43,15 +47,28 @@ public class UserController {
         return mAV;
     }
 
-    @PostMapping("/user")
+    @PostMapping
     public ModelAndView editUser(@ModelAttribute("userDto") @Valid UserDto userDto,
-                                 BindingResult result, Errors errors) {  //TODO Implement editing User in user
-        return new ModelAndView("/home.jsp");
+                                 BindingResult result, Errors errors) {
+
+        log.info("editUser start");
+        log.info("input userDto: " + userDto.toString());
+        long id = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+        userDto.setId(id);
+
+        if (result.hasErrors()) {
+            log.info("editUser. Error in form");
+            return new ModelAndView("redirect:/user", "productDto", userDto);
+        } else {
+            userService.editUser(userDto);
+            log.info("editUser. Everything is ok. redirect");
+            return new ModelAndView("redirect:/");
+        }
     }
 
 
-//    @GetMapping("/user/address")  //TODO Implement
-//    @PostMapping("/user/address")  //TODO Implement
+//    @GetMapping("/user/address/new")  //TODO Implement
+//    @PostMapping("/user/address/new")  //TODO Implement
 //    @GetMapping("/user/address/{id}")  //TODO Implement
 //    @PostMapping("/user/address/{id}")  //TODO Implement
 //    @DeleteMapping("/user/address/{id}")  //TODO Implement

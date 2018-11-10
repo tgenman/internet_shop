@@ -8,7 +8,7 @@
 
 <h2>Product List</h2>
 
-<a class="btn btn-success" href="/product/new" role="button">Create new product</a>
+<a class="btn btn-success" href="/admin/product/new" role="button">Create new product</a>
 
 <table class="table table-bordered table-sm">
     <thead>
@@ -37,7 +37,7 @@
                 <td scope="col">${productDto.volume}</td>
                 <td scope="col">${productDto.quantity}</td>
                 <td scope="col">
-                    <a class="btn btn-warning btn-sm" href="admin/product/${productDto.id}" role="button">edit</a>
+                    <a class="btn btn-warning btn-sm" href="/admin/product/${productDto.id}" role="button">edit</a>
                 </td>
             </tr>
         </c:forEach>

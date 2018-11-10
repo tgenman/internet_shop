@@ -8,7 +8,7 @@
 
 <h2>Creation new product</h2>
 
-<form:form method="POST" action="/product/new" modelAttribute="productDto">
+<form:form method="POST" action="/admin/product/new" modelAttribute="productDto">
 
     <div class="form-group row">
         <form:label path="title" class="col-sm-2 col-form-label">Title</form:label>

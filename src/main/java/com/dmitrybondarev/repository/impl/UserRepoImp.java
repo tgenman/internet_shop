@@ -1,5 +1,6 @@
 package com.dmitrybondarev.repository.impl;
 
+import com.dmitrybondarev.model.Product;
 import com.dmitrybondarev.model.User;
 import com.dmitrybondarev.repository.api.UserRepo;
 import lombok.extern.log4j.Log4j;
@@ -98,5 +99,16 @@ public class UserRepoImp implements UserRepo {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void updateUser(User user) {
+        log.info("updateUser start");
+        log.info("input: " + user.toString());
+        User merge = entityManager.merge(user);
+        log.info("output: " + merge.toString());
+        log.info("updateUser end");
+
+
     }
 }
