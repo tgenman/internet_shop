@@ -1,6 +1,5 @@
 package com.dmitrybondarev.repository.impl;
 
-import com.dmitrybondarev.model.Product;
 import com.dmitrybondarev.model.User;
 import com.dmitrybondarev.repository.api.UserRepo;
 import lombok.extern.log4j.Log4j;
@@ -22,7 +21,7 @@ public class UserRepoImp implements UserRepo {
 
     @Override
     @Transactional
-    public User save(User user) {
+    public User saveUser(User user) {
         log.info("Saving start. User(username=" + user.getUsername()
                 + ", role="  + user.getRoles()
                 + " firstName/family=" + user.getFirstName() + " " + user.getLastName());
@@ -108,7 +107,5 @@ public class UserRepoImp implements UserRepo {
         User merge = entityManager.merge(user);
         log.info("output: " + merge.toString());
         log.info("updateUser end");
-
-
     }
 }

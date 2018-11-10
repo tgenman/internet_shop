@@ -8,7 +8,7 @@ import java.util.List;
 @Repository
 public interface UserRepo {
 
-    User save(User user);
+    User saveUser(User user);
 
     User findById(long id);
 

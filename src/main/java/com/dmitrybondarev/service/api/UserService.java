@@ -1,7 +1,9 @@
 package com.dmitrybondarev.service.api;
 
 import com.dmitrybondarev.exception.EmailExistsException;
+import com.dmitrybondarev.model.Address;
 import com.dmitrybondarev.model.User;
+import com.dmitrybondarev.model.dto.AddressDto;
 import com.dmitrybondarev.model.dto.UserDto;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;

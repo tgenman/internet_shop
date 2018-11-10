@@ -1,9 +1,9 @@
 package com.dmitrybondarev.service.impl;
 
 import com.dmitrybondarev.exception.EmailExistsException;
-import com.dmitrybondarev.model.Product;
+import com.dmitrybondarev.model.Address;
 import com.dmitrybondarev.model.User;
-import com.dmitrybondarev.model.dto.ProductDto;
+import com.dmitrybondarev.model.dto.AddressDto;
 import com.dmitrybondarev.model.dto.UserDto;
 import com.dmitrybondarev.model.enums.Role;
 import com.dmitrybondarev.repository.api.UserRepo;
@@ -20,8 +20,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-@Service
 @Log4j
+@Service
 public class UserServiceImp implements UserService {
 
     @Autowired
@@ -42,7 +42,7 @@ public class UserServiceImp implements UserService {
         user.setUsername(userDto.getEmail());   // TODO See after
         user.setRoles(Collections.singleton(Role.USER));
 
-        return userRepo.save(user);
+        return userRepo.saveUser(user);
 
     }
 
@@ -102,7 +102,6 @@ public class UserServiceImp implements UserService {
         User byUsername = userRepo.findByUsername(username);
         log.info("found user = " + byUsername.getUsername());
         return byUsername;
-
     }
 
 
@@ -127,4 +126,6 @@ public class UserServiceImp implements UserService {
         mapper.map(userDto, user);
         return user;
     }
+
+
 }

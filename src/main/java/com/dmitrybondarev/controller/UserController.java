@@ -1,13 +1,17 @@
 package com.dmitrybondarev.controller;
 
+import com.dmitrybondarev.model.Address;
 import com.dmitrybondarev.model.User;
+import com.dmitrybondarev.model.dto.AddressDto;
 import com.dmitrybondarev.model.dto.UserDto;
 import com.dmitrybondarev.model.enums.Role;
+import com.dmitrybondarev.service.api.AddressService;
 import com.dmitrybondarev.service.api.UserService;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,6 +31,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private AddressService addressService;
 
     @GetMapping
     public ModelAndView showMyUserEditForm() {
@@ -67,11 +74,65 @@ public class UserController {
     }
 
 
-//    @GetMapping("/user/address/new")  //TODO Implement
-//    @PostMapping("/user/address/new")  //TODO Implement
-//    @GetMapping("/user/address/{id}")  //TODO Implement
-//    @PostMapping("/user/address/{id}")  //TODO Implement
-//    @DeleteMapping("/user/address/{id}")  //TODO Implement
+    @GetMapping("/address/new")
+    public ModelAndView showAddressCreationForm() {
+        log.info("showAddressCreationForm start");
+        ModelAndView mAV = new ModelAndView("/user/address/newAddress.jsp", "addressDto", new AddressDto());
+        log.info("showAddressCreationForm end");
+        return mAV;
+    }
+
+    @PostMapping("/address/new")
+    public ModelAndView addNewAddress(@ModelAttribute("addressDto") @Valid AddressDto addressDto,
+                                      BindingResult result, Errors errors) {
+        log.info("addNewAddress start");
+        if (result.hasErrors()) {
+            log.info("addNewAddress. Error in form");
+            return new ModelAndView("/user/address/newAddress.jsp", "addressDto", addressDto);
+        } else {
+            long id = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+            addressService.addNewAddress(addressDto, id);
+            log.info("addNewAddress. Everything is ok. redirect");
+            return new ModelAndView("redirect:/user/");
+        }
+    }
+
+
+    @GetMapping("/address/{id}")
+    public ModelAndView showMyUserEditForm(@PathVariable long id) {
+        log.info("showMyUserEditForm start");
+        Address addressDto = addressService.getAddressDtoById(id);
+        ModelAndView mAV = new ModelAndView("/user/address/editAddress.jsp");
+        mAV.addObject("addressId", id);
+        mAV.addObject("addressDto", addressDto);
+        log.info("showMyUserEditForm end");
+        return mAV;
+    }
+
+    @PostMapping("/address/{id}")
+    public ModelAndView editAddress(@ModelAttribute("addressDto") @Valid AddressDto addressDto,
+                                    BindingResult result, Errors errors, Model model) {
+        log.info("editAddress start");
+
+        if (result.hasErrors()) {
+            log.info("editAddress. Error in form");
+            return new ModelAndView("/user/address/editAddress.jsp", "addressDto", addressDto);
+        } else {
+//            TODO HOW find old id
+            addressService.editAddress(addressDto);
+            log.info("editAddress. Everything is ok. redirect");
+            return new ModelAndView("redirect:/admin/product");
+        }
+    }
+
+    @DeleteMapping("/address/{id}")
+    public String removeAddress(@PathVariable long id) {
+        log.info("removeAddress start");
+        long idUser = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+        addressService.deleteAddress(id, idUser);
+        log.info("removeAddress end");
+        return "redirect:/story/inventory";
+    }
 
 
 
