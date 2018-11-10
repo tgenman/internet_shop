@@ -3,10 +3,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
-<c:set var="title" value="Inventory"  scope="request"/>
-<%@ include file="../templates/header.jsp" %>
+<c:set var="title" value="Product List"  scope="request"/>
+<%@ include file="../../templates/header.jsp" %>
 
-<h2>Inventory</h2>
+<h2>Product List</h2>
 
 <a class="btn btn-success" href="/product/new" role="button">Create new product</a>
 
@@ -37,7 +37,7 @@
                 <td scope="col">${productDto.volume}</td>
                 <td scope="col">${productDto.quantity}</td>
                 <td scope="col">
-                    <a class="btn btn-warning btn-sm" href="/product/${productDto.id}" role="button">edit</a>
+                    <a class="btn btn-warning btn-sm" href="admin/product/${productDto.id}" role="button">edit</a>
                 </td>
             </tr>
         </c:forEach>
@@ -47,4 +47,4 @@
 
 
 
-<%@ include file="../templates/footer.jsp" %>
+<%@ include file="../../templates/footer.jsp" %>

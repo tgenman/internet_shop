@@ -22,7 +22,7 @@
             <li class="list-group-item">Quantity:    ${productDto.quantity}</li>
         </ul>
         <div class="card-body">
-            <a class="btn btn-danger " href="/cart/add/${product.id}" role="button">Add to Cart</a>
+            <a class="btn btn-danger " href="/cart/${product.id}" role="button">Add to Cart</a>
         </div>
     </div>
 </div>

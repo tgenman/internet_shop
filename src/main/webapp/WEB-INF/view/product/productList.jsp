@@ -21,8 +21,8 @@
                     <li class="list-group-item">Price:    ${productDto.price}</li>
                 </ul>
                 <div class="card-body">
-                    <a class="btn btn-info " href="/product/${productDto.id}/info" role="button">More...</a>
-                    <a class="btn btn-danger " href="/cart/add/${productDto.id}" role="button">Add to Cart</a>
+                    <a class="btn btn-info " href="/product/${productDto.id}" role="button">More...</a>
+                    <a class="btn btn-danger " href="/cart/${productDto.id}" role="button">Add to Cart</a>
                 </div>
             </div>
         </c:forEach>

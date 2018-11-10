@@ -1,6 +1,8 @@
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="spring"   uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fn"       uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="form"     uri="http://www.springframework.org/tags/form" %>
+
 
 <html lang="en">
 <head>
@@ -14,6 +16,6 @@
     <title>${title}</title>
 </head>
 <body>
-    <div class="container">
-        <%@ include file="navBar.jsp" %>
+    <%@ include file="navBar.jsp" %>
+    <div class="container mt-5">
         <div><h2>${title2}</h2></div>

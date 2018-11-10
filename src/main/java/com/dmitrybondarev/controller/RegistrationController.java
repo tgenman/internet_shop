@@ -32,7 +32,7 @@ public class RegistrationController {
     @GetMapping("/registration")
     public ModelAndView showRegistrationForm(WebRequest request) {
         log.info("Registration GET request");
-        return new ModelAndView("user/registration", "userDto", new UserDto());
+        return new ModelAndView("user/registration.jsp", "userDto", new UserDto());
     }
 
 
@@ -53,7 +53,7 @@ public class RegistrationController {
         }
         if (result.hasErrors()) {
             log.info("There is error");
-            return new ModelAndView("user/registration", "user", userDto);
+            return new ModelAndView("user/registration.jsp", "user", userDto);
         }
         else {
             log.info("Registration complete.");

@@ -75,6 +75,16 @@ public class UserServiceImp implements UserService {
 
     @Override
     @Transactional
+    public UserDto getUserDtoById(long id) {
+        User byUsername = userRepo.findById(id);
+        UserDto userDto = new UserDto();
+        mapper.map(byUsername, userDto);
+        return userDto;
+    }
+
+
+    @Override
+    @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.info("loadUserByUsername = " + username);
         User byUsername = userRepo.findByUsername(username);

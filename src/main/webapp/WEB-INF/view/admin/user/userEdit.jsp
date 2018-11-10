@@ -6,7 +6,7 @@
 
 
 <c:set var="title" value="User Editor"  scope="request"/>
-<c:import url="../templates/header.jsp" />
+<c:import url="../../templates/header.jsp" />
 
 
 
@@ -60,4 +60,4 @@
 <%--</select>﻿--%>
 
 
-<c:import url="../templates/footer.jsp" />
+<c:import url="../../templates/footer.jsp" />

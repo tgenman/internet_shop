@@ -4,7 +4,7 @@
 
 
 <c:set var="title" value="Edit Product"  scope="request"/>
-<%@ include file="../templates/header.jsp" %>
+<%@ include file="../../templates/header.jsp" %>
 
 <h2>Edit Product</h2>
 
@@ -78,4 +78,4 @@
     </div>
 </form:form>
 
-<%@ include file="../templates/footer.jsp" %>
+<%@ include file="../../templates/footer.jsp" %>

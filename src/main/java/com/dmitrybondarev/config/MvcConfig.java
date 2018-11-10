@@ -27,13 +27,12 @@ public class MvcConfig implements WebMvcConfigurer {
     @Bean
     public ViewResolver viewResolver() {
         InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-        resolver.setPrefix(env.getProperty("spring.view_resolver_prefix"));
-        resolver.setSuffix(env.getProperty("spring.view_resolver_suffix"));
+        resolver.setPrefix("/WEB-INF/view/");
         return resolver;
     }
 
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/login").setViewName("login");
+        registry.addViewController("/login").setViewName("login.jsp");
     }
 
     @Bean
