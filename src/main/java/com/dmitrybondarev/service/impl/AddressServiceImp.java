@@ -26,7 +26,6 @@ public class AddressServiceImp implements AddressService {
     private DozerBeanMapper mapper;
 
 
-
     @Override
     @Transactional
     public Address addNewAddress(AddressDto addressDto, long userId) {
@@ -74,7 +73,6 @@ public class AddressServiceImp implements AddressService {
 
 
 // ============== NON-API ============
-
 
     private AddressDto mapAddressToAddressDto(Address address) {
         AddressDto addressDto = new AddressDto();

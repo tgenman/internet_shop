@@ -2,8 +2,6 @@ package com.dmitrybondarev.repository.impl;
 
 
 import com.dmitrybondarev.model.Address;
-import com.dmitrybondarev.model.Product;
-import com.dmitrybondarev.model.User;
 import com.dmitrybondarev.repository.api.AddressRepo;
 import lombok.extern.log4j.Log4j;
 import org.springframework.stereotype.Repository;
