@@ -18,4 +18,6 @@ public class AddressDto {
     private String building;
 
     private String flat;
+
+
 }

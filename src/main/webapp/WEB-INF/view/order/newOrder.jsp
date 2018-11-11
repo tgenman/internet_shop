@@ -21,18 +21,41 @@
     </tr>
     </thead>
     <tbody>
-    <c:forEach var="product" items="${cart}">
-        <tr>
-            <td scope="col">${product.key.id}</td>
-            <td scope="col">${product.key.title}</td>
-            <td scope="col">${product.key.price}</td>
-            <td scope="col">${product.key.weight}</td>
-            <td scope="col">${product.key.volume}</td>
-            <td scope="col">${product.value}</td>
-        </tr>
-    </c:forEach>
+        <c:forEach var="product" items="${cart}">
+            <tr>
+                <td scope="col">${product.key.id}</td>
+                <td scope="col">${product.key.title}</td>
+                <td scope="col">${product.key.price}</td>
+                <td scope="col">${product.key.weight}</td>
+                <td scope="col">${product.key.volume}</td>
+                <td scope="col">${product.value}</td>
+            </tr>
+        </c:forEach>
     </tbody>
 </table>
+
+<h4>Choose your address:</h4>
+
+<form:form action="/order/new" method="post" modelAttribute="orderDto">
+    <h4>Choose your address:</h4>
+    <div class="form-group row">
+        <form:radiobuttons path="address" items="${addresses}"  />
+    </div>
+
+    <h4>Choose type of payment:</h4>
+    <div class="form-group row">
+        <form:radiobuttons path="typeOfPayment" items="${TypeOfPaymentL}"  />
+    </div>
+
+    <h4>Choose type of delivery:</h4>
+    <div class="form-group row">
+        <form:radiobuttons path="typeOfDelivery" items="${TypeOfDeliveryL}"  />
+    </div>
+
+    <input type="hidden" value="${user.id}" name="userId">
+    <input type="hidden" value="${_csrf.token}" name="_csrf">
+    <button type="submit">Save</button>
+</form:form>
 
 
 
@@ -42,9 +65,8 @@
     <%--<div class="form-group row">--%>
         <%--<form:label path="title" class="col-sm-2 col-form-label">Title</form:label>--%>
         <%--<div class="col-sm-3">--%>
-            <%--<form:input path="title" class="form-control" id="inputEmail3" />--%>
+            <%--<form:input path="title" type="radio" class="form-control" id="inputEmail3" />--%>
         <%--</div>--%>
-        <%--<form:errors path="title" />--%>
     <%--</div>--%>
 
     <%--<div class="form-group row">--%>

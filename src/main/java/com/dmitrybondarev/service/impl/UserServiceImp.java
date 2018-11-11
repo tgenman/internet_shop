@@ -136,9 +136,20 @@ public class UserServiceImp implements UserService {
         return userDto;
     }
 
-    private User mapUserDtoToUser(UserDto userDto) {
+    @Override
+    public User mapUserDtoToUser(UserDto userDto) {
         User user = new User();
-        mapper.map(userDto, user);
+        user.setId(userDto.getId());
+        user.setActive(userDto.isActive());
+        user.setUsername(userDto.getUsername());
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+        user.setEmail(userDto.getEmail());
+        user.setPassword(userDto.getPassword());
+        user.setDateOfBirth(userDto.getDateOfBirth());
+        user.setAddresses(userDto.getAddresses());
+        user.setRoles(userDto.getRoles());
+        user.setOrders(userDto.getOrders());
         return user;
     }
 

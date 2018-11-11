@@ -40,7 +40,15 @@ public class OrderServiceImp implements OrderService {
 
     private Order mapOrderDtoToOrder(OrderDto orderDto) {
         Order order = new Order();
-        mapper.map(orderDto, order);
+        order.setId(orderDto.getId());
+        order.setAddress(orderDto.getAddress());
+        order.setDateOfOrder(orderDto.getDateOfOrder());
+        order.setListOfProducts(orderDto.getListOfProducts());
+        order.setStatusOfDelivery(orderDto.getStatusOfDelivery());
+        order.setStatusOfPayment(orderDto.getStatusOfPayment());
+        order.setTypeOfDelivery(orderDto.getTypeOfDelivery());
+        order.setTypeOfPayment(orderDto.getTypeOfPayment());
+        order.setUser(orderDto.getUser());
         return order;
     }
 }

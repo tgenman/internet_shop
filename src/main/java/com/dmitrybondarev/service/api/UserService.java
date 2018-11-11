@@ -23,4 +23,6 @@ public interface UserService extends UserDetailsService {
     UserDto getUserDtoById(long id);
 
     UserDto editUser(UserDto userDto);
+
+    User mapUserDtoToUser(UserDto userDto);
 }

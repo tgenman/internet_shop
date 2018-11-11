@@ -31,4 +31,9 @@ public class Address {
     private String building;
 
     private String flat;
+
+    @Override
+    public String toString() {
+        return postalCode + " " + country + " " + city + " " + street + " " + building + " " + flat;
+    }
 }

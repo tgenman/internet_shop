@@ -22,15 +22,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Map;
 import java.util.Set;
-
-import static com.dmitrybondarev.model.enums.StatusOfDelivery.WAITING_FOR_PAYMENT;
 
 @Log4j
 @Controller
@@ -61,11 +58,12 @@ public class OrderController {
         request.getSession().setAttribute("cartR", cart);
 
 
-        mAV.addObject("TypeOfDelivery", TypeOfDelivery.values());
-        mAV.addObject("TypeOfPayment", TypeOfPayment.values());
+        mAV.addObject("TypeOfDeliveryL", TypeOfDelivery.values());
+        mAV.addObject("TypeOfPaymentL", TypeOfPayment.values());
         mAV.addObject("user", user);
         mAV.addObject("addresses", addresses);
         mAV.addObject("cart", cart);
+        mAV.addObject("orderDto", new OrderDto());
 
         log.info("showCreationOrderForm end");
         return mAV;
@@ -77,7 +75,10 @@ public class OrderController {
         log.info("createNewOrder");
         if (!result.hasErrors()) {
             log.info("There are not errors. Start createNewOrder");
-            User userR = (User) request.getSession().getAttribute("userR");
+            UserDto userDtoR = (UserDto) request.getSession().getAttribute("userR");
+
+            User userR = userService.mapUserDtoToUser(userDtoR);
+
             Map<Product, Integer> cartR = (Map<Product, Integer>) request.getSession().getAttribute("cartR");
 
             orderDto.setUser(userR);
