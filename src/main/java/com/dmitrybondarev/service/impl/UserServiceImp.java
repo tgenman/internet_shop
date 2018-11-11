@@ -133,8 +133,6 @@ public class UserServiceImp implements UserService {
         userDto.setAddresses(user.getAddresses());
         userDto.setRoles(user.getRoles());
         userDto.setOrders(user.getOrders());
-
-//        mapper.map(user, userDto);
         return userDto;
     }
 

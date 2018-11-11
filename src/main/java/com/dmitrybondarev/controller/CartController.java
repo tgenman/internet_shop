@@ -35,7 +35,7 @@ public class CartController {
         return new ModelAndView("cart/showCart.jsp", "cart", cart);
     }
 
-    @PostMapping("/{idProduct}")
+    @GetMapping("/{idProduct}")
     public ModelAndView addProductToCart(@PathVariable long idProduct) {
         log.info("addProductToCart start");
         long idUser = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();

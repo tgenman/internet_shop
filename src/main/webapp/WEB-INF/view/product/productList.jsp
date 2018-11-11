@@ -12,7 +12,7 @@
     <c:forEach var="category" items="${productDtos}">
         <c:forEach var="productDto" items="${category.value}">
             <div class="card my-3">
-                <img class="card-img-top" src=".../100px180/?text=Image cap">
+                <%--<img class="card-img-top" src=".../100px180/?text=Image cap">--%>
                 <div class="card-body">
                     <h5 class="card-title">${productDto.title}</h5>
                     <p class="card-text">${categoryDto.key}</p>
@@ -23,11 +23,7 @@
                 <div class="card-body">
                     <a class="btn btn-info " href="/product/${productDto.id}" role="button">More...</a>
 
-                    <form action="/cart/${productDto.id}}" method="post">
-                        <input type="hidden" id="csrfToken" value="${_csrf.token}"/>
-                        <input type="hidden" id="csrfHeader" value="${_csrf.headerName}"/>
-                        <input type="submit" value="Add to Cart">
-                    </form>
+                    <a class="btn btn-danger " href="/cart/${productDto.id}" role="button">Add to Cart</a>
                 </div>
             </div>
         </c:forEach>
