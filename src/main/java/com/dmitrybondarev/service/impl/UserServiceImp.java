@@ -66,16 +66,21 @@ public class UserServiceImp implements UserService {
     @Override
     @Transactional
     public UserDto getUserDtoByUsername(String username) {
+        log.info("getUserDtoByUsername start");
         User user = userRepo.findByUsername(username);
         UserDto userDto = this.mapUserToUserDto(user);
+        log.info("getUserDtoByUsername end");
         return userDto;
     }
 
     @Override
     @Transactional
     public UserDto getUserDtoById(long id) {
+        log.info("getUserDtoById start");
         User user = userRepo.findById(id);
+        log.info(user.toString());
         UserDto userDto = this.mapUserToUserDto(user);
+        log.info("getUserDtoByUsername start");
         return userDto;
     }
 
@@ -117,7 +122,19 @@ public class UserServiceImp implements UserService {
 
     private UserDto mapUserToUserDto(User user) {
         UserDto userDto = new UserDto();
-        mapper.map(user, userDto);
+        userDto.setId(user.getId());
+        userDto.setActive(user.isActive());
+        userDto.setUsername(user.getUsername());
+        userDto.setFirstName(user.getFirstName());
+        userDto.setLastName(user.getLastName());
+        userDto.setEmail(user.getEmail());
+        userDto.setPassword(user.getPassword());
+        userDto.setDateOfBirth(user.getDateOfBirth());
+        userDto.setAddresses(user.getAddresses());
+        userDto.setRoles(user.getRoles());
+        userDto.setOrders(user.getOrders());
+
+//        mapper.map(user, userDto);
         return userDto;
     }
 

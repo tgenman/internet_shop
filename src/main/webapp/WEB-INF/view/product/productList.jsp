@@ -22,7 +22,12 @@
                 </ul>
                 <div class="card-body">
                     <a class="btn btn-info " href="/product/${productDto.id}" role="button">More...</a>
-                    <a class="btn btn-danger " href="/cart/${productDto.id}" role="button">Add to Cart</a>
+
+                    <form action="/cart/${productDto.id}}" method="post">
+                        <input type="hidden" id="csrfToken" value="${_csrf.token}"/>
+                        <input type="hidden" id="csrfHeader" value="${_csrf.headerName}"/>
+                        <input type="submit" value="Add to Cart">
+                    </form>
                 </div>
             </div>
         </c:forEach>

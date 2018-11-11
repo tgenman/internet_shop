@@ -22,11 +22,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Data
@@ -72,6 +74,9 @@ public class User implements UserDetails {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Order> orders;
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_cart", joinColumns = @JoinColumn(name = "user_id"))
+    private Map<Product, Integer> cart;
 
     @Override
     public boolean isAccountNonExpired() {
@@ -112,5 +117,4 @@ public class User implements UserDetails {
         }
         return false;
     }
-
 }

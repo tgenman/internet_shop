@@ -1,6 +1,8 @@
 package com.dmitrybondarev.model.dto;
 
 import com.dmitrybondarev.model.Address;
+import com.dmitrybondarev.model.Order;
+import com.dmitrybondarev.model.Product;
 import com.dmitrybondarev.model.enums.Role;
 
 import javax.validation.constraints.NotEmpty;
@@ -10,6 +12,7 @@ import com.dmitrybondarev.util.validation.PasswordMatches;
 import com.dmitrybondarev.util.validation.ValidEmail;
 import lombok.Data;
 
+import java.util.Map;
 import java.util.Set;
 
 @Data
@@ -47,6 +50,11 @@ public class UserDto {
     private String dateOfBirth;
 
     private Set<Address> addresses;
+
+    private Map<Product, Integer> cart;
+
+    private Set<Order> orders;
+
 
 
     public void setUsername(String username) {
