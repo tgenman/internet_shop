@@ -40,11 +40,12 @@ public class AddressServiceImp implements AddressService {
 
     @Override
     @Transactional
-    public Address getAddressDtoById(long id) {
+    public AddressDto getAddressDtoById(long id) {
         log.info("getAddressDtoById id = " + id + " start.");
         Address address = addressRepo.findById(id);
+        AddressDto addressDto = this.mapAddressToAddressDto(address);
         log.info("getAddressDtoById id = " + id + " end.");
-        return address;
+        return addressDto;
     }
 
     @Override

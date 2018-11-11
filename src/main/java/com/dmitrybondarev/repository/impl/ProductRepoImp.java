@@ -12,8 +12,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
-@Repository
 @Log4j
+@Repository
 public class ProductRepoImp implements ProductRepo {
 
     @PersistenceContext

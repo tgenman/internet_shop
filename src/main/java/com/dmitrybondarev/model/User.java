@@ -55,7 +55,7 @@ public class User implements UserDetails {
 
     private String dateOfBirth;     //TODO find appropriate time class
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @CollectionTable(name = "user_addresses", joinColumns = @JoinColumn(name = "user_id"))
     private Set<Address> addresses;
 

@@ -9,7 +9,7 @@ public interface AddressService {
     Address addNewAddress(AddressDto addressDto, long userId);
 
     @Transactional
-    Address getAddressDtoById(long id);
+    AddressDto getAddressDtoById(long id);
 
     @Transactional
     Address editAddress(AddressDto addressDto);

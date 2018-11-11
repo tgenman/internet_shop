@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @Log4j
@@ -36,7 +37,7 @@ public class UserController {
     private AddressService addressService;
 
     @GetMapping
-    public ModelAndView showMyUserEditForm() {
+    public ModelAndView showMyUserEditForm(HttpServletRequest request) {
         log.info("user showMyUserEditForm start");
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         log.info("input principal: " + user.toString());
@@ -44,6 +45,8 @@ public class UserController {
         UserDto userDtoByUsername = userService.getUserDtoById(user.getId());
 
         log.info("input userDtoByUsername: " + userDtoByUsername.toString());
+
+        request.getSession().setAttribute("oldUserDto", userDtoByUsername);
 
         ModelAndView mAV = new ModelAndView("user/editProfile.jsp");
         mAV.addObject("userDto", userDtoByUsername);
@@ -56,12 +59,16 @@ public class UserController {
 
     @PostMapping
     public ModelAndView editUser(@ModelAttribute("userDto") @Valid UserDto userDto,
-                                 BindingResult result, Errors errors) {
+                                 BindingResult result, Errors errors, HttpServletRequest request) {
 
         log.info("editUser start");
         log.info("input userDto: " + userDto.toString());
-        long id = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
-        userDto.setId(id);
+        UserDto oldUserDto = (UserDto) request.getSession().getAttribute("oldUserDto");
+        log.info("oldUserDto: " + oldUserDto.toString());
+
+        userDto.setId(oldUserDto.getId());
+        userDto.setActive(oldUserDto.isActive());
+        userDto.setAddresses(oldUserDto.getAddresses());
 
         if (result.hasErrors()) {
             log.info("editUser. Error in form");
@@ -99,11 +106,11 @@ public class UserController {
 
 
     @GetMapping("/address/{id}")
-    public ModelAndView showMyUserEditForm(@PathVariable long id) {
+    public ModelAndView showMyUserEditForm(@PathVariable long id, HttpServletRequest request) {
         log.info("showMyUserEditForm start");
-        Address addressDto = addressService.getAddressDtoById(id);
+        AddressDto addressDto = addressService.getAddressDtoById(id);
+        request.getSession().setAttribute("oldAddressDto", addressDto);
         ModelAndView mAV = new ModelAndView("/user/address/editAddress.jsp");
-        mAV.addObject("addressId", id);
         mAV.addObject("addressDto", addressDto);
         log.info("showMyUserEditForm end");
         return mAV;
@@ -111,17 +118,18 @@ public class UserController {
 
     @PostMapping("/address/{id}")
     public ModelAndView editAddress(@ModelAttribute("addressDto") @Valid AddressDto addressDto,
-                                    BindingResult result, Errors errors, Model model) {
+                                    BindingResult result, Errors errors, HttpServletRequest request) {
         log.info("editAddress start");
 
         if (result.hasErrors()) {
             log.info("editAddress. Error in form");
             return new ModelAndView("/user/address/editAddress.jsp", "addressDto", addressDto);
         } else {
-//            TODO HOW find old id
+            AddressDto oldAddressDto = (AddressDto) request.getSession().getAttribute("oldAddressDto");
+            addressDto.setId(oldAddressDto.getId());
             addressService.editAddress(addressDto);
             log.info("editAddress. Everything is ok. redirect");
-            return new ModelAndView("redirect:/admin/product");
+            return new ModelAndView("redirect:/user/");
         }
     }
 
@@ -131,7 +139,7 @@ public class UserController {
         long idUser = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
         addressService.deleteAddress(id, idUser);
         log.info("removeAddress end");
-        return "redirect:/story/inventory";
+        return "redirect:/user/";
     }
 
 
