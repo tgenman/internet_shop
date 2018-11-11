@@ -25,19 +25,11 @@
                 <a class="nav-link" href="/cart">Cart</a>
             </li>
 
-            <%--<sec:authorize access="hasRole('ADMIN')">--%>
-            <li class="nav-item">
-                <a class="nav-link" href="/admin/product">Product List</a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="/admin/order">Order List</a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="/admin/user">User List</a>
-            </li>
-            <%--</sec:authorize>--%>
+            <security:authorize access="isAuthenticated()">
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin">Admin Panel</a>
+                </li>
+            </security:authorize>
         </ul>
 
         <div class="navbar-text mr-3">
@@ -51,15 +43,21 @@
             </a>
         </div>
 
-        <form:form method="GET" action="/login" class="form-inline">
-            <button class="btn btn-primary mr-2 my-2 my-sm-0" type="submit">Login</button>
-        </form:form>
-        <form:form method="GET" action="/user/registration" class="form-inline">
-            <button class="btn btn-primary  mr-2 my-2 my-sm-0" type="submit">Registration</button>
-        </form:form>
-        <form:form method="POST" action="/logout" class="form-inline">
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-            <button class="btn btn-secondary my-2 my-sm-0" type="submit">Logout</button>
-        </form:form>
+        <security:authorize access="!isAuthenticated()">
+            <form:form method="GET" action="/login" class="form-inline">
+                <button class="btn btn-primary mr-2 my-2 my-sm-0" type="submit">Login</button>
+            </form:form>
+            <form:form method="GET" action="/user/registration" class="form-inline">
+                <button class="btn btn-primary  mr-2 my-2 my-sm-0" type="submit">Registration</button>
+            </form:form>
+        </security:authorize>
+
+        <security:authorize access="isAuthenticated()">
+            <form:form method="POST" action="/logout" class="form-inline">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Logout</button>
+            </form:form>
+        </security:authorize>
+
     </div>
 </nav>

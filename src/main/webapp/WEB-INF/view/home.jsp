@@ -16,7 +16,6 @@
     </security:authorize>
 </h5>
 
-<%--<h1>${pageContext.request.userPrincipal.name}</h1>--%>
 <div>This is a simple shop</div>
 
 
