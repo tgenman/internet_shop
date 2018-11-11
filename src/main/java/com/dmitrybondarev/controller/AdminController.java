@@ -142,7 +142,7 @@ public class AdminController {
         log.info("removeProduct start");
         productService.removeProductFromStock(id);
         log.info("removeProduct end");
-        return "redirect:/story/inventory";
+        return "redirect:/admin/product/";
     }
 
 

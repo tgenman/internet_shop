@@ -54,12 +54,4 @@ public class CartController {
     }
 
 
-//    @PostMapping("/del/{idProduct}")
-//    public ModelAndView deleteProductFromCartFromPost(@PathVariable long idProduct) {
-//        log.info("deleteProductFromCart start");
-//        long idUser = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
-//        cartService.deleteProduct(idUser, idProduct);
-//        log.info("deleteProductFromCart end");
-//        return new ModelAndView("redirect:/cart");
-//    }
 }

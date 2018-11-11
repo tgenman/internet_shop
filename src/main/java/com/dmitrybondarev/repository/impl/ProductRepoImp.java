@@ -78,11 +78,14 @@ public class ProductRepoImp implements ProductRepo {
 
     @Override
     public boolean removeById(long id) {
+        log.info(" removeById. Starting");
         Product product = entityManager.find(Product.class, id);
         if (product != null) {
             entityManager.remove(product);
+            log.info(" removeById end successful");
             return true;
         }
+        log.info(" removeById. Dont find");
         return false;
     }
 

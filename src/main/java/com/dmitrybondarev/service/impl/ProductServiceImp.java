@@ -80,7 +80,10 @@ public class ProductServiceImp implements ProductService {
     @Override
     @Transactional
     public boolean removeProductFromStock(long id) {
-        return productRepo.removeById(id);
+        log.info("removeProductFromStock start");
+        boolean b = productRepo.removeById(id);
+        log.info("removeProductFromStock end");
+        return b;
     }
 
 

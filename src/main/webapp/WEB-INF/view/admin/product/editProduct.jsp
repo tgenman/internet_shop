@@ -68,7 +68,7 @@
 </form:form>
 
 
-<form:form method="DELETE" action="/product/${productDto.id}" >
+<form:form method="DELETE" action="/admin/product/${productDto.id}" >
     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
     <div class="form-group row">

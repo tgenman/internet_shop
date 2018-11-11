@@ -8,6 +8,7 @@ import lombok.extern.log4j.Log4j;
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Log4j
 @Service
@@ -19,6 +20,13 @@ public class OrderServiceImp implements OrderService {
     @Autowired
     private DozerBeanMapper mapper;
 
+    @Override
+    @Transactional
+    public void createOrder(OrderDto orderDto) {
+        log.info("createOrder");
+        Order order = this.mapOrderDtoToOrder(orderDto);
+        orderRepo.saveOrder(order);
+    }
 
 
 

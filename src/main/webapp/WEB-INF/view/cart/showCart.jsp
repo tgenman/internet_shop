@@ -42,6 +42,8 @@
         </c:forEach>
     </tbody>
 </table>
+<a class="btn btn-success" href="/order/new" role="button">Create Order</a>
+
 
 
 
