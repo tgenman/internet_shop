@@ -34,92 +34,50 @@
     </tbody>
 </table>
 
-<h4>Choose your address:</h4>
-
 <form:form action="/order/new" method="post" modelAttribute="orderDto">
     <h4>Choose your address:</h4>
     <div class="form-group row">
-        <form:radiobuttons path="address" items="${addresses}"  />
+        <div class="col-sm-10">
+            <ul>
+                <form:radiobuttons element="li" path="address" items="${addresses}"/>
+            </ul>
+        </div>
     </div>
+
 
     <h4>Choose type of payment:</h4>
     <div class="form-group row">
-        <form:radiobuttons path="typeOfPayment" items="${TypeOfPaymentL}"  />
+        <div class="col-sm-3">
+            <ul>
+                <form:radiobuttons element="li" path="typeOfPayment" items="${TypeOfPaymentL}"  />
+            </ul>
+        </div>
     </div>
 
     <h4>Choose type of delivery:</h4>
     <div class="form-group row">
-        <form:radiobuttons path="typeOfDelivery" items="${TypeOfDeliveryL}"  />
+        <div class="col-sm-3">
+            <ul>
+                <form:radiobuttons element="li" path="typeOfDelivery" items="${TypeOfDeliveryL}"  />
+            </ul>
+        </div>
     </div>
 
     <input type="hidden" value="${user.id}" name="userId">
     <input type="hidden" value="${_csrf.token}" name="_csrf">
-    <button type="submit">Save</button>
+
+    <div class="form-group row">
+        <div class="col-sm-3">
+            <button type="submit" class="btn btn-success btn-lg">Save</button>
+        </div>
+    </div>
 </form:form>
 
 
 
-
-<%--<form:form method="POST" action="/order/new" modelAttribute="orderDto">--%>
-
-    <%--<div class="form-group row">--%>
-        <%--<form:label path="title" class="col-sm-2 col-form-label">Title</form:label>--%>
-        <%--<div class="col-sm-3">--%>
-            <%--<form:input path="title" type="radio" class="form-control" id="inputEmail3" />--%>
-        <%--</div>--%>
-    <%--</div>--%>
-
-    <%--<div class="form-group row">--%>
-        <%--<form:label path="category" class="col-sm-2 col-form-label">Category</form:label>--%>
-        <%--<div class="col-sm-3">--%>
-            <%--<form:input path="category" class="form-control" id="inputEmail3" />--%>
-        <%--</div>--%>
-        <%--<form:errors path="category" />--%>
-    <%--</div>--%>
-
-    <%--<div class="form-group row">--%>
-        <%--<form:label path="price" class="col-sm-2 col-form-label">Price</form:label>--%>
-        <%--<div class="col-sm-3">--%>
-            <%--<form:input path="price" class="form-control" id="inputEmail3" />--%>
-        <%--</div>--%>
-        <%--<form:errors path="price"  />--%>
-    <%--</div>--%>
-
-    <%--<div class="form-group row">--%>
-        <%--<form:label path="weight" class="col-sm-2 col-form-label">Weight</form:label>--%>
-        <%--<div class="col-sm-3">--%>
-            <%--<form:input path="weight" class="form-control" id="inputEmail3" />--%>
-        <%--</div>--%>
-        <%--<form:errors path="weight"  />--%>
-    <%--</div>--%>
-
-    <%--<div class="form-group row">--%>
-        <%--<form:label path="volume" class="col-sm-2 col-form-label">Volume</form:label>--%>
-        <%--<div class="col-sm-3">--%>
-            <%--<form:input path="volume" class="form-control" id="inputEmail3" />--%>
-        <%--</div>--%>
-        <%--<form:errors path="volume"/>--%>
-    <%--</div>--%>
-
-    <%--<div class="form-group row">--%>
-        <%--<form:label path="quantity" class="col-sm-2 col-form-label">Quantity</form:label>--%>
-        <%--<div class="col-sm-3">--%>
-            <%--<form:input path="quantity" class="form-control" id="inputEmail3" />--%>
-        <%--</div>--%>
-        <%--<form:errors path="quantity"/>--%>
-    <%--</div>--%>
-
-    <%--<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>--%>
-
-    <%--<div class="form-group row">--%>
-        <%--<div class="col-sm-3">--%>
-            <%--<button type="submit" class="btn btn-primary">Add Product</button>--%>
-        <%--</div>--%>
-    <%--</div>--%>
-<%--</form:form>--%>
-
-
-
+<%--<div class="form-group row">--%>
+    <%--<form:radiobuttons path="address" items="${addresses}"  />--%>
+<%--</div>--%>
 
 
 

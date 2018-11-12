@@ -3,10 +3,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
-<c:set var="title" value="Product List"  scope="request"/>
+<c:set var="title" value="Order List"  scope="request"/>
 <%@ include file="../../templates/header.jsp" %>
 
-<h2>User List</h2>
+<h2>Order List</h2>
 
 <table class="table table-bordered table-sm">
     <thead>

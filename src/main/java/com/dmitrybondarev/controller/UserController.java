@@ -43,6 +43,7 @@ public class UserController {
         log.info("input principal: " + user.toString());
 
         UserDto userDtoByUsername = userService.getUserDtoById(user.getId());
+        userDtoByUsername.setPassword("");
 
         log.info("input userDtoByUsername: " + userDtoByUsername.toString());
 

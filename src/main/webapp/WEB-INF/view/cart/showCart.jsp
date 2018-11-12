@@ -35,7 +35,7 @@
                     <form action="/cart/delete/${product.key.id}" method="post">
                         <input type="hidden" id="csrfToken" value="${_csrf.token}"/>
                         <input type="hidden" id="csrfHeader" value="${_csrf.headerName}"/>
-                        <input type="submit" value="Remove">
+                        <input type="submit" class="btn btn-warning btn-sm" value="Remove">
                     </form>
                 </td>
             </tr>
@@ -44,31 +44,5 @@
 </table>
 <a class="btn btn-success" href="/order/new" role="button">Create Order</a>
 
-
-
-
-
-
-
-<%--<div class="card-columns">--%>
-    <%--<c:forEach var="product" items="${products}">--%>
-        <%--<c:forEach var="amount" items="${product.value}">--%>
-            <%--<div class="card my-3">--%>
-                <%--<img class="card-img-top" src=".../100px180/?text=Image cap">--%>
-                <%--<div class="card-body">--%>
-                    <%--<h5 class="card-title">${product.key.title}</h5>--%>
-                    <%--<p class="card-text">${product.key.category}</p>--%>
-                <%--</div>--%>
-                <%--<ul class="list-group list-group-flush">--%>
-                    <%--<li class="list-group-item">Price:    ${productDto.price}</li>--%>
-                <%--</ul>--%>
-                <%--<div class="card-body">--%>
-                    <%--<a class="btn btn-info " href="/product/${productDto.id}" role="button">More...</a>--%>
-                    <%--<a class="btn btn-danger " href="/cart/${productDto.id}" role="button">Add to Cart</a>--%>
-                <%--</div>--%>
-            <%--</div>--%>
-        <%--</c:forEach>--%>
-    <%--</c:forEach>--%>
-<%--</div>--%>
 
 <%@ include file="../templates/footer.jsp" %>

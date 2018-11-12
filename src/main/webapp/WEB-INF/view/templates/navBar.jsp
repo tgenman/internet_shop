@@ -32,16 +32,23 @@
             </security:authorize>
         </ul>
 
-        <div class="navbar-text mr-3">
-            <a class="nav-link" href="/user">
-                <security:authorize access="isAuthenticated()">
+        <security:authorize access="isAuthenticated()">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle mr-2" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <security:authentication property="principal.username" />
-                </security:authorize>
-                <security:authorize access="!isAuthenticated()">
-                    Guest
-                </security:authorize>
-            </a>
-        </div>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="/user">Profile</a>
+                    <a class="dropdown-item" href="/order/list">Orders</a>
+                </div>
+            </div>
+        </security:authorize>
+
+        <security:authorize access="!isAuthenticated()">
+            <div class="navbar-text mr-3">
+                Guest
+            </div>
+        </security:authorize>
 
         <security:authorize access="!isAuthenticated()">
             <form:form method="GET" action="/login" class="form-inline">
