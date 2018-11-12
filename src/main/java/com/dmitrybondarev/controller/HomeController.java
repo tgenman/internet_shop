@@ -14,4 +14,10 @@ public class HomeController {
         log.info("showHomePage request");
         return "/home.jsp";
     }
+
+    @GetMapping("/admin")
+    public String showAdminPanel() {
+        log.info("showAdminPanel request");
+        return "/admin/adminPanel.jsp";
+    }
 }

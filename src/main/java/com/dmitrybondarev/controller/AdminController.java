@@ -33,12 +33,6 @@ public class AdminController {
     @Autowired
     private ProductService productService;
 
-    @GetMapping
-    public String showAdminPanel() {
-        log.info("showAdminPanel request");
-        return "/admin/adminPanel.jsp";
-    }
-
 
 // ============== USER-CONTROLLERS ============
 
@@ -150,36 +144,4 @@ public class AdminController {
 // ============== ORDER-CONTROLLERS ============
 
 
-    @GetMapping("/order")
-    public ModelAndView showListOfOrders() {  //TODO Implement List Orders
-        log.info("showListOfOrders start");
-
-        log.info("showListOfOrders end");
-        return new ModelAndView("/home.jsp");
-    }
-
-    @GetMapping("/order/{id}")
-    public ModelAndView showOrderEditForm(@PathVariable long id) { //TODO Implement showOrderEditForm
-        log.info("showOrderEditForm start");
-
-        log.info("showOrderEditForm end");
-        return new ModelAndView("/home.jsp");
-    }
-
-    @PostMapping("/order/{id}")
-    public ModelAndView editOrder(@ModelAttribute("productDto") @Valid ProductDto productDto,
-                                    BindingResult result, Errors errors) { //TODO Implement editOrder
-        log.info("editOrder start");
-
-        log.info("editOrder end");
-        return new ModelAndView("/home.jsp");
-    }
-
-    @DeleteMapping("/order/{id}")
-    public String removeOrder(@PathVariable long id) {   //TODO Implement editOrder
-        log.info("removeOrder start");
-
-        log.info("removeOrder end");
-        return "/home.jsp";
-    }
 }

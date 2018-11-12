@@ -5,10 +5,12 @@ import com.dmitrybondarev.model.dto.OrderDto;
 import com.dmitrybondarev.repository.api.OrderRepo;
 import com.dmitrybondarev.service.api.OrderService;
 import lombok.extern.log4j.Log4j;
-import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Log4j
 @Service
@@ -16,9 +18,6 @@ public class OrderServiceImp implements OrderService {
 
     @Autowired
     private OrderRepo orderRepo;
-
-    @Autowired
-    private DozerBeanMapper mapper;
 
     @Override
     @Transactional
@@ -28,13 +27,28 @@ public class OrderServiceImp implements OrderService {
         orderRepo.saveOrder(order);
     }
 
-
-
-// ============== NON-API ============
+    @Override
+    public List<OrderDto> getAllOrderDto() {
+        List<Order> all = orderRepo.findAll();
+        List<OrderDto> orderDtos = new ArrayList<>();
+        for (Order order : all) {
+            orderDtos.add(this.mapOrderToOrderDto(order));
+        }
+        return orderDtos;
+    }
+    // ============== NON-API ============
 
     private OrderDto mapOrderToOrderDto(Order order) {
         OrderDto orderDto = new OrderDto();
-        mapper.map(order, orderDto);
+        orderDto.setId(order.getId());
+        orderDto.setAddress(order.getAddress());
+        orderDto.setDateOfOrder(order.getDateOfOrder());
+        orderDto.setListOfProducts(order.getListOfProducts());
+        orderDto.setStatusOfDelivery(order.getStatusOfDelivery());
+        orderDto.setStatusOfPayment(order.getStatusOfPayment());
+        orderDto.setTypeOfDelivery(order.getTypeOfDelivery());
+        orderDto.setTypeOfPayment(order.getTypeOfPayment());
+        orderDto.setUser(order.getUser());
         return orderDto;
     }
 
