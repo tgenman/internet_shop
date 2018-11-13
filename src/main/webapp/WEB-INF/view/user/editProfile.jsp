@@ -69,22 +69,25 @@
 
 <h2>Addresses:</h2>
 
-<c:forEach var="address" items="${userDto.addresses}">
-    <div class="card" style="width: 18rem;">
-        <div class="card-body">
-            <h5 class="card-title">Address</h5>
-            <p class="card-text">
-                    ${address.postalCode}
-                    ${address.country}
-                    ${address.city}
-                    ${address.street}
-                    ${address.building}
-                    ${address.flat}
-            </p>
-            <a href="/user/address/${address.id}" class="btn btn-warning">edit</a>
+<div class="card-columns">
+    <c:forEach var="address" items="${userDto.addresses}">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">Address</h5>
+                <p class="card-text">
+                        ${address.postalCode}
+                        ${address.country}
+                        ${address.city}
+                        ${address.street}
+                        ${address.building}
+                        ${address.flat}
+                </p>
+                <a href="/user/address/${address.id}" class="btn btn-warning">edit</a>
+            </div>
         </div>
-    </div>
-</c:forEach>
+    </c:forEach>
+</div>
+
 
 
 

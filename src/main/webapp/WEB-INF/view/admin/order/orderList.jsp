@@ -16,8 +16,8 @@
         <th scope="col">address</th>
         <th scope="col">dateOfOrder</th>
         <th scope="col">typeOfPayment</th>
-        <th scope="col">typeOfDelivery</th>
         <th scope="col">statusOfPayment</th>
+        <th scope="col">typeOfDelivery</th>
         <th scope="col">statusOfDelivery</th>
         <%--<th scope="col">listOfProducts</th>--%>
         <th scope="col">Edit</th>
@@ -31,9 +31,9 @@
             <td scope="col">${orderDto.address}</td>
             <td scope="col">${orderDto.dateOfOrder}</td>
             <td scope="col">${orderDto.typeOfPayment}</td>
-            <td scope="col">${orderDto.typeOfDelivery}</td>
             <td scope="col">${orderDto.statusOfPayment}</td>
             <td scope="col">${orderDto.typeOfDelivery}</td>
+            <td scope="col">${orderDto.statusOfDelivery}</td>
             <td scope="col">
                 <a class="btn btn-warning btn-sm" href="/admin/order/${userDto.id}" role="button">edit</a>
             </td>
@@ -41,7 +41,6 @@
     </c:forEach>
     </tbody>
 </table>
-
 
 
 <%@ include file="../../templates/footer.jsp" %>

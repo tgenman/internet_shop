@@ -1,10 +1,7 @@
-package com.dmitrybondarev.controller;
+package com.dmitrybondarev.controller.admin;
 
 import com.dmitrybondarev.model.dto.ProductDto;
-import com.dmitrybondarev.model.dto.UserDto;
-import com.dmitrybondarev.model.enums.Role;
 import com.dmitrybondarev.service.api.ProductService;
-import com.dmitrybondarev.service.api.UserService;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,57 +21,13 @@ import java.util.Map;
 
 @Log4j
 @Controller
-@RequestMapping("/admin")
-public class AdminController {
-
-    @Autowired
-    private UserService userService;
+@RequestMapping("/admin/product")
+public class AdminProductController {
 
     @Autowired
     private ProductService productService;
 
-
-// ============== USER-CONTROLLERS ============
-
-
-    @GetMapping("/user")
-    public ModelAndView showListOfAllUsers() {
-        log.info("admin showListOfAllUsers start");
-        ModelAndView mAV = new ModelAndView("admin/user/userList.jsp", "userDtos", userService.getAllUsers());
-        log.info("admin showListOfAllUsers end");
-        return mAV;
-    }
-
-    @GetMapping("/user/{id}")
-    public ModelAndView showUserEditForm(@PathVariable long id) {
-        log.info("admin showMyselfUserEditForm start");
-        UserDto userDtoByUsername = userService.getUserDtoById(id);
-
-        ModelAndView mAV = new ModelAndView("admin/user/userEdit.jsp");
-        mAV.addObject("userDto", userDtoByUsername);
-        mAV.addObject("roles", Role.values());
-
-        log.info("admin showMyselfUserEditForm end");
-        return mAV;
-    }
-
-    @PostMapping("/user/{id}")
-    public ModelAndView editUser(@ModelAttribute("userDto") @Valid UserDto userDto,
-                                 BindingResult result, Errors errors) {  //TODO Implement editing User in admin
-        return new ModelAndView("/home.jsp");
-    }
-
-    @DeleteMapping("/user/{id}")
-    public ModelAndView deleteUser(@PathVariable long id) {  //TODO Implement deleting User
-        return new ModelAndView("/home.jsp");
-    }
-
-
-
-// ============== PRODUCT-CONTROLLERS ============
-
-
-    @GetMapping("/product")
+    @GetMapping
     public ModelAndView showListOfProducts() {
         log.info("admin showListOfProducts start");
         Map<String, List<ProductDto>> allProducts = productService.getAllProducts();
@@ -85,7 +38,7 @@ public class AdminController {
         return new ModelAndView("admin/product/productList.jsp", "productDtos", productService.getAllProducts());
     }
 
-    @GetMapping("/product/new")
+    @GetMapping("/new")
     public ModelAndView showProductCreationForm() {
         log.info("admin showProductCreationForm start");
         ModelAndView mAV = new ModelAndView("admin/product/newProduct.jsp", "productDto", new ProductDto());
@@ -93,7 +46,7 @@ public class AdminController {
         return mAV;
     }
 
-    @PostMapping("/product/new")
+    @PostMapping("/new")
     public ModelAndView addNewProduct(@ModelAttribute("productDto") @Valid ProductDto productDto,
                                       BindingResult result, Errors errors) {
         log.info("addNewProduct start");
@@ -107,7 +60,7 @@ public class AdminController {
         }
     }
 
-    @GetMapping("/product/{id}")
+    @GetMapping("/{id}")
     public ModelAndView showProductEditForm(@PathVariable long id) {
         log.info("showProductEditForm start");
         ProductDto productDto = productService.getProductById(id);
@@ -116,7 +69,7 @@ public class AdminController {
         return new ModelAndView("/admin/product/editProduct.jsp", "productDto", productDto);
     }
 
-    @PostMapping("/product/{id}")
+    @PostMapping("/{id}")
     public ModelAndView editProduct(@ModelAttribute("productDto") @Valid ProductDto productDto,
                                     BindingResult result, Errors errors) {
         log.info("editProduct start");
@@ -131,17 +84,11 @@ public class AdminController {
         }
     }
 
-    @DeleteMapping("/product/{id}")
+    @DeleteMapping("/{id}")
     public String removeProduct(@PathVariable long id) {
         log.info("removeProduct start");
         productService.removeProductFromStock(id);
         log.info("removeProduct end");
         return "redirect:/admin/product/";
     }
-
-
-
-// ============== ORDER-CONTROLLERS ============
-
-
 }

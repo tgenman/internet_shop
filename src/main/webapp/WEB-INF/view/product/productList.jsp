@@ -15,7 +15,7 @@
                 <%--<img class="card-img-top" src=".../100px180/?text=Image cap">--%>
                 <div class="card-body">
                     <h5 class="card-title">${productDto.title}</h5>
-                    <p class="card-text">${categoryDto.key}</p>
+                    <p class="card-text">${category.key}</p>
                 </div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">Price:    ${productDto.price}</li>

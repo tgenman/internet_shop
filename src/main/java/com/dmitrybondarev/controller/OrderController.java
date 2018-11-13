@@ -26,6 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -96,4 +97,16 @@ public class OrderController {
         log.info("There is error");
         return new ModelAndView("order/newOrder.jsp", "user", orderDto);
     }
+
+//    @GetMapping("/list")
+//    public ModelAndView showListOfOrderForUser() {
+//        log.info("showListOfOrderForUser");
+//        long idUser = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+//
+//
+//        List<OrderDto> allOrderDto = orderService.getAllOrderDto();
+//        ModelAndView view = new ModelAndView("/admin/order/orderList.jsp", "orderDtos", allOrderDto);
+//        return view;
+//    }
+
 }

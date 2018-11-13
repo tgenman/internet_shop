@@ -21,8 +21,8 @@ import java.util.List;
 
 @Log4j
 @Controller
-@RequestMapping("/admin/order")
-public class adminOrderController {
+@RequestMapping("/admin/order/")
+public class AdminOrderController {
 
     @Autowired
     private OrderService orderService;

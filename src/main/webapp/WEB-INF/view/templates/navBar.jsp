@@ -39,7 +39,7 @@
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <a class="dropdown-item" href="/user">Profile</a>
-                    <a class="dropdown-item" href="/order/list">Orders</a>
+                    <%--<a class="dropdown-item" href="/order/list">Orders</a>--%>
                 </div>
             </div>
         </security:authorize>

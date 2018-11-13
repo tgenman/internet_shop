@@ -10,27 +10,15 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 <form action="admin/user/{id}" method="post">
     <div class="form-group">
         <input type="text" name="username" value="${userDto.username}">
     </div>
     <div class="form-group">
-        <input type="text" name="name" value="${userDto.name}">
+        <input type="text" name="name" value="${userDto.firstName}">
     </div>
     <div class="form-group">
-        <input type="text" name="familyName" value="${userDto.familyName}">
+        <input type="text" name="familyName" value="${userDto.lastName}">
     </div>
 
 
@@ -59,9 +47,9 @@
     <div class="form-group">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
     </div>
-    <div class="form-group">
-        <button type="submit">Save</button>
-    </div>
+    <%--<div class="form-group">--%>
+        <%--<button type="submit">Save</button>--%>
+    <%--</div>--%>
 </form>
 
 
