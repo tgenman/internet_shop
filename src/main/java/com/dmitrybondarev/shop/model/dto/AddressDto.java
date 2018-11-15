@@ -1,0 +1,23 @@
+package com.dmitrybondarev.shop.model.dto;
+
+import lombok.Data;
+
+@Data
+public class AddressDto {
+
+    private long id;
+
+    private String country;
+
+    private String city;
+
+    private int postalCode;
+
+    private String street;
+
+    private String building;
+
+    private String flat;
+
+
+}

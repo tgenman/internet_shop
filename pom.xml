@@ -24,6 +24,7 @@
         <spring-security-web.version>5.1.1.RELEASE</spring-security-web.version>
         <spring-security-config.version>5.1.1.RELEASE</spring-security-config.version>
         <spring-security-taglibs.version>5.1.1.RELEASE</spring-security-taglibs.version>
+        <spring-test.version>5.1.2.RELEASE</spring-test.version>
         <junit.version>4.12</junit.version>
         <slf4j-api.version>1.7.7</slf4j-api.version>
         <slf4j-log4j12.version>1.7.7</slf4j-log4j12.version>
@@ -94,6 +95,15 @@
             <artifactId>spring-security-taglibs</artifactId>
             <version>${spring-security-taglibs.version}</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.springframework/spring-test -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring-test.version}</version>
+            <scope>test</scope>
+        </dependency>
+
 
         <!-- https://mvnrepository.com/artifact/junit/junit -->
         <dependency>
