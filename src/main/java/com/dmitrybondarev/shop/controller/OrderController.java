@@ -1,5 +1,6 @@
 package com.dmitrybondarev.shop.controller;
 
+import com.dmitrybondarev.shop.aspect.Loggable;
 import com.dmitrybondarev.shop.model.Address;
 import com.dmitrybondarev.shop.model.Product;
 import com.dmitrybondarev.shop.model.User;
@@ -12,7 +13,6 @@ import com.dmitrybondarev.shop.model.enums.TypeOfPayment;
 import com.dmitrybondarev.shop.service.api.CartService;
 import com.dmitrybondarev.shop.service.api.OrderService;
 import com.dmitrybondarev.shop.service.api.UserService;
-import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -30,7 +30,6 @@ import javax.validation.Valid;
 import java.util.Map;
 import java.util.Set;
 
-@Log4j
 @Controller
 @RequestMapping("/order")
 public class OrderController {
@@ -45,8 +44,8 @@ public class OrderController {
     private UserService userService;
 
     @GetMapping("/new")
+    @Loggable
     public ModelAndView showCreationOrderForm(HttpServletRequest request) {
-        log.info("showCreationOrderForm start");
         ModelAndView mAV = new ModelAndView("order/newOrder.jsp");
 
         long idUser = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
@@ -66,17 +65,15 @@ public class OrderController {
         mAV.addObject("cart", cart);
         mAV.addObject("orderDto", new OrderDto());
 
-        log.info("showCreationOrderForm end");
         return mAV;
     }
 
     @PostMapping("/new")
+    @Loggable
     public ModelAndView createNewOrder(@ModelAttribute("orderDto") @Valid OrderDto orderDto,
                                        BindingResult result, HttpServletRequest request, Errors errors,
                                        @AuthenticationPrincipal User user) {
-        log.info("createNewOrder");
         if (!result.hasErrors()) {
-            log.info("There are not errors. Start createNewOrder");
             UserDto userDtoR = (UserDto) request.getSession().getAttribute("userR");
 
             User userR = userService.mapUserDtoToUser(userDtoR);
@@ -91,17 +88,14 @@ public class OrderController {
 
             orderService.createOrder(orderDto);
 
-            log.info("createNewOrder complete.");
             return new ModelAndView("redirect:/");
         }
 
-        log.info("There is error");
         return new ModelAndView("order/newOrder.jsp", "user", orderDto);
     }
 
 //    @GetMapping("/list")
 //    public ModelAndView showListOfOrderForUser() {
-//        log.info("showListOfOrderForUser");
 //        long idUser = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
 //
 //

@@ -1,13 +1,12 @@
 package com.dmitrybondarev.shop.service.impl;
 
+import com.dmitrybondarev.shop.aspect.Loggable;
 import com.dmitrybondarev.shop.exception.EmailExistsException;
 import com.dmitrybondarev.shop.model.User;
 import com.dmitrybondarev.shop.model.dto.UserDto;
 import com.dmitrybondarev.shop.model.enums.Role;
 import com.dmitrybondarev.shop.repository.api.UserRepo;
 import com.dmitrybondarev.shop.service.api.UserService;
-import lombok.extern.log4j.Log4j;
-import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,20 +17,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-@Log4j
 @Service
 public class UserServiceImp implements UserService {
 
     @Autowired
     private UserRepo userRepo;
 
-    @Autowired
-    private DozerBeanMapper mapper;
 
     @Override
+    @Loggable
     @Transactional
     public User registerNewUserAccount(UserDto userDto) throws EmailExistsException {
-
         if (emailExist(userDto.getEmail())) {
             throw new EmailExistsException("There is an account with that email address: " + userDto.getEmail());
         }
@@ -41,16 +37,14 @@ public class UserServiceImp implements UserService {
         user.setRoles(Collections.singleton(Role.USER));
 
         userRepo.save(user);
-
         return user;
 
     }
 
     @Override
+    @Loggable
     @Transactional
     public List<UserDto> getAllUsers() {
-        log.info("Get All Users. Start");
-
         List<User> users = userRepo.findAll();
         List<UserDto> userDtos = new ArrayList<>();
 
@@ -58,54 +52,42 @@ public class UserServiceImp implements UserService {
             UserDto userDto = this.mapUserToUserDto(user);
             userDtos.add(userDto);
         }
-
-        log.info("Get users Users. end");
         return userDtos;
     }
 
     @Override
+    @Loggable
     @Transactional
     public UserDto getUserDtoByUsername(String username) {
-        log.info("getUserDtoByUsername start");
         User user = userRepo.findByUsername(username);
         UserDto userDto = this.mapUserToUserDto(user);
-        log.info("getUserDtoByUsername end");
         return userDto;
     }
 
     @Override
+    @Loggable
     @Transactional
     public UserDto getUserDtoById(long id) {
-        log.info("getUserDtoById start");
         User user = userRepo.findById(id);
-        log.info(user.toString());
         UserDto userDto = this.mapUserToUserDto(user);
-        log.info("getUserDtoByUsername start");
         return userDto;
     }
 
     @Override
+    @Loggable
     @Transactional
     public UserDto editUser(UserDto userDto) {
-        log.info("editUser start");
-        log.info("input: " + userDto.toString());
-
         User user = this.mapUserDtoToUser(userDto);
-
-        log.info("dto: " + user.toString());
-
         userRepo.update(user);
-        log.info("editUser end");
         return userDto;
     }
 
 
     @Override
+    @Loggable
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        log.info("loadUserByUsername = " + username);
         User byUsername = userRepo.findByUsername(username);
-        log.info("found user = " + byUsername.getUsername());
         return byUsername;
     }
 

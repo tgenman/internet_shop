@@ -1,22 +1,21 @@
 package com.dmitrybondarev.shop.controller;
 
-import lombok.extern.log4j.Log4j;
+import com.dmitrybondarev.shop.aspect.Loggable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-@Log4j
 @Controller
 public class HomeController {
 
     @GetMapping("/")
+    @Loggable
     public String showHomePage() {
-        log.info("showHomePage request");
         return "/home.jsp";
     }
 
     @GetMapping("/admin")
+    @Loggable
     public String showAdminPanel() {
-        log.info("showAdminPanel request");
         return "/admin/adminPanel.jsp";
     }
 }

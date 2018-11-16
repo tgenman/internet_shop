@@ -1,11 +1,11 @@
 package com.dmitrybondarev.shop.controller;
 
+import com.dmitrybondarev.shop.aspect.Loggable;
 import com.dmitrybondarev.shop.exception.EmailExistsException;
 import com.dmitrybondarev.shop.model.User;
 import com.dmitrybondarev.shop.model.dto.UserDto;
 import com.dmitrybondarev.shop.model.enums.Role;
 import com.dmitrybondarev.shop.service.api.UserService;
-import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -20,7 +20,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 import java.util.Collections;
 
-@Log4j
 @Controller
 @RequestMapping("/user")
 public class RegistrationController {
@@ -30,33 +29,29 @@ public class RegistrationController {
 
 
     @GetMapping("/registration")
+    @Loggable
     public ModelAndView showRegistrationForm(WebRequest request) {
-        log.info("Registration GET request");
         return new ModelAndView("user/registration.jsp", "userDto", new UserDto());
     }
 
 
     @PostMapping("/registration")
+    @Loggable
     public ModelAndView registerUserAccount(@ModelAttribute("userDto") @Valid UserDto userDto,
                                             BindingResult result, WebRequest request, Errors errors) {
-        log.info("registerUserAccount");
         User user = new User();
         if (!result.hasErrors()) {
-            log.info("There are not errors. Start registration");
             userDto.setActive(true);
             userDto.setRoles(Collections.singleton(Role.USER));
             user = createUserAccount(userDto, result);
         }
         if (user == null) {
-            log.info("Check error username existence");
             result.rejectValue("email", "message.regError");
         }
         if (result.hasErrors()) {
-            log.info("There is error");
             return new ModelAndView("user/registration.jsp", "user", userDto);
         }
         else {
-            log.info("Registration complete.");
             return new ModelAndView("redirect:/login");
         }
     }

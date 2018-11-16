@@ -1,9 +1,9 @@
 package com.dmitrybondarev.shop.controller.admin;
 
+import com.dmitrybondarev.shop.aspect.Loggable;
 import com.dmitrybondarev.shop.model.dto.OrderDto;
 import com.dmitrybondarev.shop.model.dto.ProductDto;
 import com.dmitrybondarev.shop.service.api.OrderService;
-import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -18,7 +18,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 import java.util.List;
 
-@Log4j
 @Controller
 @RequestMapping("/admin/order/")
 public class AdminOrderController {
@@ -28,27 +27,25 @@ public class AdminOrderController {
 
 
     @GetMapping
+    @Loggable
     public ModelAndView showListOfOrders() {
-        log.info("showListOfOrders");
         List<OrderDto> allOrderDto = orderService.getAllOrderDto();
         ModelAndView view = new ModelAndView("/admin/order/orderList.jsp", "orderDtos", allOrderDto);
         return view;
     }
 
     @GetMapping("/{id}")
+    @Loggable
     public ModelAndView showOrderEditForm(@PathVariable long id) { //TODO Implement showOrderEditForm
-        log.info("showOrderEditForm start");
 
-        log.info("showOrderEditForm end");
         return new ModelAndView("/home.jsp");
     }
 
     @PostMapping("/{id}")
+    @Loggable
     public ModelAndView editOrder(@ModelAttribute("productDto") @Valid ProductDto productDto,
                                   BindingResult result, Errors errors) { //TODO Implement editOrder
-        log.info("editOrder start");
 
-        log.info("editOrder end");
         return new ModelAndView("/home.jsp");
     }
 }

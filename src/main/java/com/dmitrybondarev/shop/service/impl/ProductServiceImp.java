@@ -1,10 +1,10 @@
 package com.dmitrybondarev.shop.service.impl;
 
+import com.dmitrybondarev.shop.aspect.Loggable;
 import com.dmitrybondarev.shop.model.Product;
 import com.dmitrybondarev.shop.model.dto.ProductDto;
 import com.dmitrybondarev.shop.repository.api.ProductRepo;
 import com.dmitrybondarev.shop.service.api.ProductService;
-import lombok.extern.log4j.Log4j;
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-@Log4j
 public class ProductServiceImp implements ProductService {
 
     @Autowired
@@ -26,43 +25,32 @@ public class ProductServiceImp implements ProductService {
     private DozerBeanMapper mapper;
 
     @Override
+    @Loggable
     @Transactional
     public ProductDto addNewProductToStock(ProductDto productDto) {
-        log.info("Adding new Product. ProductDto title=" + productDto.getTitle());
-
         Product product = this.mapProductDtoToProduct(productDto);
         productRepo.save(product);
         return productDto;
-
     }
 
     @Override
+    @Loggable
     @Transactional
     public Map<String, List<ProductDto>> getAllProducts() {
-        log.info("Get All Products. Start");
-
         List<Product> products = productRepo.findAll();
-
-        Map<String, List<ProductDto>> productDtos = this.convertListProductsToMapProductDtos(products);
-
-        log.info("Get All Products. end");
-        return productDtos;
+        return this.convertListProductsToMapProductDtos(products);
     }
 
     @Override
+    @Loggable
     @Transactional
     public Map<String, List<ProductDto>> getProductsFromStock() {
-        log.info("Get Products from stock. Start");
-
         List<Product> products = productRepo.findNonZeroQuantityProducts();
-
-        Map<String, List<ProductDto>> productDtos = this.convertListProductsToMapProductDtos(products);
-
-        log.info("Get Products from stock. End");
-        return productDtos;
+        return this.convertListProductsToMapProductDtos(products);
     }
 
     @Override
+    @Loggable
     @Transactional
     public ProductDto getProductById(long id) {
         Product byId = productRepo.findById(id);
@@ -70,6 +58,7 @@ public class ProductServiceImp implements ProductService {
     }
 
     @Override
+    @Loggable
     @Transactional
     public ProductDto editProductToStock(ProductDto productDto) {
         Product product = this.mapProductDtoToProduct(productDto);
@@ -78,11 +67,10 @@ public class ProductServiceImp implements ProductService {
     }
 
     @Override
+    @Loggable
     @Transactional
     public void removeProductFromStock(long id) {
-        log.info("removeProductFromStock start");
         productRepo.deleteById(id);
-        log.info("removeProductFromStock end");
     }
 
 

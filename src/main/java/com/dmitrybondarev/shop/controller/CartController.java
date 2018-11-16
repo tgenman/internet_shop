@@ -1,9 +1,9 @@
 package com.dmitrybondarev.shop.controller;
 
+import com.dmitrybondarev.shop.aspect.Loggable;
 import com.dmitrybondarev.shop.model.Product;
 import com.dmitrybondarev.shop.model.User;
 import com.dmitrybondarev.shop.service.api.CartService;
-import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -15,7 +15,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Map;
 
-@Log4j
 @Controller
 @RequestMapping("/cart")
 public class CartController {
@@ -24,30 +23,27 @@ public class CartController {
     private CartService cartService;
 
     @GetMapping
+    @Loggable
     public ModelAndView showCart() {
-        log.info("showCart start");
         long idUser = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
         Map<Product, Integer> cart = cartService.getCartByUserId(idUser);
 
-        log.info("showCart end");
         return new ModelAndView("cart/showCart.jsp", "cart", cart);
     }
 
     @GetMapping("/{idProduct}")
+    @Loggable
     public ModelAndView addProductToCart(@PathVariable long idProduct) {
-        log.info("addProductToCart start");
         long idUser = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
         cartService.addProduct(idUser, idProduct);
-        log.info("addProductToCart end");
         return new ModelAndView("redirect:/product");
     }
 
     @PostMapping("/delete/{idProduct}")
+    @Loggable
     public ModelAndView deleteProductFromCart(@PathVariable long idProduct) {
-        log.info("deleteProductFromCart start");
         long idUser = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
         cartService.deleteProduct(idUser, idProduct);
-        log.info("deleteProductFromCart end");
         return new ModelAndView("redirect:/cart");
     }
 

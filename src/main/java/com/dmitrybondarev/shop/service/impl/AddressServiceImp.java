@@ -1,18 +1,17 @@
 package com.dmitrybondarev.shop.service.impl;
 
+import com.dmitrybondarev.shop.aspect.Loggable;
 import com.dmitrybondarev.shop.model.Address;
 import com.dmitrybondarev.shop.model.User;
 import com.dmitrybondarev.shop.model.dto.AddressDto;
 import com.dmitrybondarev.shop.repository.api.AddressRepo;
 import com.dmitrybondarev.shop.repository.api.UserRepo;
 import com.dmitrybondarev.shop.service.api.AddressService;
-import lombok.extern.log4j.Log4j;
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Log4j
 @Service
 public class AddressServiceImp implements AddressService {
 
@@ -27,6 +26,7 @@ public class AddressServiceImp implements AddressService {
 
 
     @Override
+    @Loggable
     @Transactional
     public Address addNewAddress(AddressDto addressDto, long userId) {
         Address address = this.mapAddressDtoToAddress(addressDto);
@@ -38,37 +38,35 @@ public class AddressServiceImp implements AddressService {
     }
 
     @Override
+    @Loggable
     @Transactional
     public AddressDto getAddressDtoById(long id) {
-        log.info("getAddressDtoById id = " + id + " start.");
         Address address = addressRepo.findById(id);
         AddressDto addressDto = this.mapAddressToAddressDto(address);
-        log.info("getAddressDtoById id = " + id + " end.");
         return addressDto;
     }
 
     @Override
+    @Loggable
     @Transactional
     public Address editAddress(AddressDto addressDto) {
-        log.info("editAddress start.");
         Address address = this.mapAddressDtoToAddress(addressDto);
         addressRepo.update(address);
-        log.info("editAddress end.");
         return address;
     }
 
     @Override
+    @Loggable
     @Transactional
     public void deleteAddress(long addressId, long userId) {
-        log.info("deleteAddress start.");
 
         Address address = addressRepo.findById(addressId);
 
         User user = userRepo.findById(userId);
         user.getAddresses().remove(address);
 
+        userRepo.update(user);
         addressRepo.deleteById(addressId);
-        log.info("deleteAddress end.");
     }
 
 

@@ -2,7 +2,6 @@ package com.dmitrybondarev.shop.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
@@ -12,14 +11,11 @@ import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManagerFactory;
 import java.util.Properties;
 
 @Configuration
-@EnableTransactionManagement
-@ComponentScan("com.dmitrybondarev")
 @PropertySource("classpath:application.properties")
 public class JpaConfig {
 
@@ -69,7 +65,7 @@ public class JpaConfig {
         properties.put("hibernate.show_sql", env.getProperty("spring.jpa.hibernate.show_sql"));
         properties.put("hibernate.id.new_generator_mappings",env.getProperty("spring.jpa.hibernate.id.new_generator_mappings"));
         properties.put("hibernate.format_sql",env.getProperty("spring.jpa.hibernate.format_sql"));
-        properties.put("logging.level.org.hibernate.SQL",env.getProperty("logging.level.org.hibernate.SQL"));
+//        properties.put("logging.level.org.hibernate.SQL",env.getProperty("logging.level.org.hibernate.SQL"));
         return properties;
     }
 }

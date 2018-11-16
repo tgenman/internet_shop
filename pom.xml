@@ -44,6 +44,9 @@
         <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
         <jacoco-maven-plugin.version>0.7.9</jacoco-maven-plugin.version>
         <dozer.version>5.4.0</dozer.version>
+        <validation-api.version>2.0.1.Final</validation-api.version>
+        <spring-aop.version>5.1.1.RELEASE</spring-aop.version>
+        <aspectjtools.version>1.9.2</aspectjtools.version>
     </properties>
 
     <dependencies>
@@ -103,7 +106,6 @@
             <version>${spring-test.version}</version>
             <scope>test</scope>
         </dependency>
-
 
         <!-- https://mvnrepository.com/artifact/junit/junit -->
         <dependency>
@@ -177,17 +179,26 @@
             <version>${dozer.version}</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/javax.validation/validation-api -->
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
-            <version>2.0.0.Final</version>
-        </dependency>
-        <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
-            <version>2.0.1.Final</version>
+            <version>${validation-api.version}</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.springframework/spring-aop -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+            <version>${spring-aop.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.aspectj/aspectjtools -->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjtools</artifactId>
+            <version>${aspectjtools.version}</version>
+        </dependency>
     </dependencies>
 
     <build>

@@ -1,10 +1,10 @@
 package com.dmitrybondarev.shop.service.impl;
 
+import com.dmitrybondarev.shop.aspect.Loggable;
 import com.dmitrybondarev.shop.model.Order;
 import com.dmitrybondarev.shop.model.dto.OrderDto;
 import com.dmitrybondarev.shop.repository.api.OrderRepo;
 import com.dmitrybondarev.shop.service.api.OrderService;
-import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-@Log4j
 @Service
 public class OrderServiceImp implements OrderService {
 
@@ -20,14 +19,16 @@ public class OrderServiceImp implements OrderService {
     private OrderRepo orderRepo;
 
     @Override
+    @Loggable
     @Transactional
     public void createOrder(OrderDto orderDto) {
-        log.info("createOrder");
         Order order = this.mapOrderDtoToOrder(orderDto);
         orderRepo.save(order);
     }
 
     @Override
+    @Loggable
+    @Transactional
     public List<OrderDto> getAllOrderDto() {
         List<Order> all = orderRepo.findAll();
         List<OrderDto> orderDtos = new ArrayList<>();
