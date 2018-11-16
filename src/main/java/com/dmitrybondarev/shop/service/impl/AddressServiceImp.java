@@ -42,8 +42,7 @@ public class AddressServiceImp implements AddressService {
     @Transactional
     public AddressDto getAddressDtoById(long id) {
         Address address = addressRepo.findById(id);
-        AddressDto addressDto = this.mapAddressToAddressDto(address);
-        return addressDto;
+        return this.mapAddressToAddressDto(address);
     }
 
     @Override

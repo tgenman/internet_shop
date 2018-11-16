@@ -35,6 +35,7 @@ public class UserServiceImp implements UserService {
         User user = this.mapUserDtoToUser(userDto);
         user.setUsername(userDto.getEmail());   // TODO See after
         user.setRoles(Collections.singleton(Role.USER));
+//        user.setId(null);
 
         userRepo.save(user);
         return user;
@@ -60,8 +61,7 @@ public class UserServiceImp implements UserService {
     @Transactional
     public UserDto getUserDtoByUsername(String username) {
         User user = userRepo.findByUsername(username);
-        UserDto userDto = this.mapUserToUserDto(user);
-        return userDto;
+        return this.mapUserToUserDto(user);
     }
 
     @Override
@@ -69,8 +69,7 @@ public class UserServiceImp implements UserService {
     @Transactional
     public UserDto getUserDtoById(long id) {
         User user = userRepo.findById(id);
-        UserDto userDto = this.mapUserToUserDto(user);
-        return userDto;
+        return this.mapUserToUserDto(user);
     }
 
     @Override
@@ -87,8 +86,7 @@ public class UserServiceImp implements UserService {
     @Loggable
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User byUsername = userRepo.findByUsername(username);
-        return byUsername;
+        return userRepo.findByUsername(username);
     }
 
 

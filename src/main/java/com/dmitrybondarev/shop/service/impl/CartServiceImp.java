@@ -3,11 +3,9 @@ package com.dmitrybondarev.shop.service.impl;
 import com.dmitrybondarev.shop.aspect.Loggable;
 import com.dmitrybondarev.shop.model.Product;
 import com.dmitrybondarev.shop.model.User;
-import com.dmitrybondarev.shop.model.dto.UserDto;
 import com.dmitrybondarev.shop.repository.api.ProductRepo;
 import com.dmitrybondarev.shop.repository.api.UserRepo;
 import com.dmitrybondarev.shop.service.api.CartService;
-import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,9 +21,6 @@ public class CartServiceImp implements CartService {
 
     @Autowired
     private ProductRepo productRepo;
-
-    @Autowired
-    private DozerBeanMapper mapper;
 
     @Override
     @Loggable
@@ -67,20 +62,5 @@ public class CartServiceImp implements CartService {
         }
         cart.remove(product);
         userRepo.update(user);
-    }
-
-
-// ============== NON-API ============
-
-    private UserDto mapUserToUserDto(User user) {
-        UserDto userDto = new UserDto();
-        mapper.map(user, userDto);
-        return userDto;
-    }
-
-    private User mapUserDtoToUser(UserDto userDto) {
-        User user = new User();
-        mapper.map(userDto, user);
-        return user;
     }
 }
