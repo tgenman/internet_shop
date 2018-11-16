@@ -55,7 +55,7 @@ public class OrderServiceImp implements OrderService {
 
     private Order mapOrderDtoToOrder(OrderDto orderDto) {
         Order order = new Order();
-        order.setId(orderDto.getId());
+        order.setId(null);
         order.setAddress(orderDto.getAddress());
         order.setDateOfOrder(orderDto.getDateOfOrder());
         order.setListOfProducts(orderDto.getListOfProducts());

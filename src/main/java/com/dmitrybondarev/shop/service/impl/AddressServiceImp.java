@@ -30,6 +30,7 @@ public class AddressServiceImp implements AddressService {
     @Transactional
     public Address addNewAddress(AddressDto addressDto, long userId) {
         Address address = this.mapAddressDtoToAddress(addressDto);
+        address.setId(null);
         User user = userRepo.findById(userId);
         user.getAddresses().add(address);
         userRepo.update(user);

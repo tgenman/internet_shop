@@ -35,7 +35,7 @@ public class UserServiceImp implements UserService {
         User user = this.mapUserDtoToUser(userDto);
         user.setUsername(userDto.getEmail());   // TODO See after
         user.setRoles(Collections.singleton(Role.USER));
-//        user.setId(null);
+        user.setId(null);
 
         userRepo.save(user);
         return user;

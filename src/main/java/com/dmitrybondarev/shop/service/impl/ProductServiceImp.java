@@ -29,6 +29,7 @@ public class ProductServiceImp implements ProductService {
     @Transactional
     public ProductDto addNewProductToStock(ProductDto productDto) {
         Product product = this.mapProductDtoToProduct(productDto);
+        product.setId(null);
         productRepo.save(product);
         return productDto;
     }
