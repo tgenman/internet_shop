@@ -3,11 +3,8 @@ package com.dmitrybondarev.shop.config;
 import com.dmitrybondarev.shop.validation.EmailValidator;
 import com.dmitrybondarev.shop.validation.PasswordMatchesValidator;
 import org.dozer.DozerBeanMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -15,11 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
-@PropertySource("classpath:application.properties")
 public class MvcConfig implements WebMvcConfigurer {
-
-    @Autowired
-    private Environment env;
 
     @Bean
     public ViewResolver viewResolver() {

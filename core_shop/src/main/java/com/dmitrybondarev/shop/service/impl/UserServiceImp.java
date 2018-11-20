@@ -94,10 +94,7 @@ public class UserServiceImp implements UserService {
 
     private boolean emailExist(String email) {
         User user = userRepo.findByUsername(email);
-        if (user != null) {
-            return true;
-        }
-        return false;
+        return user != null;
     }
 
     private UserDto mapUserToUserDto(User user) {
