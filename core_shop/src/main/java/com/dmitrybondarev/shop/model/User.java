@@ -29,12 +29,11 @@ import java.util.Set;
 
 @Data
 @Entity
-@PasswordMatches
 @Table(name = "user")
 public class User implements UserDetails, Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
 
     private String username;

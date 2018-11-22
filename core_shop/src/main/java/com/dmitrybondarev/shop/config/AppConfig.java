@@ -14,6 +14,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @ComponentScan("com.dmitrybondarev")
 @Import({MvcConfig.class,
         JpaConfig.class,
-        WebSecurityConfig.class})
+        SecurityConfig.class})
 public class AppConfig {
 }

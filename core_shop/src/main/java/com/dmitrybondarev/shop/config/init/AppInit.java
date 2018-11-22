@@ -1,4 +1,4 @@
-package com.dmitrybondarev.shop;
+package com.dmitrybondarev.shop.config.init;
 
 import com.dmitrybondarev.shop.config.AppConfig;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
