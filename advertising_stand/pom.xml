@@ -9,4 +9,24 @@
         <artifactId>internet_shop</artifactId>
         <version>0.1.0-SNAPSHOT</version>
     </parent>
+
+    <build>
+        <finalName>advertising_stand</finalName>
+        <pluginManagement>
+            <plugins>
+
+                <plugin>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>${maven-war-plugin.version}</version>
+                    <configuration>
+                        <warSourceDirectory>advertising_stand/src/main/webapp</warSourceDirectory>
+                        <warName>advertising_stand</warName>
+                        <failOnMissingWebXml>false</failOnMissingWebXml>
+                    </configuration>
+                </plugin>
+
+            </plugins>
+        </pluginManagement>
+    </build>
+
 </project>
