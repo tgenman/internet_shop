@@ -20,13 +20,13 @@ public class LogAspect {
 
     private static final Logger logger = Logger.getLogger(LogAspect.class);
 
-    public LogAspect() {
-        logger.setLevel(Level.TRACE);
-        PatternLayout layout = new PatternLayout("%d{ABSOLUTE} [%t] %-5p %c %x - %m%n");
-//        PatternLayout layout = new PatternLayout("%d{ISO8601} [%t] %-5p %c %x - %m%n");
-//        PatternLayout layout = new PatternLayout("%%d{ABSOLUTE} %5p %c{1}:%L - %m%n");
-        logger.addAppender(new ConsoleAppender(layout));
-    }
+//    public LogAspect() {
+//        logger.setLevel(Level.TRACE);
+//        PatternLayout layout = new PatternLayout("%d{ABSOLUTE} [%t] %-5p %c %x - %m%n");
+////        PatternLayout layout = new PatternLayout("%d{ISO8601} [%t] %-5p %c %x - %m%n");
+////        PatternLayout layout = new PatternLayout("%%d{ABSOLUTE} %5p %c{1}:%L - %m%n");
+//        logger.addAppender(new ConsoleAppender(layout));
+//    }
 
     @Around("@annotation(loggable)")
     public Object logAround(ProceedingJoinPoint joinPoint, Loggable loggable) throws Throwable {
