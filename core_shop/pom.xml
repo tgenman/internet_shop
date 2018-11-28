@@ -15,6 +15,7 @@
         <spring-security.version>5.1.1.RELEASE</spring-security.version>
         <!--<spring-data-jpa.version>2.1.2.RELEASE</spring-data-jpa.version>-->
         <aspectjtools.version>1.9.2</aspectjtools.version>
+        <thymeleaf.version>3.0.11.RELEASE</thymeleaf.version>
     </properties>
 
     <dependencies>
@@ -97,20 +98,33 @@
             <artifactId>aspectjtools</artifactId>
             <version>${aspectjtools.version}</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf-spring5 -->
         <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-config</artifactId>
-            <version>5.1.1.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>5.1.1.RELEASE</version>
+            <groupId>org.thymeleaf</groupId>
+            <artifactId>thymeleaf-spring5</artifactId>
+            <version>${thymeleaf.version}</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 
     <build>
         <finalName>core_shop</finalName>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                    <include>**/*.html</include>
+                </includes>
+            </resource>
+        </resources>
+
         <pluginManagement>
             <plugins>
 

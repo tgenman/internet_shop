@@ -29,4 +29,14 @@ public class UserRepoImp extends GenericRepoImpl<User> implements UserRepo {
         }
         return singleResult;
     }
+
+    @Override
+    public void delete(User entity) {
+        throw new UnsupportedOperationException("You cant delete User from DB. Use inactivation");
+    }
+
+    @Override
+    public void deleteById(Long entityId) {
+        throw new UnsupportedOperationException("You cant delete User from DB. Use inactivation");
+    }
 }

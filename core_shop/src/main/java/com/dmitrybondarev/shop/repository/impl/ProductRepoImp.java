@@ -22,4 +22,13 @@ public class ProductRepoImp extends GenericRepoImpl<Product> implements ProductR
                 .getResultList();
     }
 
+    @Override
+    public void delete(Product entity) {
+        throw new UnsupportedOperationException("You cant delete Product from DB. Use inactivation");
+    }
+
+    @Override
+    public void deleteById(Long entityId) {
+        throw new UnsupportedOperationException("You cant delete Product from DB. Use inactivation");
+    }
 }
