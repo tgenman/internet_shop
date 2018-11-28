@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="parts :: header(#{label.home.title})">Home page</div>
+
+<body>
+    <div th:replace="parts :: navbar"></div>
+
+    <div class="container mt-5">
+        <h2 th:text="#{label.home.title}">Home page</h2>
+        <!--<h5>-->
+            <!--Hello,-->
+            <!--<security:authorize access="isAuthenticated()">-->
+                <!--<security:authentication property="principal.username" />-->
+            <!--</security:authorize>-->
+            <!--<security:authorize access="!isAuthenticated()">-->
+                <!--Guest-->
+            <!--</security:authorize>-->
+        <!--</h5>-->
+        <div th:text="#{label.home.description}">This is a simple shop</div>
+
+        <div th:replace="parts :: languages"></div>
+    </div>
+
+    <div th:replace="parts :: footer"></div>
+</body>
+</html>

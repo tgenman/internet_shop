@@ -13,25 +13,16 @@
     <properties>
         <org.springframework.version>5.1.1.RELEASE</org.springframework.version>
         <spring-security.version>5.1.1.RELEASE</spring-security.version>
-        <!--<spring-data-jpa.version>2.1.2.RELEASE</spring-data-jpa.version>-->
         <aspectjtools.version>1.9.2</aspectjtools.version>
         <thymeleaf.version>3.0.11.RELEASE</thymeleaf.version>
     </properties>
 
     <dependencies>
-        <!--&lt;!&ndash; https://mvnrepository.com/artifact/org.springframework.data/spring-data-jpa &ndash;&gt;-->
-        <!--<dependency>-->
-            <!--<groupId>org.springframework.data</groupId>-->
-            <!--<artifactId>spring-data-jpa</artifactId>-->
-            <!--<version>${spring-data-jpa.version}</version>-->
-        <!--</dependency>-->
-
         <!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
             <version>${org.springframework.version}</version>
-            <scope>runtime</scope>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.springframework/spring-orm -->
@@ -82,7 +73,6 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
             <version>${spring-security.version}</version>
-            <scope>runtime</scope>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-taglibs -->

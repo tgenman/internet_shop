@@ -18,4 +18,4 @@
 <body>
     <%@ include file="navBar.jsp" %>
     <div class="container mt-5">
-        <div><h2>${title2}</h2></div>
+        <h2>${title2}</h2>
