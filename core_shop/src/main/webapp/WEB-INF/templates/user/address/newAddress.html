@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="parts :: header(#{label.form.newAddress.title})">Add new address</div>
+
+<body>
+    <div th:replace="parts :: navbar"></div>
+
+    <div class="container mt-5">
+        <h2 th:text="#{label.form.newAddress.title}">Add new address</h2>
+
+        <!--/*@thymesVar id="addressDto" type="com.dmitrybondarev.shop.model.dto.AddressDto"*/-->
+        <form action="/user/address/new" th:object="${addressDto}" method="POST" enctype="utf8">
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label"
+                       th:text="#{label.address.postalCode}">Postal Code</label>
+                <div class="col-sm-3">
+                    <input type="text" th:field="*{postalCode}" class="form-control" id="inputEmail1"/>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label"
+                       th:text="#{label.address.country}">Country</label>
+                <div class="col-sm-3">
+                    <input type="text" th:field="*{postalCode}" class="form-control" id="inputEmail2"/>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label"
+                       th:text="#{label.address.city}">City</label>
+                <div class="col-sm-3">
+                    <input type="text" th:field="*{city}" class="form-control" id="inputEmail3"/>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label"
+                       th:text="#{label.address.street}">Street</label>
+                <div class="col-sm-3">
+                    <input type="text" th:field="*{street}" class="form-control" id="inputEmail4"/>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label"
+                       th:text="#{label.address.building}">building</label>
+                <div class="col-sm-3">
+                    <input type="password" th:field="*{building}" class="form-control" id="inputEmail5"/>
+                </div>
+
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label"
+                       th:text="#{label.address.flat}">flat</label>
+                <div class="col-sm-3">
+                    <input type="password" th:field="*{flat}" class="form-control" id="inputEmail6"/>
+                </div>
+            </div>
+
+            <input type="hidden"
+                   name="${_csrf.parameterName}"
+                   value="${_csrf.token}"/>
+
+            <div class="form-group row">
+                <div class="col-sm-3">
+                    <button type="submit" class="btn btn-primary" th:text="#{label.form.newAddress.button}">submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div th:replace="parts :: footer"></div>
+</body>
+</html>

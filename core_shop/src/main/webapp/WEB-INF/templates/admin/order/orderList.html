@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="parts :: header(#{label.admin.orderList.title})">Order List</div>
+
+<body>
+<div th:replace="parts :: navbar"></div>
+
+<div class="container mt-5">
+    <h2 th:text="#{label.admin.orderList.title}">Order List</h2>
+
+    <table class="table table-bordered table-sm">
+        <thead>
+            <tr>
+                <th scope="col" th:text="#{label.order.id}">id</th>
+                <th scope="col" th:text="#{label.order.user}">username</th>
+                <th scope="col" th:text="#{label.order.address}">address</th>
+                <th scope="col" th:text="#{label.order.dateOfOrder}">dateOfOrder</th>
+                <th scope="col" th:text="#{label.order.typeOfPayment}">typeOfPayment</th>
+                <th scope="col" th:text="#{label.order.statusOfPayment}">statusOfPayment</th>
+                <th scope="col" th:text="#{label.order.typeOfDelivery}">typeOfDelivery</th>
+                <th scope="col" th:text="#{label.order.statusOfDelivery}">statusOfDelivery</th>
+                <!--<th scope="col">listOfProducts</th>-->
+                <th scope="col" th:text="#{label.admin.orderList.editButton}">Edit</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!--/*@thymesVar id="orderDtos" type="com.dmitrybondarev.shop.model.dto.OrderDto"*/-->
+            <tr th:each="orderDto : ${orderDtos}">
+                <td scope="col">${orderDto.id}</td>
+                <td scope="col">${orderDto.user.username}</td>
+                <td scope="col">${orderDto.address}</td>
+                <td scope="col">${orderDto.dateOfOrder}</td>
+                <td scope="col">${orderDto.typeOfPayment}</td>
+                <td scope="col">${orderDto.statusOfPayment}</td>
+                <td scope="col">${orderDto.typeOfDelivery}</td>
+                <td scope="col">${orderDto.statusOfDelivery}</td>
+                <td scope="col">
+                    <a class="btn btn-warning btn-sm" href="/admin/order/${orderDto}" role="button">edit</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div th:replace="parts :: footer"></div>
+</body>
+</html>

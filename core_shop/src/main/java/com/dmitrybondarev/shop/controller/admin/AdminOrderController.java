@@ -6,6 +6,7 @@ import com.dmitrybondarev.shop.model.dto.ProductDto;
 import com.dmitrybondarev.shop.service.api.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,30 +23,33 @@ import java.util.List;
 @RequestMapping("/admin/order/")
 public class AdminOrderController {
 
-    @Autowired
     private OrderService orderService;
 
+    @Autowired
+    public AdminOrderController(OrderService orderService) {
+        this.orderService = orderService;
+    }
 
+    @Loggable
     @GetMapping
-    @Loggable
-    public ModelAndView showListOfOrders() {
+    public String showListOfOrders(Model model) {
         List<OrderDto> allOrderDto = orderService.getAllOrderDto();
-        ModelAndView view = new ModelAndView("/admin/order/orderList.jsp", "orderDtos", allOrderDto);
-        return view;
+        model.addAttribute("orderDtos", allOrderDto);
+        return "/admin/order/orderList";
     }
 
+    @Loggable
     @GetMapping("/{id}")
-    @Loggable
-    public ModelAndView showOrderEditForm(@PathVariable long id) { //TODO Implement showOrderEditForm
+    public String showOrderEditForm(@PathVariable long id) { //TODO Implement showOrderEditForm
 
-        return new ModelAndView("/home.jsp");
+        return "/home.jsp";
     }
 
-    @PostMapping("/{id}")
     @Loggable
-    public ModelAndView editOrder(@ModelAttribute("productDto") @Valid ProductDto productDto,
+    @PostMapping("/{id}")
+    public String editOrder(@ModelAttribute("productDto") @Valid ProductDto productDto,
                                   BindingResult result, Errors errors) { //TODO Implement editOrder
 
-        return new ModelAndView("/home.jsp");
+        return "redirect:/admin/order";
     }
 }

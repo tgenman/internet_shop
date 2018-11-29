@@ -11,12 +11,13 @@ public class HomeController {
     @GetMapping("/")
     @Loggable
     public String showHomePage() {
-        return "/home.jsp";
+        return "index";
     }
 
     @GetMapping("/admin")
     @Loggable
     public String showAdminPanel() {
-        return "/admin/adminPanel.jsp";
+        return "admin/adminPanel";
     }
+
 }

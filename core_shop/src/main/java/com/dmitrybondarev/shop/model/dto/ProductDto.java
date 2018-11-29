@@ -2,10 +2,11 @@ package com.dmitrybondarev.shop.model.dto;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Map;
 
 @Data
-public class ProductDto {
+public class ProductDto implements Serializable {
 
     private long id;
 

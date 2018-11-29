@@ -8,6 +8,7 @@ import com.dmitrybondarev.shop.model.enums.Role;
 import com.dmitrybondarev.shop.service.api.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,14 +31,16 @@ public class RegistrationController {
 
     @GetMapping("/registration")
     @Loggable
-    public ModelAndView showRegistrationForm(WebRequest request) {
-        return new ModelAndView("user/registration.jsp", "userDto", new UserDto());
+    public String showRegistrationForm(Model model) {
+        UserDto userDto = new UserDto();
+        model.addAttribute("userDto", userDto);
+        return "user/registration";
     }
 
 
     @PostMapping("/registration")
     @Loggable
-    public ModelAndView registerUserAccount(@ModelAttribute("userDto") @Valid UserDto userDto,
+    public ModelAndView registerUserAccount(@ModelAttribute("userDto") UserDto userDto,
                                             BindingResult result, WebRequest request, Errors errors) {
         User user = new User();
         if (!result.hasErrors()) {
@@ -49,7 +52,7 @@ public class RegistrationController {
             result.rejectValue("email", "message.regError");
         }
         if (result.hasErrors()) {
-            return new ModelAndView("user/registration.jsp", "user", userDto);
+            return new ModelAndView("user/registration", "user", userDto);
         }
         else {
             return new ModelAndView("redirect:/login");

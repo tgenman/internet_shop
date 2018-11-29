@@ -12,12 +12,13 @@ import com.dmitrybondarev.shop.validation.PasswordMatches;
 import com.dmitrybondarev.shop.validation.ValidEmail;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Map;
 import java.util.Set;
 
 @Data
-@PasswordMatches
-public class UserDto {
+//@PasswordMatches
+public class UserDto implements Serializable {
 
     private long id;
 
@@ -25,21 +26,21 @@ public class UserDto {
 //    @NotEmpty
     private String username;
 
-    @NotNull
-    @NotEmpty
+//    @NotNull
+//    @NotEmpty
     private String firstName;
 
-    @NotNull
-    @NotEmpty
+//    @NotNull
+//    @NotEmpty
     private String lastName;
 
-    @ValidEmail
-    @NotNull
-    @NotEmpty
+//    @ValidEmail
+//    @NotNull
+//    @NotEmpty
     private String email;
 
-    @NotNull
-    @NotEmpty
+//    @NotNull
+//    @NotEmpty
     private String password;
     private String matchingPassword;
 

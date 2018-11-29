@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="parts :: header(#{label.form.login.title})">Home page</div>
+
+<body>
+<div th:replace="parts :: navbar"></div>
+
+<div class="container mt-5">
+    <h2 th:text="#{label.form.login.title}">Login page</h2>
+
+    <form action="/login" method="POST" enctype="utf8">
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label" th:text="#{label.user.email}">email</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control" name="username"/>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label" th:text="#{label.user.password}">Password</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control" name="password"/>
+            </div>
+        </div>
+
+        <input type="hidden"
+               name="${_csrf.parameterName}"
+               value="${_csrf.token}"/>
+
+        <div class="form-group row">
+            <div class="col-sm-3">
+                <button type="submit" class="btn btn-primary" th:text="#{label.login}">Login</button>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<div th:replace="parts :: footer"></div>
+</body>
+</html>

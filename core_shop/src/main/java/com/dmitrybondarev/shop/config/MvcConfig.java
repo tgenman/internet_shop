@@ -64,7 +64,7 @@ public class MvcConfig implements WebMvcConfigurer {
 // ============== SPRING ============
 
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/login").setViewName("login.jsp");
+        registry.addViewController("/login").setViewName("login");
     }
 
     @Override
@@ -74,12 +74,6 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/js/**").addResourceLocations("/js/");
     }
 
-//    @Bean
-//    public ResourceBundleMessageSource messageSource() {
-//        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-//        messageSource.setBasename("Messages");
-//        return messageSource;
-//    }
 
 // ============== VALIDATION ============
 

@@ -6,7 +6,7 @@
 <c:set var="title" value="Create Address"  scope="request"/>
 <%@ include file="../../templates/header.jsp" %>
 
-<h2>Create Address</h2>
+<h2>Edit Address</h2>
 
 <form:form method="POST" action="/user/address/${addressDto.id}" modelAttribute="addressDto">
 

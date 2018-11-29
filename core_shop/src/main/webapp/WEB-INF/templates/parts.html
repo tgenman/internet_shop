@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 
 <head th:fragment="header (title)">
     <!-- Required meta tags -->
@@ -36,27 +37,33 @@
                     <li class="nav-item">
                         <a th:text="#{label.navbar.cart}"
                            href="/cart"
-                           class="nav-link">Market</a>
+                           class="nav-link">Cart</a>
                     </li>
 
                     <li class="nav-item">
                         <a th:text="#{label.navbar.adminPanel}"
                            href="/admin"
-                           class="nav-link">Market</a>
+                           class="nav-link">Admin panel</a>
                     </li>
                 </ul>
 
-                <!--<security:authorize access="isAuthenticated()">-->
-                    <!--<div class="dropdown">-->
-                        <!--<button class="btn btn-secondary dropdown-toggle mr-2" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
-                            <!--<security:authentication property="principal.username" />-->
-                        <!--</button>-->
-                        <!--<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">-->
-                            <!--<a class="dropdown-item" href="/user">Profile</a>-->
-                            <!--<%&#45;&#45;<a class="dropdown-item" href="/order/list">Orders</a>&#45;&#45;%>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</security:authorize>-->
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle mr-2"
+                                type="button" id="dropdownMenuButton"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            UserName
+                        </button>
+
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a th:text="#{label.navbar.profile}"
+                               href="/user"
+                               class="dropdown-item">Profile</a>
+
+                            <a th:text="#{label.navbar.orders}"
+                               href="/user"
+                               class="dropdown-item">Orders</a>
+                        </div>
+                    </div>
 
                 <a th:text="#{label.login}"
                    href="/login"
@@ -74,16 +81,42 @@
                            value="${_csrf.token}"/>
                     <button class="btn btn-secondary my-2 my-sm-0" type="submit" th:text="#{label.logout}">Logout</button>
                 </form>
+
+                <div th:replace="parts :: languages"></div>
+
+
             </div>
         </nav>
     </div>
 
+    <div class="dropdown mr-2 my-2 my-sm-0" th:fragment="languages">
+        <button class="btn btn-secondary dropdown-toggle mr-2"
+                type="button" id="dropdownMenuButtonLang"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                th:text="#{label.navbar.lang.lang}">
+            Lang
+        </button>
 
-    <div th:fragment="languages">
-        <a href="?lang=en">English</a>
-        <a href="?lang=ru">Russian</a>
-        <a href="?lang=ge">German</a>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a th:text="#{label.navbar.lang.english}"
+               href="?lang=en"
+               class="dropdown-item">English</a>
+
+            <a th:text="#{label.navbar.lang.russian}"
+               href="?lang=ru"
+               class="dropdown-item">Russian</a>
+
+            <a th:text="#{label.navbar.lang.german}"
+               href="?lang=ge"
+               class="dropdown-item">German</a>
+        </div>
     </div>
+
+    <!--<div th:fragment="languages">-->
+        <!--<a href="?lang=en">English</a>-->
+        <!--<a href="?lang=ru">Russian</a>-->
+        <!--<a href="?lang=ge">German</a>-->
+    <!--</div>-->
 
     <div th:fragment="footer">
         <!-- Optional JavaScript -->

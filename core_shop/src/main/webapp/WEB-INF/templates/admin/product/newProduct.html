@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="parts :: header(#{label.admin.newProduct.title})">Create product</div>
+
+<body>
+<div th:replace="parts :: navbar"></div>
+
+<div class="container mt-5">
+    <h2 th:text="#{label.admin.newProduct.title}">Create product</h2>
+
+    label.product.quantity=Quantity
+
+    <!--/*@thymesVar id="productDto" type="com.dmitrybondarev.shop.model.dto.ProductDto"*/-->
+    <form action="/admin/product/new" th:object="${productDto}" method="POST" enctype="utf8">
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label"
+                   th:text="#{label.product.title}">Title</label>
+            <div class="col-sm-3">
+                <input type="text" th:field="*{title}" class="form-control" id="inputEmail1"/>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label"
+                   th:text="#{label.product.price}">Price</label>
+            <div class="col-sm-3">
+                <input type="text" th:field="*{price}" class="form-control" id="inputEmail2"/>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label"
+                   th:text="#{label.product.category}">Category</label>
+            <div class="col-sm-3">
+                <input type="text" th:field="*{category}" class="form-control" id="inputEmail3"/>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label"
+                   th:text="#{label.product.weight}">weight</label>
+            <div class="col-sm-3">
+                <input type="text" th:field="*{weight}" class="form-control" id="inputEmail4"/>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label"
+                   th:text="#{label.product.volume}">volume</label>
+            <div class="col-sm-3">
+                <input type="password" th:field="*{volume}" class="form-control" id="inputEmail5"/>
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label"
+                   th:text="#{label.product.quantity}">quantity</label>
+            <div class="col-sm-3">
+                <input type="password" th:field="*{quantity}" class="form-control" id="inputEmail6"/>
+            </div>
+        </div>
+
+        <input type="hidden"
+               name="${_csrf.parameterName}"
+               value="${_csrf.token}"/>
+
+        <div class="form-group row">
+            <div class="col-sm-3">
+                <button type="submit" class="btn btn-primary" th:text="#{label.admin.newProduct.createButton}">submit</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div th:replace="parts :: footer"></div>
+</body>
+</html>
