@@ -2,18 +2,18 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 
-<div th:replace="parts :: header(#{label.admin.orderList.title})">Order List</div>
+<div th:replace="parts :: header(#{label.adminForm.orderList.title})">Order List</div>
 
 <body>
 <div th:replace="parts :: navbar"></div>
 
 <div class="container mt-5">
-    <h2 th:text="#{label.admin.orderList.title}">Order List</h2>
+    <h2 th:text="#{label.adminForm.orderList.title}">Order List</h2>
 
     <table class="table table-bordered table-sm">
         <thead>
             <tr>
-                <th scope="col" th:text="#{label.order.id}">id</th>
+                <th scope="col" th:text="#{label.order.id}">num.</th>
                 <th scope="col" th:text="#{label.order.user}">username</th>
                 <th scope="col" th:text="#{label.order.address}">address</th>
                 <th scope="col" th:text="#{label.order.dateOfOrder}">dateOfOrder</th>
@@ -22,22 +22,23 @@
                 <th scope="col" th:text="#{label.order.typeOfDelivery}">typeOfDelivery</th>
                 <th scope="col" th:text="#{label.order.statusOfDelivery}">statusOfDelivery</th>
                 <!--<th scope="col">listOfProducts</th>-->
-                <th scope="col" th:text="#{label.admin.orderList.editButton}">Edit</th>
+                <th scope="col" th:text="#{label.adminForm.orderList.editButton}">Edit</th>
             </tr>
         </thead>
         <tbody>
-            <!--/*@thymesVar id="orderDtos" type="com.dmitrybondarev.shop.model.dto.OrderDto"*/-->
-            <tr th:each="orderDto : ${orderDtos}">
-                <td scope="col">${orderDto.id}</td>
-                <td scope="col">${orderDto.user.username}</td>
-                <td scope="col">${orderDto.address}</td>
-                <td scope="col">${orderDto.dateOfOrder}</td>
-                <td scope="col">${orderDto.typeOfPayment}</td>
-                <td scope="col">${orderDto.statusOfPayment}</td>
-                <td scope="col">${orderDto.typeOfDelivery}</td>
-                <td scope="col">${orderDto.statusOfDelivery}</td>
+            <!--/*@thymesVar id="allOrderDto" type="java.util.List<com.dmitrybondarev.shop.model.dto.OrderDto>"*/-->
+            <tr th:each="orderDto : ${allOrderDto}">
+                <td scope="col" th:text="${orderDto.id}">num.</td>
+                <td scope="col" th:text="${orderDto.user.firstName} ${orderDto.user.lastName}">name</td>
+                <td scope="col" th:text="${orderDto.address}">address</td>
+                <td scope="col" th:text="${orderDto.dateOfOrder}">date</td>
+                <td scope="col" th:text="${orderDto.typeOfPayment}">type of payment</td>
+                <td scope="col" th:text="${orderDto.statusOfPayment}">status of payment</td>
+                <td scope="col" th:text="${orderDto.typeOfDelivery}">type of delivery</td>
+                <td scope="col" th:text="${orderDto.statusOfDelivery}">status of delivery</td>
                 <td scope="col">
-                    <a class="btn btn-warning btn-sm" href="/admin/order/${orderDto}" role="button">edit</a>
+                    <a class="btn btn-warning btn-sm" href="/admin/order/${orderDto}" role="button"
+                       th:href="@{/admin/order/${orderDto}}" th:text="#{label.adminForm.editOrder.editButton}">edit</a>
                 </td>
             </tr>
         </tbody>

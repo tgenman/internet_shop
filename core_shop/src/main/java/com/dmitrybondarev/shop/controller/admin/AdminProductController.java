@@ -3,7 +3,6 @@ package com.dmitrybondarev.shop.controller.admin;
 import com.dmitrybondarev.shop.aspect.Loggable;
 import com.dmitrybondarev.shop.model.dto.ProductDto;
 import com.dmitrybondarev.shop.service.api.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,6 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/admin/product")
@@ -23,7 +24,6 @@ public class AdminProductController {
 
     private static final String PRODUCT_DTO = "productDto";
 
-    @Autowired
     public AdminProductController(ProductService productService) {
         this.productService = productService;
     }
@@ -31,7 +31,8 @@ public class AdminProductController {
     @Loggable
     @GetMapping
     public String showListOfProducts(Model model) {
-        model.addAttribute("productDtos", productService.getAllProducts());
+        Map<String, List<ProductDto>> allProducts = productService.getAllProducts();
+        model.addAttribute("allProductDto", productService.getAllProducts());
         return "admin/product/productList";
     }
 
@@ -61,7 +62,7 @@ public class AdminProductController {
         ProductDto productDto = productService.getProductById(id);
         productDto.setId(id);
         model.addAttribute(PRODUCT_DTO, productDto);
-        return "/admin/product/editProduct";
+        return "/admin/product/productEdit.html";
     }
 
     @Loggable

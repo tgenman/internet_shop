@@ -8,14 +8,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class HomeController {
 
-    @GetMapping("/")
     @Loggable
+    @GetMapping("/")
     public String showHomePage() {
         return "index";
     }
 
-    @GetMapping("/admin")
     @Loggable
+    @GetMapping("/admin")
     public String showAdminPanel() {
         return "admin/adminPanel";
     }

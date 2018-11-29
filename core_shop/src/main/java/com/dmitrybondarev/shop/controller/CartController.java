@@ -7,6 +7,7 @@ import com.dmitrybondarev.shop.service.api.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,32 +20,35 @@ import java.util.Map;
 @RequestMapping("/cart")
 public class CartController {
 
-    @Autowired
     private CartService cartService;
 
-    @GetMapping
+    public CartController(CartService cartService) {
+        this.cartService = cartService;
+    }
+
     @Loggable
-    public ModelAndView showCart() {
+    @GetMapping
+    public String showCart(Model model) {
         long idUser = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
         Map<Product, Integer> cart = cartService.getCartByUserId(idUser);
-
-        return new ModelAndView("cart/showCart.jsp", "cart", cart);
+        model.addAttribute("cart", cart);
+        return "cart/showCart";
     }
 
-    @GetMapping("/{idProduct}")
     @Loggable
-    public ModelAndView addProductToCart(@PathVariable long idProduct) {
+    @GetMapping("/{idProduct}")
+    public String addProductToCart(@PathVariable long idProduct) {
         long idUser = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
         cartService.addProduct(idUser, idProduct);
-        return new ModelAndView("redirect:/product");
+        return "redirect:/product";
     }
 
-    @PostMapping("/delete/{idProduct}")
     @Loggable
-    public ModelAndView deleteProductFromCart(@PathVariable long idProduct) {
+    @PostMapping("/delete/{idProduct}")
+    public String deleteProductFromCart(@PathVariable long idProduct) {
         long idUser = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
         cartService.deleteProduct(idUser, idProduct);
-        return new ModelAndView("redirect:/cart");
+        return "redirect:/cart";
     }
 
 

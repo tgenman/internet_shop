@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="parts :: header(#{label.product.info.title})">Product title</div>
+
+<body>
+<div th:replace="parts :: navbar"></div>
+
+<div class="container mt-5">
+    <h2 th:text="#{label.product.info.title}">Product title</h2>
+
+    <!--/*@thymesVar id="productDto" type="com.dmitrybondarev.shop.model.dto.ProductDto"*/-->
+    <div class="card-columns">
+        <div class="card my-3">
+            <!--<img class="card-img-top" src=".../100px180/?text=Image cap">-->
+            <div class="card-body">
+                <h5 class="card-title" th:text="${productDto.title}">title</h5>
+                <p class="card-text" th:text="${productDto.category}">category</p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item" th:text="#{label.product.price}   ${productDto.price}">price</li>
+                <li class="list-group-item" th:text="#{label.product.weight}  ${productDto.weight}">weight</li>
+                <li class="list-group-item" th:text="#{label.product.volume}   ${productDto.volume}">volume</li>
+                <li class="list-group-item" th:text="#{label.product.quantity}   ${productDto.quantity}">quantity</li>
+            </ul>
+            <div class="card-body">
+                <a class="btn btn-danger" role="button" href="/cart/${productDto.id}"
+                   th:href="@{/cart/${productDto.id}}"
+                   th:text="#{label.product.info.addButton}">Create Order</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div th:replace="parts :: footer"></div>
+</body>
+</html>

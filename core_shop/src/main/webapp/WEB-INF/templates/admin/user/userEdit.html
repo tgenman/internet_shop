@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="parts :: header(#{label.adminForm.editUser.title})">User Edit</div>
+
+<body>
+<div th:replace="parts :: navbar"></div>
+
+<div class="container mt-5">
+    <h2 th:text="#{label.adminForm.editUser.title}">User Edit</h2>
+
+
+    <!--/*@thymesVar id="userDto" type="com.dmitrybondarev.shop.model.dto.UserDto"*/-->
+    <form action="admin/user/{id}" th:object="${userDto}" method="POST" enctype="utf8">
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label"
+                   th:text="#{label.user.firstName}">First name</label>
+            <div class="col-sm-3">
+                <label class="col-sm-2 col-form-label"
+                       th:text="*{firstName}"></label>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label"
+                   th:text="#{label.user.lastName}">Last name</label>
+            <div class="col-sm-3">
+                <input type="text" th:field="*{lastName}" class="form-control" id="inputEmail2"/>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label"
+                   th:text="#{label.user.email}">email</label>
+            <div class="col-sm-3">
+                <input type="text" th:field="*{email}" class="form-control" id="inputEmail3"/>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label"
+                   th:text="#{label.user.dateOfBirth}">date of birth</label>
+            <div class="col-sm-3">
+                <input type="text" th:field="*{dateOfBirth}" class="form-control" id="inputEmail4"/>
+            </div>
+        </div>
+
+        <input type="hidden"
+               name="${_csrf.parameterName}"
+               value="${_csrf.token}"/>
+
+        <div class="form-group row">
+            <div class="col-sm-3">
+                <button type="submit" class="btn btn-primary" th:text="#{label.adminForm.editUser.editButton}">submit</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div th:replace="parts :: footer"></div>
+</body>
+</html>

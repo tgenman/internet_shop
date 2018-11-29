@@ -25,23 +25,24 @@ import java.util.Collections;
 @RequestMapping("/user")
 public class RegistrationController {
 
-    @Autowired
     private UserService userService;
 
+    public RegistrationController(UserService userService) {
+        this.userService = userService;
+    }
 
-    @GetMapping("/registration")
     @Loggable
+    @GetMapping("/registration")
     public String showRegistrationForm(Model model) {
         UserDto userDto = new UserDto();
         model.addAttribute("userDto", userDto);
         return "user/registration";
     }
 
-
-    @PostMapping("/registration")
     @Loggable
-    public ModelAndView registerUserAccount(@ModelAttribute("userDto") UserDto userDto,
-                                            BindingResult result, WebRequest request, Errors errors) {
+    @PostMapping("/registration")
+    public String registerUserAccount(@ModelAttribute("userDto") UserDto userDto,
+                                            BindingResult result, Model model) {
         User user = new User();
         if (!result.hasErrors()) {
             userDto.setActive(true);
@@ -52,17 +53,18 @@ public class RegistrationController {
             result.rejectValue("email", "message.regError");
         }
         if (result.hasErrors()) {
-            return new ModelAndView("user/registration", "user", userDto);
+            model.addAttribute("user", userDto);
+            return "user/registration";
         }
         else {
-            return new ModelAndView("redirect:/login");
+            return "redirect:/login";
         }
     }
 
 // ============== NON-API ============
 
 
-    private User createUserAccount(UserDto accountDto, BindingResult result) { //TODO Resolve by ExceptionHandler
+    private User createUserAccount(UserDto accountDto, BindingResult result) {
         User registered = null;
         try {
             registered = userService.registerNewUserAccount(accountDto);

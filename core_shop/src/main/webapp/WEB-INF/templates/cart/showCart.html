@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="parts :: header(#{label.cart.show.title})">Cart</div>
+
+<body>
+<div th:replace="parts :: navbar"></div>
+
+<div class="container mt-5">
+    <h2 th:text="#{label.cart.show.title}">Cart</h2>
+
+    <table class="table table-bordered table-sm">
+        <thead>
+        <tr>
+            <th scope="col" th:text="#{label.product.id}">art.</th>
+            <th scope="col" th:text="#{label.product.title}">Title</th>
+            <th scope="col" th:text="#{label.product.price}">Price</th>
+            <th scope="col" th:text="#{label.product.weight}">Weight</th>
+            <th scope="col" th:text="#{label.product.volume}">Volume</th>
+            <th scope="col" th:text="#{label.product.quantity}">Quantity</th>
+            <th scope="col" th:text="#{label.cart.show.removeProduct}">Remove</th>
+        </tr>
+        </thead>
+
+        <tbody>
+            <!--/*@thymesVar id="cart" type="java.util.Map<com.dmitrybondarev.shop.model.Product, java.lang.Integer>"*/-->
+            <tr th:each="product : ${cart.keySet()}">
+                <td scope="col" th:text="${product.id}">art.</td>
+                <td scope="col" th:text="${product.title}">title</td>
+                <td scope="col" th:text="${product.price}">price</td>
+                <td scope="col" th:text="${product.weight}">weight</td>
+                <td scope="col" th:text="${product.volume}">volume</td>
+                <td scope="col" th:text="${cart.get(product)}">quantity</td>
+                <td scope="col">
+                    <form action="/cart/delete/${product.id}" th:action="@{/cart/delete/${product.id}}" method="post">
+                        <input type="hidden"
+                               name="${_csrf.parameterName}"
+                               value="${_csrf.token}"/>
+                        <input type="submit" class="btn btn-warning btn-sm" th:text="#{label.cart.show.removeProduct}">
+                        <!--<input type="submit" class="btn btn-warning btn-sm" value="Remove">-->
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a class="btn btn-success" role="button" href="/order/new"
+       th:href="@{/order/new}"
+       th:text="#{label.cart.show.createOrderButton}">Create Order</a>
+</div>
+
+<div th:replace="parts :: footer"></div>
+</body>
+</html>

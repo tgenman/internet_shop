@@ -3,8 +3,9 @@ package com.dmitrybondarev.shop.controller.admin;
 import com.dmitrybondarev.shop.aspect.Loggable;
 import com.dmitrybondarev.shop.model.dto.OrderDto;
 import com.dmitrybondarev.shop.model.dto.ProductDto;
+import com.dmitrybondarev.shop.model.enums.StatusOfDelivery;
+import com.dmitrybondarev.shop.model.enums.StatusOfPayment;
 import com.dmitrybondarev.shop.service.api.OrderService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,9 +15,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -25,16 +26,24 @@ public class AdminOrderController {
 
     private OrderService orderService;
 
-    @Autowired
     public AdminOrderController(OrderService orderService) {
         this.orderService = orderService;
+    }
+
+    @ModelAttribute("allStatusesOfDelivery")
+    public List<StatusOfDelivery> deliveryStatuses() {
+        return Arrays.asList(StatusOfDelivery.values());
+    }
+
+    @ModelAttribute("allStatusesOfPayment")
+    public List<StatusOfPayment> paymentStatuses() {
+        return Arrays.asList(StatusOfPayment.values());
     }
 
     @Loggable
     @GetMapping
     public String showListOfOrders(Model model) {
-        List<OrderDto> allOrderDto = orderService.getAllOrderDto();
-        model.addAttribute("orderDtos", allOrderDto);
+        model.addAttribute("allOrderDto", orderService.getAllOrderDto());
         return "/admin/order/orderList";
     }
 
@@ -42,7 +51,7 @@ public class AdminOrderController {
     @GetMapping("/{id}")
     public String showOrderEditForm(@PathVariable long id) { //TODO Implement showOrderEditForm
 
-        return "/home.jsp";
+        return "/";
     }
 
     @Loggable

@@ -2,16 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 
-<div th:replace="parts :: header(#{label.adminForm.newProduct.title})">Create product</div>
+<div th:replace="parts :: header(#{label.adminForm.editProduct.title})">Edit product</div>
 
 <body>
 <div th:replace="parts :: navbar"></div>
 
 <div class="container mt-5">
-    <h2 th:text="#{label.adminForm.newProduct.title}">Create product</h2>
+    <h2 th:text="#{label.adminForm.editProduct.title}">Edit product</h2>
 
     <!--/*@thymesVar id="productDto" type="com.dmitrybondarev.shop.model.dto.ProductDto"*/-->
-    <form action="/admin/product/new" th:object="${productDto}" method="POST" enctype="utf8">
+    <form action="/admin/product/${productDto.id}" th:object="${productDto}" method="POST" enctype="utf8">
         <div class="form-group row">
             <label class="col-sm-2 col-form-label"
                    th:text="#{label.product.title}">Title</label>
@@ -38,7 +38,7 @@
 
         <div class="form-group row">
             <label class="col-sm-2 col-form-label"
-                   th:text="#{label.product.weight}">weight</label>
+                   th:text="#{label.product.weight}">Weigth</label>
             <div class="col-sm-3">
                 <input type="text" th:field="*{weight}" class="form-control" id="inputEmail4"/>
             </div>
@@ -46,17 +46,17 @@
 
         <div class="form-group row">
             <label class="col-sm-2 col-form-label"
-                   th:text="#{label.product.volume}">volume</label>
+                   th:text="#{label.product.volume}">Volume</label>
             <div class="col-sm-3">
-                <input type="text" th:field="*{volume}" class="form-control" id="inputEmail5"/>
+                <input type="password" th:field="*{volume}" class="form-control" id="inputEmail5"/>
             </div>
 
         </div>
         <div class="form-group row">
             <label class="col-sm-2 col-form-label"
-                   th:text="#{label.product.quantity}">quantity</label>
+                   th:text="#{label.product.quantity}">Quantity</label>
             <div class="col-sm-3">
-                <input type="text" th:field="*{quantity}" class="form-control" id="inputEmail6"/>
+                <input type="password" th:field="*{quantity}" class="form-control" id="inputEmail6"/>
             </div>
         </div>
 
@@ -66,7 +66,7 @@
 
         <div class="form-group row">
             <div class="col-sm-3">
-                <button type="submit" class="btn btn-primary" th:text="#{label.adminForm.newProduct.createButton}">submit</button>
+                <button type="submit" class="btn btn-primary" th:text="#{label.adminForm.editProduct.button}">submit</button>
             </div>
         </div>
     </form>

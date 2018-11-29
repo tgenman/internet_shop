@@ -46,7 +46,7 @@ public class UserController {
 
     @ModelAttribute("allRoles")
     public List<Role> populateTypes() {
-        return Arrays.asList(Role.ADMIN, Role.USER);
+        return Arrays.asList(Role.values());
     }
 
     @Loggable

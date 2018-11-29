@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +28,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -34,45 +37,53 @@ import java.util.Set;
 @RequestMapping("/order")
 public class OrderController {
 
-    @Autowired
     private OrderService orderService;
 
-    @Autowired
     private CartService cartService;
 
-    @Autowired
     private UserService userService;
 
-    @GetMapping("/new")
+    public OrderController(OrderService orderService, CartService cartService, UserService userService) {
+        this.orderService = orderService;
+        this.cartService = cartService;
+        this.userService = userService;
+    }
+
+    @ModelAttribute("allTypesOfDelivery")
+    public List<TypeOfDelivery> deliveryTypes() {
+        return Arrays.asList(TypeOfDelivery.values());
+    }
+
+    @ModelAttribute("allTypesOfPayment")
+    public List<TypeOfPayment> paymentTypes() {
+        return Arrays.asList(TypeOfPayment.values());
+    }
+
     @Loggable
-    public ModelAndView showCreationOrderForm(HttpServletRequest request) {
-        ModelAndView mAV = new ModelAndView("order/newOrder.jsp");
+    @GetMapping("/new")
+    public String showCreationOrderForm(HttpServletRequest request, Model model) {
 
         long idUser = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
         UserDto user = userService.getUserDtoById(idUser);
         request.getSession().setAttribute("userR", user);
 
-
         Map<Product, Integer> cart = cartService.getCartByUserId(idUser);
-        Set<Address> addresses = user.getAddresses();
+        Set<Address> allAddress = user.getAddresses();
         request.getSession().setAttribute("cartR", cart);
 
+        model.addAttribute("user", user);         //TODO Change to DTOs
+        model.addAttribute("allAddress", allAddress);
+        model.addAttribute("cart", cart);
+        model.addAttribute("orderDto", new OrderDto());
 
-        mAV.addObject("TypeOfDeliveryL", TypeOfDelivery.values());
-        mAV.addObject("TypeOfPaymentL", TypeOfPayment.values());
-        mAV.addObject("user", user);
-        mAV.addObject("addresses", addresses);
-        mAV.addObject("cart", cart);
-        mAV.addObject("orderDto", new OrderDto());
-
-        return mAV;
+        return "order/newOrder";
     }
 
-    @PostMapping("/new")
     @Loggable
-    public ModelAndView createNewOrder(@ModelAttribute("orderDto") @Valid OrderDto orderDto,
+    @PostMapping("/new")
+    public String createNewOrder(@ModelAttribute("orderDto") @Valid OrderDto orderDto,
                                        BindingResult result, HttpServletRequest request, Errors errors,
-                                       @AuthenticationPrincipal User user) {
+                                       @AuthenticationPrincipal User user, Model model) {
         if (!result.hasErrors()) {
             UserDto userDtoR = (UserDto) request.getSession().getAttribute("userR");
 
@@ -88,13 +99,13 @@ public class OrderController {
 
             orderService.createOrder(orderDto);
 
-            return new ModelAndView("redirect:/");
+            return "redirect:/";
         }
-
-        return new ModelAndView("order/newOrder.jsp", "user", orderDto);
+        model.addAttribute("orderDto", orderDto);
+        return "order/newOrder";
     }
 
-//    @GetMapping("/list")
+//    @GetMapping("/list")   TODO Implement showListOfOrderForUser
 //    public ModelAndView showListOfOrderForUser() {
 //        long idUser = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
 //

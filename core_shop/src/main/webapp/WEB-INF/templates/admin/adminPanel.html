@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="parts :: header(#{label.adminPanel.title})">Admin Panel</div>
+
+<body>
+<div th:replace="parts :: navbar"></div>
+
+<div class="container mt-5">
+    <h2 th:text="#{label.adminPanel.title}">Admin Panel</h2>
+
+    <div class="btn-group-vertical btn-group-lg" role="group" aria-label="Basic example">
+        <a class="btn btn-success" role="button" href="/admin/product"
+           th:href="@{/admin/product}" th:text="#{label.adminPanel.productList}">Product List</a>
+        <a class="btn btn-success" role="button" href="/admin/order"
+           th:href="@{/admin/order}" th:text="#{label.adminPanel.orderList}">Order List</a>
+        <a class="btn btn-success" role="button" href="/admin/user"
+           th:href="@{/admin/user}" th:text="#{label.adminPanel.userList}">User List</a>
+    </div>
+
+</div>
+
+<div th:replace="parts :: footer"></div>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="parts :: header(#{label.adminForm.userList.title})">User List</div>
+
+<body>
+<div th:replace="parts :: navbar"></div>
+
+<div class="container mt-5">
+    <h2 th:text="#{label.adminForm.userList.title}">User List</h2>
+
+
+    <table class="table table-bordered table-sm">
+        <thead>
+        <tr>
+            <th scope="col" th:text="#{label.user.email}">email</th>
+            <th scope="col" th:text="#{label.user.activity}">activity</th>
+            <th scope="col" th:text="#{label.user.roles}">roles</th>
+            <th scope="col" th:text="#{label.user.firstName}">name</th>
+            <th scope="col" th:text="#{label.user.lastName}">family</th>
+            <th scope="col" th:text="#{label.user.dateOfBirth}">date of birth</th>
+            <th scope="col" th:text="#{label.adminForm.userList.editButton}">Edit</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <!--/*@thymesVar id="allUserDto" type="java.util.List<com.dmitrybondarev.shop.model.dto.UserDto>"*/-->
+        <tr th:each="userDto : ${allUserDto}">
+            <td scope="col" th:text="${userDto.email}">email</td>
+            <td scope="col" th:text="${userDto.active}">active</td>
+            <td scope="col" th:each="role : ${userDto.roles}">
+                <span th:text="${role}"></span>
+            </td>
+            <td scope="col" th:text="${userDto.firstName}">first name</td>
+            <td scope="col" th:text="${userDto.lastName}">last name</td>
+            <td scope="col" th:text="${userDto.dateOfBirth}">date of birth</td>
+            <td scope="col">
+                <a class="btn btn-warning btn-sm" href="/admin/user/${userDto.id}" role="button"
+                   th:href="@{/admin/user/${userDto.id}}" th:text="#{label.adminForm.editUser.editButton}">edit</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div th:replace="parts :: footer"></div>
+</body>
+</html>

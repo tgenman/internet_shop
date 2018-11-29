@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="parts :: header(#{label.adminForm.productList.title})">Product List</div>
+
+<body>
+<div th:replace="parts :: navbar"></div>
+
+<div class="container mt-5">
+    <h2 th:text="#{label.adminForm.productList.title}">Product List</h2>
+
+    <a class="btn btn-success" role="button" href="/admin/product/new"
+       th:href="@{/admin/product/new}"
+       th:text="#{label.adminForm.productList.createButton}">Create new product</a>
+
+    <table class="table table-bordered table-sm">
+        <thead>
+            <tr>
+                <th scope="col" th:text="#{label.product.id}">art.</th>
+                <th scope="col" th:text="#{label.product.title}">Title</th>
+                <th scope="col" th:text="#{label.product.price}">Price</th>
+                <th scope="col" th:text="#{label.product.weight}">Weight</th>
+                <th scope="col" th:text="#{label.product.volume}">Volume</th>
+                <th scope="col" th:text="#{label.product.quantity}">Quantity</th>
+                <th scope="col" th:text="#{label.adminForm.productList.editButton}">Edit</th>
+            </tr>
+        </thead>
+
+        <!--/*@thymesVar id="allProductDto" type="java.util.Map<java.lang.String, java.util.List<com.dmitrybondarev.shop.model.dto.ProductDto>>"*/-->
+        <tbody th:each="category : ${allProductDto.keySet()}">
+            <tr>
+                <td colspan="7" class="table-info" th:text="${category}">Category</td>
+            </tr>
+            <tr th:each="productDto : ${allProductDto.get(category)}">
+                <td scope="col" th:text="${productDto.id}">id</td>
+                <td scope="col" th:text="${productDto.title}">title</td>
+                <td scope="col" th:text="${productDto.price}">price</td>
+                <td scope="col" th:text="${productDto.weight}">weight</td>
+                <td scope="col" th:text="${productDto.volume}">volume</td>
+                <td scope="col" th:text="${productDto.quantity}">quantity</td>
+                <td scope="col">
+                    <a class="btn btn-warning btn-sm" href="/admin/product/${productDto.id}" role="button"
+                       th:href="@{/admin/productDto/${productDto.id}}" th:text="#{label.adminForm.productList.editButton}">edit</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<div th:replace="parts :: footer"></div>
+</body>
+</html>
