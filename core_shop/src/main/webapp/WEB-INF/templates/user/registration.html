@@ -19,6 +19,7 @@
                 <div class="col-sm-3">
                     <input type="text" th:field="*{firstName}" class="form-control" id="inputEmail1"/>
                 </div>
+                <p th:each="error: ${#fields.errors('firstName')}" th:text="#{${error}}">Validation error</p>
             </div>
 
             <div class="form-group row">
@@ -27,24 +28,27 @@
                 <div class="col-sm-3">
                     <input th:field="*{lastName}" class="form-control" id="inputEmail2"/>
                 </div>
+                <p th:each="error : ${#fields.errors('lastName')}" th:text="#{${error}}">Validation error</p>
             </div>
 
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label"
                        th:text="#{label.user.email}">email</label>
                 <div class="col-sm-3">
-                    <input type="email" th:field="*{email}" class="form-control" id="inputEmail3"/>
+                    <input type="text" th:field="*{email}" class="form-control" id="inputEmail3" placeholder="example@yandex.ru"/>
                 </div>
-
+                <p th:each="error : ${#fields.errors('email')}" th:text="#{${error}}">Validation error</p>
             </div>
+
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label"
                        th:text="#{label.user.password}">password</label>
                 <div class="col-sm-3">
                     <input type="password" th:field="*{password}" class="form-control" id="inputEmail4"/>
                 </div>
-
+                <p th:each="error : ${#fields.errors('password')}" th:text="#{${error}}">Validation error</p>
             </div>
+
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label"
                        th:text="#{label.user.confirmPass}">confirm</label>
@@ -53,9 +57,9 @@
                 </div>
             </div>
 
-            <input type="hidden"
-                   name="${_csrf.parameterName}"
-                   value="${_csrf.token}"/>
+            <!--<input type="hidden"-->
+                   <!--name="${_csrf.parameterName}"-->
+                   <!--value="${_csrf.token}"/>-->
 
             <div class="form-group row">
                 <div class="col-sm-3">

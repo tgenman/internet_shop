@@ -20,9 +20,11 @@ import java.util.List;
 @Service
 public class UserServiceImp implements UserService {
 
-    @Autowired
     private UserRepo userRepo;
 
+    public UserServiceImp(UserRepo userRepo) {
+        this.userRepo = userRepo;
+    }
 
     @Override
     @Loggable
@@ -39,7 +41,6 @@ public class UserServiceImp implements UserService {
 
         userRepo.save(user);
         return user;
-
     }
 
     @Override
@@ -86,7 +87,12 @@ public class UserServiceImp implements UserService {
     @Loggable
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepo.findByUsername(username);
+        User user = userRepo.findByUsername(username);
+        if (user == null) {
+            throw new UsernameNotFoundException(
+                    "No user found with username: "+ username);
+        }
+        return user;
     }
 
 

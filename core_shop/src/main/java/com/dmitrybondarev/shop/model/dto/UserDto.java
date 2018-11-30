@@ -4,43 +4,41 @@ import com.dmitrybondarev.shop.model.Address;
 import com.dmitrybondarev.shop.model.Order;
 import com.dmitrybondarev.shop.model.Product;
 import com.dmitrybondarev.shop.model.enums.Role;
-
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-
 import com.dmitrybondarev.shop.validation.PasswordMatches;
 import com.dmitrybondarev.shop.validation.ValidEmail;
 import lombok.Data;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 @Data
-//@PasswordMatches
+@PasswordMatches
 public class UserDto implements Serializable {
 
     private long id;
 
-//    @NotNull
-//    @NotEmpty
     private String username;
 
-//    @NotNull
-//    @NotEmpty
+    @NotNull
+    @NotEmpty(message = "message.NotEmpty")
     private String firstName;
 
-//    @NotNull
-//    @NotEmpty
+    @NotNull
+    @NotEmpty(message = "message.NotEmpty")
     private String lastName;
 
-//    @ValidEmail
-//    @NotNull
-//    @NotEmpty
+    @NotNull
+    @NotEmpty(message = "message.NotEmpty")
+    @ValidEmail
     private String email;
 
-//    @NotNull
-//    @NotEmpty
+    @NotNull
+    @NotEmpty(message = "message.NotEmpty")
     private String password;
     private String matchingPassword;
 
@@ -55,11 +53,4 @@ public class UserDto implements Serializable {
     private Map<Product, Integer> cart;
 
     private Set<Order> orders;
-
-
-
-    public void setUsername(String username) {
-        this.username = username;
-        this.email = username;
-    }
 }

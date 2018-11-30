@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @EnableWebMvc
 @EnableTransactionManagement
 @EnableAspectJAutoProxy(proxyTargetClass = true)
-@ComponentScan("com.dmitrybondarev")
+@ComponentScan("com.dmitrybondarev.shop")
 @Import({MvcConfig.class,
         JpaConfig.class,
         SecurityConfig.class})
