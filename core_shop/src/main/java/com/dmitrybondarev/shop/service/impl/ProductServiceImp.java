@@ -1,12 +1,11 @@
 package com.dmitrybondarev.shop.service.impl;
 
-import com.dmitrybondarev.shop.aspect.Loggable;
 import com.dmitrybondarev.shop.model.Product;
 import com.dmitrybondarev.shop.model.dto.ProductDto;
 import com.dmitrybondarev.shop.repository.api.ProductRepo;
 import com.dmitrybondarev.shop.service.api.ProductService;
+import com.dmitrybondarev.shop.util.aspect.Loggable;
 import org.dozer.DozerBeanMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,11 +17,14 @@ import java.util.Map;
 @Service
 public class ProductServiceImp implements ProductService {
 
-    @Autowired
     private ProductRepo productRepo;
 
-    @Autowired
     private DozerBeanMapper mapper;
+
+    public ProductServiceImp(ProductRepo productRepo, DozerBeanMapper mapper) {
+        this.productRepo = productRepo;
+        this.mapper = mapper;
+    }
 
     @Override
     @Loggable

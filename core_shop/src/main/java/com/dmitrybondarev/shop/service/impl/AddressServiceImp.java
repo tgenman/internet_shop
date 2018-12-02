@@ -1,29 +1,30 @@
 package com.dmitrybondarev.shop.service.impl;
 
-import com.dmitrybondarev.shop.aspect.Loggable;
 import com.dmitrybondarev.shop.model.Address;
 import com.dmitrybondarev.shop.model.User;
 import com.dmitrybondarev.shop.model.dto.AddressDto;
 import com.dmitrybondarev.shop.repository.api.AddressRepo;
 import com.dmitrybondarev.shop.repository.api.UserRepo;
 import com.dmitrybondarev.shop.service.api.AddressService;
+import com.dmitrybondarev.shop.util.aspect.Loggable;
 import org.dozer.DozerBeanMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class AddressServiceImp implements AddressService {
 
-    @Autowired
     private UserRepo userRepo;
 
-    @Autowired
     private AddressRepo addressRepo;
 
-    @Autowired
     private DozerBeanMapper mapper;
 
+    public AddressServiceImp(UserRepo userRepo, AddressRepo addressRepo, DozerBeanMapper mapper) {
+        this.userRepo = userRepo;
+        this.addressRepo = addressRepo;
+        this.mapper = mapper;
+    }
 
     @Override
     @Loggable

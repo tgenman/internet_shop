@@ -1,15 +1,13 @@
 package com.dmitrybondarev.shop.config;
 
-import com.dmitrybondarev.shop.validation.EmailValidator;
-import com.dmitrybondarev.shop.validation.PasswordMatchesValidator;
+import com.dmitrybondarev.shop.util.validation.EmailValidator;
+import com.dmitrybondarev.shop.util.validation.PasswordMatchesValidator;
 import org.dozer.DozerBeanMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -17,7 +15,6 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
-import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
@@ -28,11 +25,13 @@ import java.util.Locale;
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
 
-    @Autowired
     private ApplicationContext applicationContext;
 
+    public MvcConfig(ApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
+    }
 
-// ============== THYMELEAF ============
+    // ============== THYMELEAF ============
 
     @Bean
     public SpringResourceTemplateResolver templateResolver(){
@@ -63,6 +62,7 @@ public class MvcConfig implements WebMvcConfigurer {
 
 // ============== SPRING ============
 
+    @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/login").setViewName("login");
     }

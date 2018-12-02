@@ -1,11 +1,10 @@
 package com.dmitrybondarev.shop.service.impl;
 
-import com.dmitrybondarev.shop.aspect.Loggable;
 import com.dmitrybondarev.shop.model.Order;
 import com.dmitrybondarev.shop.model.dto.OrderDto;
 import com.dmitrybondarev.shop.repository.api.OrderRepo;
 import com.dmitrybondarev.shop.service.api.OrderService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.dmitrybondarev.shop.util.aspect.Loggable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,8 +14,11 @@ import java.util.List;
 @Service
 public class OrderServiceImp implements OrderService {
 
-    @Autowired
     private OrderRepo orderRepo;
+
+    public OrderServiceImp(OrderRepo orderRepo) {
+        this.orderRepo = orderRepo;
+    }
 
     @Override
     @Loggable

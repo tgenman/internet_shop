@@ -1,8 +1,7 @@
 package com.dmitrybondarev.shop.controller;
 
-import com.dmitrybondarev.shop.aspect.Loggable;
+import com.dmitrybondarev.shop.util.aspect.Loggable;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller

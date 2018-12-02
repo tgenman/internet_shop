@@ -1,4 +1,4 @@
-package com.dmitrybondarev.shop.exception;
+package com.dmitrybondarev.shop.util.exception;
 
 public class EmailExistsException extends Exception {
 

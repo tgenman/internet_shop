@@ -1,13 +1,12 @@
 package com.dmitrybondarev.shop.service.impl;
 
-import com.dmitrybondarev.shop.aspect.Loggable;
-import com.dmitrybondarev.shop.exception.EmailExistsException;
 import com.dmitrybondarev.shop.model.User;
 import com.dmitrybondarev.shop.model.dto.UserDto;
 import com.dmitrybondarev.shop.model.enums.Role;
 import com.dmitrybondarev.shop.repository.api.UserRepo;
 import com.dmitrybondarev.shop.service.api.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.dmitrybondarev.shop.util.aspect.Loggable;
+import com.dmitrybondarev.shop.util.exception.EmailExistsException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;

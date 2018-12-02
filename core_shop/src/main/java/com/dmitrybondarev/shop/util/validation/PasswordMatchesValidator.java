@@ -1,4 +1,4 @@
-package com.dmitrybondarev.shop.validation;
+package com.dmitrybondarev.shop.util.validation;
 
 import com.dmitrybondarev.shop.model.dto.UserDto;
 

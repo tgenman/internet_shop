@@ -1,12 +1,11 @@
 package com.dmitrybondarev.shop.service.impl;
 
-import com.dmitrybondarev.shop.aspect.Loggable;
 import com.dmitrybondarev.shop.model.Product;
 import com.dmitrybondarev.shop.model.User;
 import com.dmitrybondarev.shop.repository.api.ProductRepo;
 import com.dmitrybondarev.shop.repository.api.UserRepo;
 import com.dmitrybondarev.shop.service.api.CartService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.dmitrybondarev.shop.util.aspect.Loggable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,11 +15,14 @@ import java.util.Map;
 @Service
 public class CartServiceImp implements CartService {
 
-    @Autowired
     private UserRepo userRepo;
 
-    @Autowired
     private ProductRepo productRepo;
+
+    public CartServiceImp(UserRepo userRepo, ProductRepo productRepo) {
+        this.userRepo = userRepo;
+        this.productRepo = productRepo;
+    }
 
     @Override
     @Loggable

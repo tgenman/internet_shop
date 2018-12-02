@@ -1,6 +1,6 @@
 package com.dmitrybondarev.shop.controller.admin;
 
-import com.dmitrybondarev.shop.aspect.Loggable;
+import com.dmitrybondarev.shop.util.aspect.Loggable;
 import com.dmitrybondarev.shop.model.dto.ProductDto;
 import com.dmitrybondarev.shop.service.api.ProductService;
 import org.springframework.stereotype.Controller;

@@ -1,6 +1,6 @@
 package com.dmitrybondarev.shop.repository.impl;
 
-import com.dmitrybondarev.shop.aspect.Loggable;
+import com.dmitrybondarev.shop.util.aspect.Loggable;
 import com.dmitrybondarev.shop.repository.api.GenericRepo;
 
 import javax.persistence.EntityManager;

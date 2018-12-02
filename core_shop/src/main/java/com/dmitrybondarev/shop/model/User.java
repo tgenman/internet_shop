@@ -1,7 +1,6 @@
 package com.dmitrybondarev.shop.model;
 
 import com.dmitrybondarev.shop.model.enums.Role;
-import com.dmitrybondarev.shop.validation.PasswordMatches;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

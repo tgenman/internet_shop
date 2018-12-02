@@ -4,16 +4,14 @@ import com.dmitrybondarev.shop.model.Address;
 import com.dmitrybondarev.shop.model.Order;
 import com.dmitrybondarev.shop.model.Product;
 import com.dmitrybondarev.shop.model.enums.Role;
-import com.dmitrybondarev.shop.validation.PasswordMatches;
-import com.dmitrybondarev.shop.validation.ValidEmail;
+import com.dmitrybondarev.shop.util.validation.PasswordMatches;
+import com.dmitrybondarev.shop.util.validation.ValidEmail;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 
 @Data
