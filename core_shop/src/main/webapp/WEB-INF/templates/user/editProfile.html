@@ -66,7 +66,7 @@
 
             <div class="form-group row">
                 <div class="col-sm-3">
-                    <button type="submit" class="btn btn-primary" th:text="#{label.registration}">submit</button>
+                    <button type="submit" class="btn btn-primary" th:text="#{label.form.editProfile.buttonEdit}">submit</button>
                 </div>
             </div>
         </form>
@@ -85,7 +85,7 @@
                         ${address.building}
                         ${address.flat}
                     </p>
-                    <a href="#" th:href="/user/address/${address.id}" class="btn btn-warning">edit</a>
+                    <a href="#" th:href="/user/address/${address.id}" class="btn btn-warning" th:text="#{label.form.editProfile.buttonEdit}">edit</a>
                 </div>
             </div>
         </div>

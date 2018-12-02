@@ -18,9 +18,9 @@ public class UserRepoImp extends GenericRepoImpl<User> implements UserRepo {
 
     @Override
     @Loggable
-    public User findByUsername(String username) {
-        TypedQuery<User> query = entityManager.createQuery("select u from User u where u.username = :username", User.class);
-        query.setParameter("username", username);
+    public User findByEmail(String email) {
+        TypedQuery<User> query = entityManager.createQuery("select u from User u where u.email = :email", User.class);
+        query.setParameter("email", email);
         User singleResult;
         try {                                               //TODO Fix
             singleResult = query.getSingleResult();

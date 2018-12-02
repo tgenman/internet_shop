@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.Arrays;
 import java.util.List;
 
@@ -49,15 +50,15 @@ public class UserController {
     @Loggable
     @GetMapping
     public String showMyUserEditForm(HttpServletRequest request, Model model) {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        UserDto userDtoByUsername = userService.getUserDtoById(user.getId());
+        UserDto userDtoByUsername = userService.getUserDtoByUsername(principal.getUsername());
         userDtoByUsername.setPassword("");
 
         request.getSession().setAttribute("oldUserDto", userDtoByUsername);
 
         model.addAttribute("userDto", userDtoByUsername);
-        model.addAttribute("actualRoles", user.getRoles());
+        model.addAttribute("actualRoles", userDtoByUsername.getRoles());
         model.addAttribute("roles", Role.values());
 
         return "user/editProfile";

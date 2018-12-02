@@ -11,6 +11,7 @@ import lombok.Data;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -42,7 +43,10 @@ public class UserDto implements Serializable {
 
     private boolean active;
 
-    private Set<Role> roles;
+//    private Set<Role> roles;
+
+    private List<String> roles;
+
 
     private String dateOfBirth;
 

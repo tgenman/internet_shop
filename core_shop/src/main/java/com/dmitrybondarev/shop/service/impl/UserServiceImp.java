@@ -2,18 +2,15 @@ package com.dmitrybondarev.shop.service.impl;
 
 import com.dmitrybondarev.shop.model.User;
 import com.dmitrybondarev.shop.model.dto.UserDto;
-import com.dmitrybondarev.shop.model.enums.Role;
 import com.dmitrybondarev.shop.repository.api.UserRepo;
 import com.dmitrybondarev.shop.service.api.UserService;
 import com.dmitrybondarev.shop.util.aspect.Loggable;
 import com.dmitrybondarev.shop.util.exception.EmailExistsException;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -35,7 +32,7 @@ public class UserServiceImp implements UserService {
 
         User user = this.mapUserDtoToUser(userDto);
         user.setUsername(userDto.getEmail());   // TODO See after
-        user.setRoles(Collections.singleton(Role.USER));
+        user.setRoles(Arrays.asList("ROLE_USER"));
         user.setId(null);
 
         userRepo.save(user);
@@ -60,7 +57,7 @@ public class UserServiceImp implements UserService {
     @Loggable
     @Transactional
     public UserDto getUserDtoByUsername(String username) {
-        User user = userRepo.findByUsername(username);
+        User user = userRepo.findByEmail(username);
         return this.mapUserToUserDto(user);
     }
 
@@ -82,23 +79,10 @@ public class UserServiceImp implements UserService {
     }
 
 
-    @Override
-    @Loggable
-    @Transactional
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepo.findByUsername(username);
-        if (user == null) {
-            throw new UsernameNotFoundException(
-                    "No user found with username: "+ username);
-        }
-        return user;
-    }
-
-
 // ============== NON-API ============
 
     private boolean emailExist(String email) {
-        User user = userRepo.findByUsername(email);
+        User user = userRepo.findByEmail(email);
         return user != null;
     }
 
