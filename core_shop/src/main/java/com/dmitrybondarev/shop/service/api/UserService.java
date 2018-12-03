@@ -1,5 +1,6 @@
 package com.dmitrybondarev.shop.service.api;
 
+import com.dmitrybondarev.shop.model.VerificationToken;
 import com.dmitrybondarev.shop.util.exception.EmailExistsException;
 import com.dmitrybondarev.shop.model.User;
 import com.dmitrybondarev.shop.model.dto.UserDto;
@@ -11,15 +12,27 @@ import java.util.List;
 @Service
 public interface UserService  {
 
-    List<UserDto> getAllUsers();
+    User registerNewUserAccount(UserDto accountDto) throws EmailExistsException;
+
+    void enableUser(User user);
+
+    User getUserByVerificationToken(String verificationToken);
+
+    void createVerificationToken(User user, String token);
+
+    VerificationToken getVerificationToken(String VerificationToken);
+
+
+
+
+    UserDto getUserDtoById(long id);
 
     UserDto getUserDtoByUsername(String username);
 
-    User registerNewUserAccount(UserDto accountDto) throws EmailExistsException;
-
-    UserDto getUserDtoById(long id);
+    List<UserDto> getAllUsers();
 
     UserDto editUser(UserDto userDto);
 
     User mapUserDtoToUser(UserDto userDto);
+
 }

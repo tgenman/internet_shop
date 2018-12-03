@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="parts :: header(#{label.registration})">Home page</div>
+
+<body>
+<div th:replace="parts :: navbar"></div>
+
+<div class="container mt-5">
+    <h1 class="alert alert-danger" th:text="#{message.email.config.error}">error</h1>
+</div>
+
+<div th:replace="parts :: footer"></div>
+</body>
+</html>

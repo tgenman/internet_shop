@@ -10,6 +10,9 @@
 <div class="container mt-5">
     <h2 th:text="#{label.form.login.title}">Login page</h2>
 
+    <div th:if="${param.error != null}"
+         th:text="${session[SPRING_SECURITY_LAST_EXCEPTION]}">error</div>
+
     <form action="/login" method="POST" enctype="utf8">
         <div class="form-group row">
             <label class="col-sm-2 col-form-label" th:text="#{label.user.email}">email</label>
@@ -21,7 +24,7 @@
         <div class="form-group row">
             <label class="col-sm-2 col-form-label" th:text="#{label.user.password}">Password</label>
             <div class="col-sm-3">
-                <input type="text" class="form-control" name="password"/>
+                <input type="password" class="form-control" name="password"/>
             </div>
         </div>
 

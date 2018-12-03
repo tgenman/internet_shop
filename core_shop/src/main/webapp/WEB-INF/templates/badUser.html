@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="parts :: header(#{label.badUser.title})">Bad User</div>
+
+<body>
+<div th:replace="parts :: navbar"></div>
+
+<div class="container mt-5">
+    <h1 th:text="${param.message[0]}">Error Message</h1>
+    <a th:href="@{/registration.html}"
+    th:text="#{label.registration}">signup</a>
+</div>
+
+<div th:replace="parts :: footer"></div>
+</body>
+</html>

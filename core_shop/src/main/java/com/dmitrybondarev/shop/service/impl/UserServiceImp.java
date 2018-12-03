@@ -1,8 +1,10 @@
 package com.dmitrybondarev.shop.service.impl;
 
 import com.dmitrybondarev.shop.model.User;
+import com.dmitrybondarev.shop.model.VerificationToken;
 import com.dmitrybondarev.shop.model.dto.UserDto;
 import com.dmitrybondarev.shop.repository.api.UserRepo;
+import com.dmitrybondarev.shop.repository.api.VerificationTokenRepo;
 import com.dmitrybondarev.shop.service.api.UserService;
 import com.dmitrybondarev.shop.util.aspect.Loggable;
 import com.dmitrybondarev.shop.util.exception.EmailExistsException;
@@ -18,8 +20,11 @@ public class UserServiceImp implements UserService {
 
     private UserRepo userRepo;
 
-    public UserServiceImp(UserRepo userRepo) {
+    private VerificationTokenRepo verificationTokenRepo;
+
+    public UserServiceImp(UserRepo userRepo, VerificationTokenRepo verificationTokenRepo) {
         this.userRepo = userRepo;
+        this.verificationTokenRepo = verificationTokenRepo;
     }
 
     @Override
@@ -37,6 +42,32 @@ public class UserServiceImp implements UserService {
 
         userRepo.save(user);
         return user;
+    }
+
+    @Override
+    @Transactional
+    public void enableUser(User user) {
+        user.setEnabled(true);
+        userRepo.update(user);
+    }
+
+    @Override
+    @Transactional
+    public User getUserByVerificationToken(String verificationToken) {
+        return verificationTokenRepo.findByToken(verificationToken).getUser();
+    }
+
+    @Override
+    @Transactional
+    public void createVerificationToken(User user, String token) {
+        VerificationToken myToken = new VerificationToken(token, user);
+        verificationTokenRepo.save(myToken);
+    }
+
+    @Override
+    @Transactional
+    public VerificationToken getVerificationToken(String VerificationToken) {
+        return verificationTokenRepo.findByToken(VerificationToken);
     }
 
     @Override
@@ -79,6 +110,8 @@ public class UserServiceImp implements UserService {
     }
 
 
+
+
 // ============== NON-API ============
 
     private boolean emailExist(String email) {
@@ -89,7 +122,7 @@ public class UserServiceImp implements UserService {
     private UserDto mapUserToUserDto(User user) {
         UserDto userDto = new UserDto();
         userDto.setId(user.getId());
-        userDto.setActive(user.isActive());
+        userDto.setEnabled(user.isEnabled());
         userDto.setUsername(user.getUsername());
         userDto.setFirstName(user.getFirstName());
         userDto.setLastName(user.getLastName());
@@ -106,7 +139,7 @@ public class UserServiceImp implements UserService {
     public User mapUserDtoToUser(UserDto userDto) {
         User user = new User();
         user.setId(userDto.getId());
-        user.setActive(userDto.isActive());
+        user.setEnabled(userDto.isEnabled());
         user.setUsername(userDto.getUsername());
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());

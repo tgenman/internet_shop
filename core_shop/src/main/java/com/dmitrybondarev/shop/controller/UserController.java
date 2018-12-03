@@ -72,7 +72,7 @@ public class UserController {
         UserDto oldUserDto = (UserDto) request.getSession().getAttribute("oldUserDto");
 
         userDto.setId(oldUserDto.getId());
-        userDto.setActive(oldUserDto.isActive());
+        userDto.setEnabled(oldUserDto.isEnabled());
         userDto.setAddresses(oldUserDto.getAddresses());
 
         if (result.hasErrors()) {

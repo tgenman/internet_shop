@@ -7,7 +7,11 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.core.env.Environment;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -21,17 +25,23 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 
 import java.util.Locale;
+import java.util.Objects;
+import java.util.Properties;
 
 @Configuration
+@PropertySource("classpath:application.properties")
 public class MvcConfig implements WebMvcConfigurer {
 
     private ApplicationContext applicationContext;
 
-    public MvcConfig(ApplicationContext applicationContext) {
+    private Environment env;
+
+    public MvcConfig(ApplicationContext applicationContext, Environment env) {
         this.applicationContext = applicationContext;
+        this.env = env;
     }
 
-    // ============== THYMELEAF ============
+// ============== THYMELEAF ============
 
     @Bean
     public SpringResourceTemplateResolver templateResolver(){
@@ -72,6 +82,23 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/images/**").addResourceLocations("/images/");
         registry.addResourceHandler("/css/**").addResourceLocations("/css/");
         registry.addResourceHandler("/js/**").addResourceLocations("/js/");
+    }
+
+    @Bean
+    public JavaMailSender getJavaMailSender() {
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost(env.getProperty("spring.mail.host"));
+        mailSender.setPort(Integer.parseInt(Objects.requireNonNull(env.getProperty("spring.mail.port"))));
+        mailSender.setUsername(env.getProperty("spring.mail.username"));
+        mailSender.setPassword(env.getProperty("spring.mail.password"));
+
+        Properties props = mailSender.getJavaMailProperties();
+        props.put("mail.transport.protocol", Objects.requireNonNull(env.getProperty("spring.mail.protocol")));
+//        props.put("mail.smtp.auth", Objects.requireNonNull(env.getProperty("spring.mail.smtp.auth")));
+//        props.put("mail.smtp.starttls.enable", Objects.requireNonNull(env.getProperty("spring.mail.smtp.starttls.enable")));
+        props.put("mail.debug", Objects.requireNonNull(env.getProperty("spring.mail.debug")));
+
+        return mailSender;
     }
 
 

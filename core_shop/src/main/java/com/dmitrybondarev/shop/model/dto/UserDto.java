@@ -41,7 +41,9 @@ public class UserDto implements Serializable {
     private String password;
     private String matchingPassword;
 
-    private boolean active;
+//    private boolean active;
+
+    private boolean enabled;
 
 //    private Set<Role> roles;
 

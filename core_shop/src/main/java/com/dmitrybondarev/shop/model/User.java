@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -32,6 +33,11 @@ import java.util.Set;
 @Table(name = "user")
 public class User implements Serializable {
 
+    public User() {
+        super();
+        this.enabled=false;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
@@ -42,7 +48,10 @@ public class User implements Serializable {
 
     private String password;
 
-    private boolean active;
+//    private boolean active;
+
+    @Column(name = "enabled")
+    private boolean enabled;
 
 
     private String firstName;
