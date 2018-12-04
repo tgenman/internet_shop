@@ -8,6 +8,7 @@ import com.dmitrybondarev.shop.repository.api.VerificationTokenRepo;
 import com.dmitrybondarev.shop.service.api.UserService;
 import com.dmitrybondarev.shop.util.aspect.Loggable;
 import com.dmitrybondarev.shop.util.exception.EmailExistsException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,9 +24,12 @@ public class UserServiceImp implements UserService {
 
     private VerificationTokenRepo verificationTokenRepo;
 
-    public UserServiceImp(UserRepo userRepo, VerificationTokenRepo verificationTokenRepo) {
+    private PasswordEncoder passwordEncoder;
+
+    public UserServiceImp(UserRepo userRepo, VerificationTokenRepo verificationTokenRepo, PasswordEncoder passwordEncoder) {
         this.userRepo = userRepo;
         this.verificationTokenRepo = verificationTokenRepo;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -37,8 +41,9 @@ public class UserServiceImp implements UserService {
         }
 
         User user = this.mapUserDtoToUser(userDto);
-        user.setUsername(userDto.getEmail());   // TODO See after
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         user.setRoles(Arrays.asList("ROLE_USER"));
+        user.setEnabled(false);
         user.setId(null);
 
         userRepo.save(user);
@@ -133,7 +138,7 @@ public class UserServiceImp implements UserService {
         UserDto userDto = new UserDto();
         userDto.setId(user.getId());
         userDto.setEnabled(user.isEnabled());
-        userDto.setUsername(user.getUsername());
+//        userDto.setUsername(user.getUsername());
         userDto.setFirstName(user.getFirstName());
         userDto.setLastName(user.getLastName());
         userDto.setEmail(user.getEmail());
@@ -150,7 +155,7 @@ public class UserServiceImp implements UserService {
         User user = new User();
         user.setId(userDto.getId());
         user.setEnabled(userDto.isEnabled());
-        user.setUsername(userDto.getUsername());
+//        user.setUsername(userDto.getUsername());
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
         user.setEmail(userDto.getEmail());

@@ -1,5 +1,6 @@
-package com.dmitrybondarev.shop.security;
+package com.dmitrybondarev.shop.security.handler;
 
+import com.dmitrybondarev.shop.security.GenericResponse;
 import com.dmitrybondarev.shop.util.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

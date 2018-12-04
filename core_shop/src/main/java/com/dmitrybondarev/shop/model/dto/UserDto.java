@@ -21,7 +21,7 @@ public class UserDto implements Serializable {
 
     private long id;
 
-    private String username;
+//    private String username;
 
     @NotNull
     @NotEmpty(message = "message.NotEmpty")

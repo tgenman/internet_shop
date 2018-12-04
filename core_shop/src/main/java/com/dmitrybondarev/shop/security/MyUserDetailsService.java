@@ -2,6 +2,7 @@ package com.dmitrybondarev.shop.security;
 
 import com.dmitrybondarev.shop.model.User;
 import com.dmitrybondarev.shop.repository.api.UserRepo;
+import com.dmitrybondarev.shop.util.aspect.Loggable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,6 +25,7 @@ public class MyUserDetailsService implements UserDetailsService {
     }
 
     @Override
+    @Loggable
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         boolean accountNonExpired = true;
         boolean credentialsNonExpired = true;
@@ -37,7 +39,7 @@ public class MyUserDetailsService implements UserDetailsService {
             }
             return new org.springframework.security.core.userdetails.User(
                     user.getEmail(),
-                    user.getPassword().toLowerCase(),
+                    user.getPassword(),
                     user.isEnabled(),
                     accountNonExpired,
                     credentialsNonExpired,

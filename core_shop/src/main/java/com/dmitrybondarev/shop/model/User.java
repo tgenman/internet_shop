@@ -33,22 +33,14 @@ import java.util.Set;
 @Table(name = "user")
 public class User implements Serializable {
 
-    public User() {
-        super();
-        this.enabled=false;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
 
-    private String username;
-
     private String email;
 
+    @Column(length = 60)
     private String password;
-
-//    private boolean active;
 
     @Column(name = "enabled")
     private boolean enabled;
@@ -80,10 +72,6 @@ public class User implements Serializable {
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "user_cart", joinColumns = @JoinColumn(name = "user_id"))
     private Map<Product, Integer> cart;
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
 
     public boolean isAdmin() {

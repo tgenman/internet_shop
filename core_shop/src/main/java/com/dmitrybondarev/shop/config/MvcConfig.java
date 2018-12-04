@@ -2,7 +2,6 @@ package com.dmitrybondarev.shop.config;
 
 import com.dmitrybondarev.shop.util.validation.EmailValidator;
 import com.dmitrybondarev.shop.util.validation.PasswordMatchesValidator;
-import org.dozer.DozerBeanMapper;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -34,11 +33,8 @@ public class MvcConfig implements WebMvcConfigurer {
 
     private ApplicationContext applicationContext;
 
-    private Environment env;
-
-    public MvcConfig(ApplicationContext applicationContext, Environment env) {
+    public MvcConfig(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
-        this.env = env;
     }
 
 // ============== THYMELEAF ============
@@ -84,24 +80,6 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/js/**").addResourceLocations("/js/");
     }
 
-    @Bean
-    public JavaMailSender getJavaMailSender() {
-        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost(env.getProperty("spring.mail.host"));
-        mailSender.setPort(Integer.parseInt(Objects.requireNonNull(env.getProperty("spring.mail.port"))));
-        mailSender.setUsername(env.getProperty("spring.mail.username"));
-        mailSender.setPassword(env.getProperty("spring.mail.password"));
-
-        Properties props = mailSender.getJavaMailProperties();
-        props.put("mail.transport.protocol", Objects.requireNonNull(env.getProperty("spring.mail.protocol")));
-//        props.put("mail.smtp.auth", Objects.requireNonNull(env.getProperty("spring.mail.smtp.auth")));
-//        props.put("mail.smtp.starttls.enable", Objects.requireNonNull(env.getProperty("spring.mail.smtp.starttls.enable")));
-        props.put("mail.debug", Objects.requireNonNull(env.getProperty("spring.mail.debug")));
-
-        return mailSender;
-    }
-
-
 // ============== VALIDATION ============
 
     @Bean
@@ -141,10 +119,6 @@ public class MvcConfig implements WebMvcConfigurer {
         return messageSource;
     }
 
-// ============== OTHER ============
 
-    @Bean
-    public DozerBeanMapper getDozerBeanMapper() {
-    return new DozerBeanMapper();
-}
+
 }

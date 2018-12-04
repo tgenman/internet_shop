@@ -1,8 +1,9 @@
-package com.dmitrybondarev.shop.security;
+package com.dmitrybondarev.shop.security.listener;
 
 import java.util.UUID;
 
 import com.dmitrybondarev.shop.model.User;
+import com.dmitrybondarev.shop.security.event.OnRegistrationCompleteEvent;
 import com.dmitrybondarev.shop.service.api.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

@@ -2,7 +2,7 @@ package com.dmitrybondarev.shop.controller;
 
 import com.dmitrybondarev.shop.model.VerificationToken;
 import com.dmitrybondarev.shop.security.GenericResponse;
-import com.dmitrybondarev.shop.security.OnRegistrationCompleteEvent;
+import com.dmitrybondarev.shop.security.event.OnRegistrationCompleteEvent;
 import com.dmitrybondarev.shop.util.aspect.Loggable;
 import com.dmitrybondarev.shop.util.exception.EmailExistsException;
 import com.dmitrybondarev.shop.model.User;

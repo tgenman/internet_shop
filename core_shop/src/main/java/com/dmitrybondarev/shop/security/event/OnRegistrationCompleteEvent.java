@@ -1,8 +1,7 @@
-package com.dmitrybondarev.shop.security;
+package com.dmitrybondarev.shop.security.event;
 
 import com.dmitrybondarev.shop.model.User;
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.context.ApplicationEvent;
 
 import java.util.Locale;
