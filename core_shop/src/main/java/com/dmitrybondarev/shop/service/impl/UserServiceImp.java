@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class UserServiceImp implements UserService {
@@ -62,6 +63,15 @@ public class UserServiceImp implements UserService {
     public void createVerificationToken(User user, String token) {
         VerificationToken myToken = new VerificationToken(token, user);
         verificationTokenRepo.save(myToken);
+    }
+
+    @Override
+    @Transactional
+    public VerificationToken generateNewVerificationToken(final String existingVerificationToken) {
+        VerificationToken vToken = verificationTokenRepo.findByToken(existingVerificationToken);
+        vToken.updateToken(UUID.randomUUID().toString());
+        verificationTokenRepo.save(vToken);
+        return vToken;
     }
 
     @Override

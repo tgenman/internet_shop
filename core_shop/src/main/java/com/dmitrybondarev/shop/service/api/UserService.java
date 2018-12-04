@@ -6,6 +6,7 @@ import com.dmitrybondarev.shop.model.User;
 import com.dmitrybondarev.shop.model.dto.UserDto;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,6 +20,8 @@ public interface UserService  {
     User getUserByVerificationToken(String verificationToken);
 
     void createVerificationToken(User user, String token);
+
+    VerificationToken generateNewVerificationToken(String existingVerificationToken);
 
     VerificationToken getVerificationToken(String VerificationToken);
 

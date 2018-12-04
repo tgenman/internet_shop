@@ -9,8 +9,39 @@
 
 <div class="container mt-5">
     <h1 th:text="${param.message[0]}">Error Message</h1>
-    <a th:href="@{/registration.html}"
-    th:text="#{label.registration}">signup</a>
+    <a th:href="@{/user/registration}" th:text="#{label.registration}">signup</a>
+
+
+    <div th:if="${param.expired[0]}">
+        <h1 th:text="#{label.form.resendRegistrationToken}">resend</h1>
+        <button onclick="resendToken()"
+                th:text="#{label.form.resendRegistrationToken}">resend</button>
+
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script th:inline="javascript">
+            var serverContext = [[@{/}]];
+                function resendToken(){
+                    var token = [[${param.token}]];
+                    $.get(serverContext + "user/resendRegistrationToken?token="+token, function(data){
+                        window.location.href = serverContext +"login?message=" + data.message;
+                    })
+                        .fail(function(data) {
+                            if(data.responseJSON.error.indexOf("MailError") > -1)
+                            {
+                                window.location.href = serverContext + "emailError.html";
+                            }
+                            else{
+                                window.location.href = serverContext + "login?message=" + data.responseJSON.message;
+                            }
+                        });
+                }
+                $(document).ajaxStart(function() {
+                    $("title").html("LOADING ...");
+                });
+        </script>
+    </div>
+
+
 </div>
 
 <div th:replace="parts :: footer"></div>
