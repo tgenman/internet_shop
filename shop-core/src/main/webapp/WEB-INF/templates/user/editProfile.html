@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="parts :: header(#{label.form.editProfile.title})">Edit Profile</div>
+
+<body>
+    <div th:replace="parts :: navbar"></div>
+
+    <div class="container mt-5">
+        <h2 th:text="#{label.form.editProfile.title}">Home page</h2>
+
+        <!--/*@thymesVar id="userDto" type="com.dmitrybondarev.shop.model.dto.UserDto"*/-->
+        <form action="/user" th:object="${userDto}" method="POST" enctype="utf8">
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label"
+                       th:text="#{label.user.email}">email</label>
+                <div class="col-sm-3">
+                    <input type="text" th:field="*{email}" class="form-control" id="inputEmail1"/>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label"
+                       th:text="#{label.user.firstName}">first name</label>
+                <div class="col-sm-3">
+                    <input type="text" th:field="*{firstName}" class="form-control" id="inputEmail2"/>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label"
+                       th:text="#{label.user.lastName}">last name</label>
+                <div class="col-sm-3">
+                    <input type="text" th:field="*{lastName}" class="form-control" id="inputEmail3"/>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label"
+                       th:text="#{label.user.dateOfBirth}">date of birth</label>
+                <div class="col-sm-3">
+                    <input type="text" th:field="*{dateOfBirth}" class="form-control" id="inputEmail4"/>
+                </div>
+            </div>
+
+            <input type="hidden"
+                   name="${_csrf.parameterName}"
+                   value="${_csrf.token}"/>
+
+            <div class="form-group row">
+                <div class="col-sm-3">
+                    <button type="submit" class="btn btn-primary" th:text="#{label.form.editProfile.buttonEdit}">submit</button>
+                </div>
+            </div>
+        </form>
+
+        <div class="form-group row">
+            <div class="col-sm-3">
+                <a th:text="#{message.resetPassword}"
+                   href="#" th:href="@{/forgetPassword.html}"
+                   role="button"
+                   class="btn btn-danger">Reset password</a>
+            </div>
+        </div>
+
+        <h2 th:text="#{label.form.editProfile.addresses}">Addresses:</h2>
+
+        <div class="card-columns">
+            <div class="card" style="width: 18rem;" th:each="address : ${userDto.addresses}">
+                <div class="card-body">
+                    <h5 class="card-title">Address</h5>
+                    <p class="card-text" th:text="${address.postalCode} + ${address.country}">
+                        ${address.postalCode}
+                        ${address.country}
+                        ${address.city}
+                        ${address.street}
+                        ${address.building}
+                        ${address.flat}
+                    </p>
+                    <a href="#" th:href="/user/address/${address.id}" class="btn btn-warning" th:text="#{label.form.editProfile.buttonEdit}">edit</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-sm-3">
+                <a th:text="#{label.form.editAddress.addAddress}"
+                   href="/user/address/new"
+                   role="button"
+                   class="btn btn-danger">Add address</a>
+            </div>
+        </div>
+
+    </div>
+
+    <div th:replace="parts :: footer"></div>
+</body>
+</html>
