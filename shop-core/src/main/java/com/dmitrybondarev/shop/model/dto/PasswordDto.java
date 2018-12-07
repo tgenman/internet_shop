@@ -1,6 +1,6 @@
 package com.dmitrybondarev.shop.model.dto;
 
-import com.dmitrybondarev.shop.util.validation.annotation.ValidPassword;
+import com.dmitrybondarev.shop.web.validation.annotation.ValidPassword;
 import lombok.Data;
 
 @Data

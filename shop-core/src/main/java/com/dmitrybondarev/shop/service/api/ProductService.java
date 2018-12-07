@@ -1,6 +1,7 @@
 package com.dmitrybondarev.shop.service.api;
 
 import com.dmitrybondarev.shop.model.dto.ProductDto;
+import com.dmitrybondarev.shop.model.dto.rest.ProductDtoRest;
 
 import java.util.List;
 import java.util.Map;
@@ -18,4 +19,5 @@ public interface ProductService {
     ProductDto editProductToStock(ProductDto productDto);
 
     void removeProductFromStock(long id);
+
 }

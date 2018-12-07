@@ -2,6 +2,7 @@ package com.dmitrybondarev.shop.service.impl;
 
 import com.dmitrybondarev.shop.model.Product;
 import com.dmitrybondarev.shop.model.dto.ProductDto;
+import com.dmitrybondarev.shop.model.dto.rest.ProductDtoRest;
 import com.dmitrybondarev.shop.repository.api.ProductRepo;
 import com.dmitrybondarev.shop.service.api.ProductService;
 import com.dmitrybondarev.shop.util.aspect.Loggable;

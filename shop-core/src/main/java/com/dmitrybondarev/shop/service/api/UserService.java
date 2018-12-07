@@ -1,12 +1,10 @@
 package com.dmitrybondarev.shop.service.api;
 
 import com.dmitrybondarev.shop.model.token.VerificationToken;
-import com.dmitrybondarev.shop.util.aspect.Loggable;
 import com.dmitrybondarev.shop.util.exception.EmailExistsException;
 import com.dmitrybondarev.shop.model.User;
 import com.dmitrybondarev.shop.model.dto.UserDto;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 

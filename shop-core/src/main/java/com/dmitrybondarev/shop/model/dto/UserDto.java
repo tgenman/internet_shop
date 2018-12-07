@@ -3,8 +3,8 @@ package com.dmitrybondarev.shop.model.dto;
 import com.dmitrybondarev.shop.model.Address;
 import com.dmitrybondarev.shop.model.Order;
 import com.dmitrybondarev.shop.model.Product;
-import com.dmitrybondarev.shop.util.validation.annotation.PasswordMatches;
-import com.dmitrybondarev.shop.util.validation.annotation.ValidEmail;
+import com.dmitrybondarev.shop.web.validation.annotation.PasswordMatches;
+import com.dmitrybondarev.shop.web.validation.annotation.ValidEmail;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;

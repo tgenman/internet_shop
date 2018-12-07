@@ -128,6 +128,12 @@
             <artifactId>hibernate-validator</artifactId>
             <version>${hibernate-validator.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.rabbitmq</groupId>
+            <artifactId>amqp-client</artifactId>
+            <version>5.5.0</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -230,7 +236,7 @@
     </build>
 
     <modules>
-        <module>advertising_stand</module>
-        <module>core_shop</module>
+        <module>shop-core</module>
+        <module>shop-stand</module>
     </modules>
 </project>
