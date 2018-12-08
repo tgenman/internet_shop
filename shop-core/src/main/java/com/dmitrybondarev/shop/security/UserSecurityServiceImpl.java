@@ -2,7 +2,7 @@ package com.dmitrybondarev.shop.security;
 
 import com.dmitrybondarev.shop.model.User;
 import com.dmitrybondarev.shop.model.token.PasswordResetToken;
-import com.dmitrybondarev.shop.repository.api.token.PasswordResetTokenRepo;
+import com.dmitrybondarev.shop.repository.token.PasswordResetTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,12 +18,15 @@ import java.util.Calendar;
 @Transactional
 public class UserSecurityServiceImpl implements UserSecurityService {
 
-    @Autowired
-    private PasswordResetTokenRepo passwordResetTokenRepo;
+    private PasswordResetTokenRepository passwordResetTokenRepository;
+
+    public UserSecurityServiceImpl(PasswordResetTokenRepository passwordResetTokenRepository) {
+        this.passwordResetTokenRepository = passwordResetTokenRepository;
+    }
 
     @Override
     public String validatePasswordResetToken(long id, String token) {
-        final PasswordResetToken passToken = passwordResetTokenRepo.findByToken(token);
+        final PasswordResetToken passToken = passwordResetTokenRepository.findByToken(token);
         if ((passToken == null) || (passToken.getUser().getId() != id)) {
             return "invalidToken";
         }

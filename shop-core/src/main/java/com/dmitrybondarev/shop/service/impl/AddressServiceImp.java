@@ -3,8 +3,8 @@ package com.dmitrybondarev.shop.service.impl;
 import com.dmitrybondarev.shop.model.Address;
 import com.dmitrybondarev.shop.model.User;
 import com.dmitrybondarev.shop.model.dto.AddressDto;
-import com.dmitrybondarev.shop.repository.api.AddressRepo;
-import com.dmitrybondarev.shop.repository.api.UserRepo;
+import com.dmitrybondarev.shop.repository.AddressRepository;
+import com.dmitrybondarev.shop.repository.UserRepository;
 import com.dmitrybondarev.shop.service.api.AddressService;
 import com.dmitrybondarev.shop.util.aspect.Loggable;
 import org.dozer.DozerBeanMapper;
@@ -14,15 +14,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class AddressServiceImp implements AddressService {
 
-    private UserRepo userRepo;
+    private UserRepository userRepository;
 
-    private AddressRepo addressRepo;
+    private AddressRepository addressRepository;
 
     private DozerBeanMapper mapper;
 
-    public AddressServiceImp(UserRepo userRepo, AddressRepo addressRepo, DozerBeanMapper mapper) {
-        this.userRepo = userRepo;
-        this.addressRepo = addressRepo;
+    public AddressServiceImp(UserRepository userRepository, AddressRepository addressRepository, DozerBeanMapper mapper) {
+        this.userRepository = userRepository;
+        this.addressRepository = addressRepository;
         this.mapper = mapper;
     }
 
@@ -32,10 +32,10 @@ public class AddressServiceImp implements AddressService {
     public Address addNewAddress(AddressDto addressDto, long userId) {
         Address address = this.mapAddressDtoToAddress(addressDto);
         address.setId(null);
-        User user = userRepo.findById(userId);
+        User user = userRepository.findById(userId).get();
         user.getAddresses().add(address);
-        userRepo.update(user);
-        addressRepo.save(address);
+        userRepository.save(user);
+        addressRepository.save(address);
         return address;
     }
 
@@ -43,7 +43,7 @@ public class AddressServiceImp implements AddressService {
     @Loggable
     @Transactional
     public AddressDto getAddressDtoById(long id) {
-        Address address = addressRepo.findById(id);
+        Address address = addressRepository.findById(id).get();
         return this.mapAddressToAddressDto(address);
     }
 
@@ -52,7 +52,7 @@ public class AddressServiceImp implements AddressService {
     @Transactional
     public Address editAddress(AddressDto addressDto) {
         Address address = this.mapAddressDtoToAddress(addressDto);
-        addressRepo.update(address);
+        addressRepository.save(address);
         return address;
     }
 
@@ -61,13 +61,13 @@ public class AddressServiceImp implements AddressService {
     @Transactional
     public void deleteAddress(long addressId, long userId) {
 
-        Address address = addressRepo.findById(addressId);
+        Address address = addressRepository.findById(addressId).get();
 
-        User user = userRepo.findById(userId);
+        User user = userRepository.findById(userId).get();
         user.getAddresses().remove(address);
 
-        userRepo.update(user);
-        addressRepo.deleteById(addressId);
+        userRepository.save(user);
+        addressRepository.deleteById(addressId);
     }
 
 

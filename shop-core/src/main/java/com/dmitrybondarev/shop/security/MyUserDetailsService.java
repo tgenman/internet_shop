@@ -1,7 +1,7 @@
 package com.dmitrybondarev.shop.security;
 
 import com.dmitrybondarev.shop.model.User;
-import com.dmitrybondarev.shop.repository.api.UserRepo;
+import com.dmitrybondarev.shop.repository.UserRepository;
 import com.dmitrybondarev.shop.util.aspect.Loggable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,10 +18,10 @@ import java.util.List;
 @Transactional
 public class MyUserDetailsService implements UserDetailsService {
 
-    private UserRepo userRepo;
+    private UserRepository userRepository;
 
-    public MyUserDetailsService(UserRepo userRepo) {
-        this.userRepo = userRepo;
+    public MyUserDetailsService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -32,7 +32,7 @@ public class MyUserDetailsService implements UserDetailsService {
         boolean accountNonLocked = true;
 
         try {
-            User user = userRepo.findByEmail(email);
+            User user = userRepository.findByEmail(email);
             if (user == null) {
                 throw new UsernameNotFoundException(
                         "No user found with username: "+ email);

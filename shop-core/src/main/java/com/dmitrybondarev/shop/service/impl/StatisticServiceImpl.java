@@ -4,7 +4,7 @@ import com.dmitrybondarev.shop.model.Order;
 import com.dmitrybondarev.shop.model.Product;
 import com.dmitrybondarev.shop.model.dto.ProductDto;
 import com.dmitrybondarev.shop.model.dto.rest.ProductDtoRest;
-import com.dmitrybondarev.shop.repository.api.OrderRepo;
+import com.dmitrybondarev.shop.repository.OrderRepository;
 import com.dmitrybondarev.shop.service.api.StatisticService;
 import com.dmitrybondarev.shop.util.aspect.Loggable;
 import org.dozer.DozerBeanMapper;
@@ -20,12 +20,12 @@ import java.util.stream.Collectors;
 @Service
 public class StatisticServiceImpl implements StatisticService{
 
-    private OrderRepo orderRepo;
+    private OrderRepository orderRepository;
 
     private DozerBeanMapper mapper;
 
-    public StatisticServiceImpl(OrderRepo orderRepo, DozerBeanMapper mapper) {
-        this.orderRepo = orderRepo;
+    public StatisticServiceImpl(OrderRepository orderRepository, DozerBeanMapper mapper) {
+        this.orderRepository = orderRepository;
         this.mapper = mapper;
     }
 
@@ -33,7 +33,7 @@ public class StatisticServiceImpl implements StatisticService{
     @Loggable
     @Transactional
     public List<ProductDto> getTopFiveProductsDTOByCashFlow() {
-        List<Order> allOrders = orderRepo.findAll();
+        Iterable<Order> allOrders = orderRepository.findAll();
         Map<Product, Integer> allProducts = new HashMap<>();
 
         for (Order order : allOrders) {
@@ -49,14 +49,19 @@ public class StatisticServiceImpl implements StatisticService{
                 .sorted(Map.Entry.<Product, Integer>comparingByValue().reversed())
                 .collect(Collectors.toList());
 
-
-        List<ProductDto> result = new ArrayList<>();
         int size = collect.size() < 6 ? collect.size() : 5;
-        for (int i = 0; i < size; i++)
-            result.add(
-                    this.mapProductToProductDto(
-                            collect.get(i).getKey()));
-        return result;
+
+        return collect.stream()
+                .limit(size)
+                .map(x -> this.mapProductToProductDto(x.getKey()))
+                .collect(Collectors.toList());
+
+//        List<ProductDto> result = new ArrayList<>();
+//        for (int i = 0; i < size; i++)
+//            result.add(
+//                    this.mapProductToProductDto(
+//                            collect.get(i).getKey()));
+//        return result;
     }
 
 

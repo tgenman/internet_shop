@@ -2,8 +2,7 @@ package com.dmitrybondarev.shop.service.impl;
 
 import com.dmitrybondarev.shop.model.Product;
 import com.dmitrybondarev.shop.model.dto.ProductDto;
-import com.dmitrybondarev.shop.model.dto.rest.ProductDtoRest;
-import com.dmitrybondarev.shop.repository.api.ProductRepo;
+import com.dmitrybondarev.shop.repository.ProductRepository;
 import com.dmitrybondarev.shop.service.api.ProductService;
 import com.dmitrybondarev.shop.util.aspect.Loggable;
 import org.dozer.DozerBeanMapper;
@@ -14,16 +13,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImp implements ProductService {
 
-    private ProductRepo productRepo;
+    private ProductRepository productRepository;
 
     private DozerBeanMapper mapper;
 
-    public ProductServiceImp(ProductRepo productRepo, DozerBeanMapper mapper) {
-        this.productRepo = productRepo;
+    public ProductServiceImp(ProductRepository productRepository, DozerBeanMapper mapper) {
+        this.productRepository = productRepository;
         this.mapper = mapper;
     }
 
@@ -33,7 +33,7 @@ public class ProductServiceImp implements ProductService {
     public ProductDto addNewProductToStock(ProductDto productDto) {
         Product product = this.mapProductDtoToProduct(productDto);
         product.setId(null);
-        productRepo.save(product);
+        productRepository.save(product);
         return productDto;
     }
 
@@ -41,7 +41,7 @@ public class ProductServiceImp implements ProductService {
     @Loggable
     @Transactional
     public Map<String, List<ProductDto>> getAllProducts() {
-        List<Product> products = productRepo.findAll();
+        List<Product> products = productRepository.findAll();
         return this.convertListProductsToMapProductDtos(products);
     }
 
@@ -49,7 +49,10 @@ public class ProductServiceImp implements ProductService {
     @Loggable
     @Transactional
     public Map<String, List<ProductDto>> getProductsFromStock() {
-        List<Product> products = productRepo.findNonZeroQuantityProducts();
+        List<Product> products = productRepository.findAll()
+                .stream()
+                .filter(x -> x.getQuantity() > 0)
+                .collect(Collectors.toList());
         return this.convertListProductsToMapProductDtos(products);
     }
 
@@ -57,7 +60,7 @@ public class ProductServiceImp implements ProductService {
     @Loggable
     @Transactional
     public ProductDto getProductById(long id) {
-        Product byId = productRepo.findById(id);
+        Product byId = productRepository.findById(id).get();
         return this.mapProductToProductDto(byId);
     }
 
@@ -66,15 +69,15 @@ public class ProductServiceImp implements ProductService {
     @Transactional
     public ProductDto editProductToStock(ProductDto productDto) {
         Product product = this.mapProductDtoToProduct(productDto);
-        productRepo.update(product);
+        productRepository.save(product);
         return productDto;
     }
 
     @Override
     @Loggable
     @Transactional
-    public void removeProductFromStock(long id) {
-        productRepo.deleteById(id);
+    public void removeProductFromStock(long id) {  //TODO make unusable
+        productRepository.deleteById(id);
     }
 
 

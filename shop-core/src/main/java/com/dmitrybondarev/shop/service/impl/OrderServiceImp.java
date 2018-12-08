@@ -2,7 +2,7 @@ package com.dmitrybondarev.shop.service.impl;
 
 import com.dmitrybondarev.shop.model.Order;
 import com.dmitrybondarev.shop.model.dto.OrderDto;
-import com.dmitrybondarev.shop.repository.api.OrderRepo;
+import com.dmitrybondarev.shop.repository.OrderRepository;
 import com.dmitrybondarev.shop.service.api.OrderService;
 import com.dmitrybondarev.shop.util.aspect.Loggable;
 import org.springframework.stereotype.Service;
@@ -14,10 +14,10 @@ import java.util.List;
 @Service
 public class OrderServiceImp implements OrderService {
 
-    private OrderRepo orderRepo;
+    private OrderRepository orderRepository;
 
-    public OrderServiceImp(OrderRepo orderRepo) {
-        this.orderRepo = orderRepo;
+    public OrderServiceImp(OrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
     }
 
     @Override
@@ -25,20 +25,23 @@ public class OrderServiceImp implements OrderService {
     @Transactional
     public void createOrder(OrderDto orderDto) {
         Order order = this.mapOrderDtoToOrder(orderDto);
-        orderRepo.save(order);
+        orderRepository.save(order);
     }
 
     @Override
     @Loggable
     @Transactional
     public List<OrderDto> getAllOrderDto() {
-        List<Order> all = orderRepo.findAll();
+        Iterable<Order> all = orderRepository.findAll();
         List<OrderDto> orderDtos = new ArrayList<>();
         for (Order order : all) {
             orderDtos.add(this.mapOrderToOrderDto(order));
         }
         return orderDtos;
     }
+
+
+
     // ============== NON-API ============
 
     private OrderDto mapOrderToOrderDto(Order order) {

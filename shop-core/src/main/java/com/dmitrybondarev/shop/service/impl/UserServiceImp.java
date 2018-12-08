@@ -4,9 +4,9 @@ import com.dmitrybondarev.shop.model.User;
 import com.dmitrybondarev.shop.model.token.PasswordResetToken;
 import com.dmitrybondarev.shop.model.token.VerificationToken;
 import com.dmitrybondarev.shop.model.dto.UserDto;
-import com.dmitrybondarev.shop.repository.api.UserRepo;
-import com.dmitrybondarev.shop.repository.api.token.VerificationTokenRepo;
-import com.dmitrybondarev.shop.repository.api.token.PasswordResetTokenRepo;
+import com.dmitrybondarev.shop.repository.UserRepository;
+import com.dmitrybondarev.shop.repository.token.PasswordResetTokenRepository;
+import com.dmitrybondarev.shop.repository.token.VerificationTokenRepository;
 import com.dmitrybondarev.shop.service.api.UserService;
 import com.dmitrybondarev.shop.util.aspect.Loggable;
 import com.dmitrybondarev.shop.util.exception.EmailExistsException;
@@ -22,18 +22,18 @@ import java.util.UUID;
 @Service
 public class UserServiceImp implements UserService {
 
-    private UserRepo userRepo;
+    private UserRepository userRepository;
 
-    private VerificationTokenRepo verificationTokenRepo;
+    private VerificationTokenRepository verificationTokenRepository;
 
-    private PasswordResetTokenRepo passwordResetTokenRepo;
+    private PasswordResetTokenRepository passwordResetTokenRepository;
 
     private PasswordEncoder passwordEncoder;
 
-    public UserServiceImp(UserRepo userRepo, VerificationTokenRepo verificationTokenRepo, PasswordResetTokenRepo passwordResetTokenRepo, PasswordEncoder passwordEncoder) {
-        this.userRepo = userRepo;
-        this.verificationTokenRepo = verificationTokenRepo;
-        this.passwordResetTokenRepo = passwordResetTokenRepo;
+    public UserServiceImp(UserRepository userRepository, VerificationTokenRepository verificationTokenRepository, PasswordResetTokenRepository passwordResetTokenRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.verificationTokenRepository = verificationTokenRepository;
+        this.passwordResetTokenRepository = passwordResetTokenRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -51,7 +51,7 @@ public class UserServiceImp implements UserService {
         user.setEnabled(false);
         user.setId(null);
 
-        userRepo.save(user);
+        userRepository.save(user);
         return user;
     }
 
@@ -60,14 +60,14 @@ public class UserServiceImp implements UserService {
     @Transactional
     public void enableUser(User user) {
         user.setEnabled(true);
-        userRepo.update(user);
+        userRepository.save(user);
     }
 
     @Override
     @Loggable
     @Transactional
     public User getUserByVerificationToken(String verificationToken) {
-        return verificationTokenRepo.findByToken(verificationToken).getUser();
+        return verificationTokenRepository.findByToken(verificationToken).getUser();
     }
 
     @Override
@@ -75,16 +75,16 @@ public class UserServiceImp implements UserService {
     @Transactional
     public void createVerificationToken(User user, String token) {
         VerificationToken myToken = new VerificationToken(token, user);
-        verificationTokenRepo.save(myToken);
+        verificationTokenRepository.save(myToken);
     }
 
     @Override
     @Loggable
     @Transactional
     public VerificationToken generateNewVerificationToken(final String existingVerificationToken) {
-        VerificationToken vToken = verificationTokenRepo.findByToken(existingVerificationToken);
+        VerificationToken vToken = verificationTokenRepository.findByToken(existingVerificationToken);
         vToken.updateToken(UUID.randomUUID().toString());
-        verificationTokenRepo.save(vToken);
+        verificationTokenRepository.save(vToken);
         return vToken;
     }
 
@@ -92,7 +92,7 @@ public class UserServiceImp implements UserService {
     @Loggable
     @Transactional
     public VerificationToken getVerificationToken(String VerificationToken) {
-        return verificationTokenRepo.findByToken(VerificationToken);
+        return verificationTokenRepository.findByToken(VerificationToken);
     }
 
     @Override
@@ -101,23 +101,23 @@ public class UserServiceImp implements UserService {
     public void createPasswordResetTokenForUser(final UserDto userDto, final String token) {
         User user = mapUserDtoToUser(userDto);
         final PasswordResetToken myToken = new PasswordResetToken(token, user);
-        passwordResetTokenRepo.save(myToken);
+        passwordResetTokenRepository.save(myToken);
     }
 
     @Override
     @Loggable
     @Transactional
     public void changeUserPassword(final Long id, final String password) {
-        User byId = userRepo.findById(id);
+        User byId = userRepository.findById(id).get();
         byId.setPassword(passwordEncoder.encode(password));
-        userRepo.save(byId);
+        userRepository.save(byId);
     }
 
     @Override
     @Loggable
     @Transactional
     public List<UserDto> getAllUsers() {
-        List<User> users = userRepo.findAll();
+        Iterable<User> users = userRepository.findAll();
         List<UserDto> userDtos = new ArrayList<>();
 
         for (User user: users) {
@@ -131,7 +131,7 @@ public class UserServiceImp implements UserService {
     @Loggable
     @Transactional
     public UserDto getUserDtoByEmail(String email) {
-        User user = userRepo.findByEmail(email);
+        User user = userRepository.findByEmail(email);
         return this.mapUserToUserDto(user);
     }
 
@@ -139,7 +139,7 @@ public class UserServiceImp implements UserService {
     @Loggable
     @Transactional
     public UserDto getUserDtoById(long id) {
-        User user = userRepo.findById(id);
+        User user = userRepository.findById(id).get();
         return this.mapUserToUserDto(user);
     }
 
@@ -148,7 +148,7 @@ public class UserServiceImp implements UserService {
     @Transactional
     public UserDto editUser(UserDto userDto) {
         User user = this.mapUserDtoToUser(userDto);
-        userRepo.update(user);
+        userRepository.save(user);
         return userDto;
     }
 
@@ -158,7 +158,7 @@ public class UserServiceImp implements UserService {
 // ============== NON-API ============
 
     private boolean emailExist(String email) {
-        User user = userRepo.findByEmail(email);
+        User user = userRepository.findByEmail(email);
         return user != null;
     }
 
