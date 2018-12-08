@@ -21,35 +21,35 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     @Qualifier("messageSource")
     private MessageSource messages;
 
-    @ExceptionHandler({ UserNotFoundException.class })
-    public ResponseEntity<Object> handleUserNotFound(RuntimeException ex, WebRequest request) {
-        logger.error("404 Status Code", ex);
-        GenericResponse bodyOfResponse = new GenericResponse(
-                messages.getMessage("message.userNotFound", null, request.getLocale()), "UserNotFound");
-
-        return handleExceptionInternal(
-                ex, bodyOfResponse, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
-    }
-
-    @ExceptionHandler({ MailAuthenticationException.class })
-    public ResponseEntity<Object> handleMail(RuntimeException ex, WebRequest request) {
-        logger.error("500 Status Code", ex);
-        GenericResponse bodyOfResponse = new GenericResponse(
-                messages.getMessage(
-                        "message.email.config.error", null, request.getLocale()), "MailError");
-
-        return handleExceptionInternal(
-                ex, bodyOfResponse, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
-    }
-
-    @ExceptionHandler({ Exception.class })
-    public ResponseEntity<Object> handleInternal(RuntimeException ex, WebRequest request) {
-        logger.error("500 Status Code", ex);
-        GenericResponse bodyOfResponse = new GenericResponse(
-                messages.getMessage(
-                        "message.error", null, request.getLocale()), "InternalError");
-
-        return handleExceptionInternal(
-                ex, bodyOfResponse, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
-    }
+//    @ExceptionHandler({ UserNotFoundException.class })
+//    public ResponseEntity<Object> handleUserNotFound(RuntimeException ex, WebRequest request) {
+//        logger.error("404 Status Code", ex);
+//        GenericResponse bodyOfResponse = new GenericResponse(
+//                messages.getMessage("message.userNotFound", null, request.getLocale()), "UserNotFound");
+//
+//        return handleExceptionInternal(
+//                ex, bodyOfResponse, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+//    }
+//
+//    @ExceptionHandler({ MailAuthenticationException.class })
+//    public ResponseEntity<Object> handleMail(RuntimeException ex, WebRequest request) {
+//        logger.error("500 Status Code", ex);
+//        GenericResponse bodyOfResponse = new GenericResponse(
+//                messages.getMessage(
+//                        "message.email.config.error", null, request.getLocale()), "MailError");
+//
+//        return handleExceptionInternal(
+//                ex, bodyOfResponse, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+//    }
+//
+//    @ExceptionHandler({ Exception.class })
+//    public ResponseEntity<Object> handleInternal(RuntimeException ex, WebRequest request) {
+//        logger.error("500 Status Code", ex);
+//        GenericResponse bodyOfResponse = new GenericResponse(
+//                messages.getMessage(
+//                        "message.error", null, request.getLocale()), "InternalError");
+//
+//        return handleExceptionInternal(
+//                ex, bodyOfResponse, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+//    }
 }
