@@ -8,7 +8,7 @@
     <div th:replace="parts :: navbar"></div>
 
     <div class="container mt-5">
-        <h2 th:text="#{label.form.editProfile.title}">Home page</h2>
+        <h2 th:text="${userDto.firstName + ' ' + userDto.lastName}">First name Family name</h2>
 
         <!--/*@thymesVar id="userDto" type="com.dmitrybondarev.shop.model.dto.UserDto"*/-->
         <form action="/user" th:object="${userDto}" method="POST" enctype="utf8">

@@ -5,7 +5,7 @@ import com.dmitrybondarev.shop.model.User;
 import com.dmitrybondarev.shop.repository.ProductRepository;
 import com.dmitrybondarev.shop.repository.UserRepository;
 import com.dmitrybondarev.shop.service.api.CartService;
-import com.dmitrybondarev.shop.util.aspect.Loggable;
+import com.dmitrybondarev.shop.util.logging.Loggable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

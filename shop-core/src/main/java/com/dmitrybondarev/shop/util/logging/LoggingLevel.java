@@ -1,4 +1,4 @@
-package com.dmitrybondarev.shop.util.aspect;
+package com.dmitrybondarev.shop.util.logging;
 
 public enum LoggingLevel {
 

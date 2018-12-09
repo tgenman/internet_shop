@@ -6,7 +6,7 @@ import com.dmitrybondarev.shop.model.dto.ProductDto;
 import com.dmitrybondarev.shop.model.dto.rest.ProductDtoRest;
 import com.dmitrybondarev.shop.repository.OrderRepository;
 import com.dmitrybondarev.shop.service.api.StatisticService;
-import com.dmitrybondarev.shop.util.aspect.Loggable;
+import com.dmitrybondarev.shop.util.logging.Loggable;
 import org.dozer.DozerBeanMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

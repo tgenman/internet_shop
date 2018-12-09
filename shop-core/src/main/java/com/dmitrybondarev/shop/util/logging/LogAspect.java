@@ -1,4 +1,4 @@
-package com.dmitrybondarev.shop.util.aspect;
+package com.dmitrybondarev.shop.util.logging;
 
 import org.apache.log4j.Logger;
 import org.aspectj.lang.ProceedingJoinPoint;

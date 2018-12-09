@@ -1,6 +1,6 @@
 package com.dmitrybondarev.shop.web.controller;
 
-import com.dmitrybondarev.shop.util.aspect.Loggable;
+import com.dmitrybondarev.shop.util.logging.Loggable;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;

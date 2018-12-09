@@ -1,6 +1,5 @@
 package com.dmitrybondarev.shop.web.config;
 
-import com.dmitrybondarev.shop.util.RedirectInterceptor;
 import com.dmitrybondarev.shop.web.validation.validator.EmailValidator;
 import com.dmitrybondarev.shop.web.validation.validator.PasswordMatchesValidator;
 import org.dozer.DozerBeanMapper;
@@ -17,13 +16,10 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
-//import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
-import org.thymeleaf.spring5.SpringTemplateEngine;
-import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
-import org.thymeleaf.spring5.view.ThymeleafViewResolver;
-import org.thymeleaf.templatemode.TemplateMode;
 
 import java.util.Locale;
+
+//import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 
 @Configuration
 @PropertySource("classpath:application.properties")
@@ -98,7 +94,6 @@ public class MvcConfig implements WebMvcConfigurer {
         LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
         localeChangeInterceptor.setParamName("lang");
         registry.addInterceptor(localeChangeInterceptor);
-        registry.addInterceptor(new RedirectInterceptor());
     }
 
     @Bean

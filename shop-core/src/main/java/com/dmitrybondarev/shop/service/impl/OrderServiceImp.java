@@ -4,7 +4,7 @@ import com.dmitrybondarev.shop.model.Order;
 import com.dmitrybondarev.shop.model.dto.OrderDto;
 import com.dmitrybondarev.shop.repository.OrderRepository;
 import com.dmitrybondarev.shop.service.api.OrderService;
-import com.dmitrybondarev.shop.util.aspect.Loggable;
+import com.dmitrybondarev.shop.util.logging.Loggable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

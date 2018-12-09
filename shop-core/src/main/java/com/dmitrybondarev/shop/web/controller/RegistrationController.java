@@ -5,7 +5,7 @@ import com.dmitrybondarev.shop.model.token.VerificationToken;
 import com.dmitrybondarev.shop.security.GenericResponse;
 import com.dmitrybondarev.shop.security.UserSecurityService;
 import com.dmitrybondarev.shop.security.event.OnRegistrationCompleteEvent;
-import com.dmitrybondarev.shop.util.aspect.Loggable;
+import com.dmitrybondarev.shop.util.logging.Loggable;
 import com.dmitrybondarev.shop.util.exception.EmailExistsException;
 import com.dmitrybondarev.shop.model.User;
 import com.dmitrybondarev.shop.model.dto.UserDto;

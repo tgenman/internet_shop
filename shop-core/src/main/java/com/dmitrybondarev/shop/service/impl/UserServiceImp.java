@@ -8,7 +8,7 @@ import com.dmitrybondarev.shop.repository.UserRepository;
 import com.dmitrybondarev.shop.repository.token.PasswordResetTokenRepository;
 import com.dmitrybondarev.shop.repository.token.VerificationTokenRepository;
 import com.dmitrybondarev.shop.service.api.UserService;
-import com.dmitrybondarev.shop.util.aspect.Loggable;
+import com.dmitrybondarev.shop.util.logging.Loggable;
 import com.dmitrybondarev.shop.util.exception.EmailExistsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

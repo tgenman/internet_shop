@@ -1,4 +1,4 @@
-package com.dmitrybondarev.shop.util.aspect;
+package com.dmitrybondarev.shop.util.logging;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

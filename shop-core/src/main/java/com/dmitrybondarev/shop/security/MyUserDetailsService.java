@@ -2,7 +2,7 @@ package com.dmitrybondarev.shop.security;
 
 import com.dmitrybondarev.shop.model.User;
 import com.dmitrybondarev.shop.repository.UserRepository;
-import com.dmitrybondarev.shop.util.aspect.Loggable;
+import com.dmitrybondarev.shop.util.logging.Loggable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
