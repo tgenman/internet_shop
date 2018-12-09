@@ -7,12 +7,14 @@
     <parent>
         <groupId>com.dmitrybondarev</groupId>
         <artifactId>internet_shop</artifactId>
-        <version>0.1.0-SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
 
     <artifactId>shop-core</artifactId>
-    <packaging>war</packaging>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
+
+
 
     <name>Core</name>
     <description>Core shop app</description>
@@ -59,12 +61,11 @@
         </dependency>
         <dependency>
             <groupId>org.thymeleaf.extras</groupId>
-            <artifactId>thymeleaf-extras-springsecurity4</artifactId>
+            <artifactId>thymeleaf-extras-springsecurity5</artifactId>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -105,6 +106,37 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+
+            <!--<plugin>-->
+                <!--<groupId>io.fabric8</groupId>-->
+                <!--<artifactId>docker-maven-plugin</artifactId>-->
+                <!--<version>0.20.1</version>-->
+                <!--<configuration>-->
+                    <!--<images>-->
+                        <!--<image>-->
+                            <!--<name>app</name>-->
+                            <!--<build>-->
+                                <!--<dockerFileDir>${project.basedir}/src/main/docker</dockerFileDir>-->
+                                <!--<assembly>-->
+                                    <!--<mode>dir</mode>-->
+                                    <!--<targetDir>/app</targetDir>-->
+                                    <!--<descriptor>${project.basedir}/src/main/docker/assembly.xml</descriptor>-->
+                                <!--</assembly>-->
+                            <!--</build>-->
+                        <!--</image>-->
+                    <!--</images>-->
+                <!--</configuration>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<id>build</id>-->
+                        <!--<phase>install</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>build</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
+
         </plugins>
     </build>
 
