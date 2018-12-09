@@ -26,13 +26,10 @@ services:
     build:
       context: ./shop-core
       dockerfile: Dockerfile
-#    image: core
-#    image: tomcat:latest
+    image: core
     links:
       - database
 #      - rabbitmq
-#    volumes:
-#      - ./core-shop/target/:/usr/local/tomcat/webapps/
     ports:
       - "8081:8081"
     restart: always

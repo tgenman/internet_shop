@@ -1,5 +1,6 @@
 package com.dmitrybondarev.shop.web.config;
 
+import com.dmitrybondarev.shop.util.RedirectInterceptor;
 import com.dmitrybondarev.shop.web.validation.validator.EmailValidator;
 import com.dmitrybondarev.shop.web.validation.validator.PasswordMatchesValidator;
 import org.dozer.DozerBeanMapper;
@@ -97,6 +98,7 @@ public class MvcConfig implements WebMvcConfigurer {
         LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
         localeChangeInterceptor.setParamName("lang");
         registry.addInterceptor(localeChangeInterceptor);
+        registry.addInterceptor(new RedirectInterceptor());
     }
 
     @Bean
@@ -124,4 +126,6 @@ public class MvcConfig implements WebMvcConfigurer {
     public DozerBeanMapper getDozerBeanMapper() {
         return new DozerBeanMapper();
     }
+
+
 }
