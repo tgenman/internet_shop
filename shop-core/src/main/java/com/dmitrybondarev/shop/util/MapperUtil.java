@@ -11,8 +11,15 @@ import com.dmitrybondarev.shop.model.dto.OrderDto;
 import com.dmitrybondarev.shop.model.dto.ProductDto;
 import com.dmitrybondarev.shop.model.dto.UserDto;
 import com.dmitrybondarev.shop.model.dto.rest.ProductDtoRest;
+import com.dmitrybondarev.shop.util.logging.Loggable;
 import org.dozer.DozerBeanMapper;
 import org.springframework.stereotype.Component;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class MapperUtil {
@@ -23,58 +30,62 @@ public class MapperUtil {
         this.dozerBeanMapper = dozerBeanMapper;
     }
 
+    @Loggable
     public Product mapProductDtoToProduct(ProductDto productDto) {
         Product product = new Product();
         dozerBeanMapper.map(productDto, product);
         return product;
     }
 
+    @Loggable
     public ProductDto mapProductToProductDto(Product product) {
         ProductDto productDto = new ProductDto();
         dozerBeanMapper.map(product, productDto);
         return productDto;
     }
 
+    @Loggable
     public ProductDtoRest mapProductDtoToProductDtoRest(ProductDto productDto) {
         ProductDtoRest productDtoRest = new ProductDtoRest();
         dozerBeanMapper.map(productDto, productDtoRest);
         return productDtoRest;
     }
 
-
+    @Loggable
     public User mapUserDtoToUser(UserDto userDto) {
         User user = new User();
-        user.setId(userDto.getId());
-        user.setEnabled(userDto.isEnabled());
-//        user.setUsername(userDto.getUsername());
-        user.setFirstName(userDto.getFirstName());
-        user.setLastName(userDto.getLastName());
-        user.setEmail(userDto.getEmail());
-        user.setPassword(userDto.getPassword());
-        user.setDateOfBirth(userDto.getDateOfBirth());
-        user.setAddresses(userDto.getAddresses());
-        user.setRoles(userDto.getRoles());
-        user.setOrders(userDto.getOrders());
+        dozerBeanMapper.map(userDto, user);
+
+        if (userDto.getCartDto() == null || userDto.getAddressDtos() == null) return user;
+
+        user.setCart(this.mapCartDtoToCart(userDto.getCartDto()));
+
+        user.setAddresses(
+                userDto.getAddressDtos().stream()
+                        .map(this::mapAddressDtoToAddress)
+                        .collect(Collectors.toSet()));
+
         return user;
     }
 
+    @Loggable
     public UserDto mapUserToUserDto(User user) {
         UserDto userDto = new UserDto();
-        userDto.setId(user.getId());
-        userDto.setEnabled(user.isEnabled());
-//        userDto.setUsername(user.getUsername());
-        userDto.setFirstName(user.getFirstName());
-        userDto.setLastName(user.getLastName());
-        userDto.setEmail(user.getEmail());
-        userDto.setPassword(user.getPassword());
-        userDto.setDateOfBirth(user.getDateOfBirth());
-        userDto.setAddresses(user.getAddresses());
-        userDto.setRoles(user.getRoles());
-        userDto.setOrders(user.getOrders());
+        dozerBeanMapper.map(user, userDto);
+
+        if (user.getCart() == null || user.getAddresses() == null) return userDto;
+
+        userDto.setCartDto(this.mapCartToCartDto(user.getCart()));
+
+        userDto.setAddressDtos(
+                user.getAddresses().stream()
+                        .map(this::mapAddressToAddressDto)
+                        .collect(Collectors.toSet()));
+
         return userDto;
     }
 
-
+    @Loggable
     public Order mapOrderDtoToOrder(OrderDto orderDto) {
         Order order = new Order();
         order.setId(null);
@@ -89,6 +100,7 @@ public class MapperUtil {
         return order;
     }
 
+    @Loggable
     public OrderDto mapOrderToOrderDto(Order order) {
         OrderDto orderDto = new OrderDto();
         orderDto.setId(order.getId());
@@ -103,29 +115,57 @@ public class MapperUtil {
         return orderDto;
     }
 
-
+    @Loggable
     public Address mapAddressDtoToAddress(AddressDto addressDto) {
         Address address = new Address();
         dozerBeanMapper.map(addressDto, address);
         return address;
     }
 
+    @Loggable
     public AddressDto mapAddressToAddressDto(Address address) {
         AddressDto addressDto = new AddressDto();
         dozerBeanMapper.map(address, addressDto);
         return addressDto;
     }
 
-
+    @Loggable
     public Cart mapCartDtoToCart(CartDto cartDto) {
         Cart cart = new Cart();
         dozerBeanMapper.map(cartDto, cart);
+
+        Map<ProductDto, Integer> contentDto = cartDto.getContentDto();
+        if (contentDto == null) return cart;
+
+        Map<Product, Integer> content = new HashMap<>();
+        for (Map.Entry<ProductDto, Integer> entry : contentDto.entrySet()) {
+            content.put(
+                    this.mapProductDtoToProduct(entry.getKey()),
+                    entry.getValue());
+        }
+
+        cart.setContent(content);
+
         return cart;
     }
 
+    @Loggable
     public CartDto mapCartToCartDto(Cart cart) {
         CartDto cartDto = new CartDto();
         dozerBeanMapper.map(cart, cartDto);
+
+        Map<Product, Integer> content = cart.getContent();
+        if (content == null) return cartDto;
+
+        Map<ProductDto, Integer> contentDto = new HashMap<>();
+        for (Map.Entry<Product, Integer> entry : content.entrySet()) {
+            contentDto.put(
+                    this.mapProductToProductDto(entry.getKey()),
+                    entry.getValue());
+        }
+
+        cartDto.setContentDto(contentDto);
+
         return cartDto;
     }
 }

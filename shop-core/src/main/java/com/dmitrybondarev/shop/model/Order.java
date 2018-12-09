@@ -19,6 +19,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Map;
 
 @Data
@@ -35,7 +36,7 @@ public class Order implements Serializable {
 
     private String address;
 
-    private String dateOfOrder;     //TODO find appropriate time class
+    private Date dateOfOrder;
 
     @Enumerated(EnumType.STRING)
     private TypeOfPayment typeOfPayment;

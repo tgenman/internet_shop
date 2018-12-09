@@ -9,18 +9,19 @@ import com.dmitrybondarev.shop.model.enums.TypeOfPayment;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Map;
 
 @Data
 public class OrderDto implements Serializable {
 
-    private long id;
+    private Long id;
 
     private User user;
 
     private String address;
 
-    private String dateOfOrder;
+    private Date dateOfOrder;
 
     private TypeOfPayment typeOfPayment;
 

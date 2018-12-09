@@ -1,5 +1,6 @@
 package com.dmitrybondarev.shop.web.controller;
 
+import com.dmitrybondarev.shop.model.Cart;
 import com.dmitrybondarev.shop.util.logging.Loggable;
 import com.dmitrybondarev.shop.model.Product;
 import com.dmitrybondarev.shop.model.User;
@@ -28,7 +29,7 @@ public class CartController {
     @GetMapping
     public String showCart(Model model) {
         long idUser = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
-        Map<Product, Integer> cart = cartService.getCartByUserId(idUser);
+        Cart cart = cartService.getCartByUserId(idUser);
         model.addAttribute("cart", cart);
         return "cart/showCart";
     }

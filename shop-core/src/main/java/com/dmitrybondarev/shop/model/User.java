@@ -20,10 +20,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -45,36 +47,28 @@ public class User implements Serializable {
     @Column(name = "enabled")
     private boolean enabled;
 
-
-    private String firstName;
-
-    private String lastName;
-
-    private String dateOfBirth;     //TODO find appropriate time class
-
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @CollectionTable(name = "user_addresses", joinColumns = @JoinColumn(name = "user_id"))
-    private Set<Address> addresses;
-
-//    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
-//    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
-//    @Enumerated(EnumType.STRING)
-//    private Set<Role> roles;
-
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
     private List<String> roles;
 
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Set<Order> orders;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_cart", joinColumns = @JoinColumn(name = "user_id"))
-    private Map<Product, Integer> cart;
+    private String firstName;
+
+    private String lastName;
+
+    private Date dateOfBirth;
 
 
-    public boolean isAdmin() {
-        return roles.contains(Role.ADMIN);
-    }
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @CollectionTable(name = "user_addresses", joinColumns = @JoinColumn(name = "user_id"))
+    private Set<Address> addresses;
+
+    @OneToOne
+    private Cart cart;
+
+
+//    public boolean isAdmin() {
+//        return roles.contains(Role.ADMIN);
+//    }
 }

@@ -8,7 +8,7 @@ import java.util.Map;
 @Data
 public class ProductDto implements Serializable {
 
-    private long id;
+    private Long id;
 
     private String title;
 

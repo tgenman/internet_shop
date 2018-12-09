@@ -7,7 +7,7 @@ import java.io.Serializable;
 @Data
 public class AddressDto implements Serializable {
 
-    private long id;
+    private Long id;
 
     private String country;
 

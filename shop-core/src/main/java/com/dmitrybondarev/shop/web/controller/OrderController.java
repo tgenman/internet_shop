@@ -1,5 +1,7 @@
 package com.dmitrybondarev.shop.web.controller;
 
+import com.dmitrybondarev.shop.model.Cart;
+import com.dmitrybondarev.shop.model.dto.AddressDto;
 import com.dmitrybondarev.shop.util.MapperUtil;
 import com.dmitrybondarev.shop.util.logging.Loggable;
 import com.dmitrybondarev.shop.model.Address;
@@ -70,8 +72,8 @@ public class OrderController {
         UserDto user = userService.getUserDtoById(idUser);
         request.getSession().setAttribute("userR", user);
 
-        Map<Product, Integer> cart = cartService.getCartByUserId(idUser);
-        Set<Address> allAddress = user.getAddresses();
+        Cart cart = cartService.getCartByUserId(idUser);
+        Set<AddressDto> allAddress = user.getAddressDtos();
         request.getSession().setAttribute("cartR", cart);
 
         model.addAttribute("user", user);         //TODO Change to DTOs

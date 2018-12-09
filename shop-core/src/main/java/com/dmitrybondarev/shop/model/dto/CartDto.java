@@ -1,16 +1,16 @@
 package com.dmitrybondarev.shop.model.dto;
 
-import com.dmitrybondarev.shop.model.Product;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Map;
 
 @Data
-public class CartDto {
+public class CartDto implements Serializable {
 
     private Long id;
 
-    private Map<Product, Integer> content;
+    private Map<ProductDto, Integer> contentDto;
 
     private String sessionId;
 }
