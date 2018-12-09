@@ -38,6 +38,5 @@ public interface UserService  {
 
     UserDto editUser(UserDto userDto);
 
-    User mapUserDtoToUser(UserDto userDto);
 
 }

@@ -6,6 +6,7 @@ import com.dmitrybondarev.shop.model.dto.ProductDto;
 import com.dmitrybondarev.shop.model.dto.rest.ProductDtoRest;
 import com.dmitrybondarev.shop.repository.OrderRepository;
 import com.dmitrybondarev.shop.service.api.StatisticService;
+import com.dmitrybondarev.shop.util.MapperUtil;
 import com.dmitrybondarev.shop.util.logging.Loggable;
 import org.dozer.DozerBeanMapper;
 import org.springframework.stereotype.Service;
@@ -22,11 +23,11 @@ public class StatisticServiceImpl implements StatisticService{
 
     private OrderRepository orderRepository;
 
-    private DozerBeanMapper mapper;
+    private MapperUtil mapperUtil;
 
-    public StatisticServiceImpl(OrderRepository orderRepository, DozerBeanMapper mapper) {
+    public StatisticServiceImpl(OrderRepository orderRepository, MapperUtil mapperUtil) {
         this.orderRepository = orderRepository;
-        this.mapper = mapper;
+        this.mapperUtil = mapperUtil;
     }
 
     @Override
@@ -53,7 +54,7 @@ public class StatisticServiceImpl implements StatisticService{
 
         return collect.stream()
                 .limit(size)
-                .map(x -> this.mapProductToProductDto(x.getKey()))
+                .map(x -> mapperUtil.mapProductToProductDto(x.getKey()))
                 .collect(Collectors.toList());
 
 //        List<ProductDto> result = new ArrayList<>();
@@ -73,28 +74,9 @@ public class StatisticServiceImpl implements StatisticService{
         List<ProductDto> productDtos = this.getTopFiveProductsDTOByCashFlow();
         List<ProductDtoRest> result = new ArrayList<>();
         for (ProductDto productDto : productDtos) {
-            result.add(this.mapProductDtoToProductDtoRest(productDto));
+            result.add(mapperUtil.mapProductDtoToProductDtoRest(productDto));
         }
         return result;
     }
 
-
-    // ============== NON-API ============
-
-    private ProductDto mapProductToProductDto(Product product) {
-        ProductDto productDto = new ProductDto();
-        mapper.map(product, productDto);
-        return productDto;
-    }
-
-    private ProductDtoRest mapProductDtoToProductDtoRest(ProductDto productDto) {
-        ProductDtoRest productDtoRest = new ProductDtoRest();
-        productDtoRest.setId(productDto.getId());
-        productDtoRest.setCategory(productDto.getCategory());
-        productDtoRest.setTitle(productDto.getTitle());
-        productDtoRest.setPrice(productDto.getPrice());
-        productDtoRest.setVolume(productDto.getVolume());
-        productDtoRest.setWeight(productDto.getWeight());
-        return productDtoRest;
-    }
 }

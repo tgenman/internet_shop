@@ -23,8 +23,4 @@ public class ProductDto implements Serializable {
     private int volume;
 
     private int quantity;
-
-    public boolean isImage() {
-        return false;
-    }
 }

@@ -1,5 +1,6 @@
 package com.dmitrybondarev.shop.web.controller;
 
+import com.dmitrybondarev.shop.util.MapperUtil;
 import com.dmitrybondarev.shop.util.logging.Loggable;
 import com.dmitrybondarev.shop.model.Address;
 import com.dmitrybondarev.shop.model.Product;
@@ -13,6 +14,7 @@ import com.dmitrybondarev.shop.model.enums.TypeOfPayment;
 import com.dmitrybondarev.shop.service.api.CartService;
 import com.dmitrybondarev.shop.service.api.OrderService;
 import com.dmitrybondarev.shop.service.api.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -40,6 +42,9 @@ public class OrderController {
     private CartService cartService;
 
     private UserService userService;
+
+    @Autowired
+    private MapperUtil mapperUtil;
 
     public OrderController(OrderService orderService, CartService cartService, UserService userService) {
         this.orderService = orderService;
@@ -85,7 +90,7 @@ public class OrderController {
         if (!result.hasErrors()) {
             UserDto userDtoR = (UserDto) request.getSession().getAttribute("userR");
 
-            User userR = userService.mapUserDtoToUser(userDtoR);
+            User userR = mapperUtil.mapUserDtoToUser(userDtoR);
 
             Map<Product, Integer> cartR = (Map<Product, Integer>) request.getSession().getAttribute("cartR");
 

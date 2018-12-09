@@ -8,6 +8,7 @@ import com.dmitrybondarev.shop.repository.UserRepository;
 import com.dmitrybondarev.shop.repository.token.PasswordResetTokenRepository;
 import com.dmitrybondarev.shop.repository.token.VerificationTokenRepository;
 import com.dmitrybondarev.shop.service.api.UserService;
+import com.dmitrybondarev.shop.util.MapperUtil;
 import com.dmitrybondarev.shop.util.logging.Loggable;
 import com.dmitrybondarev.shop.util.exception.EmailExistsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,11 +31,18 @@ public class UserServiceImp implements UserService {
 
     private PasswordEncoder passwordEncoder;
 
-    public UserServiceImp(UserRepository userRepository, VerificationTokenRepository verificationTokenRepository, PasswordResetTokenRepository passwordResetTokenRepository, PasswordEncoder passwordEncoder) {
+    private MapperUtil mapperUtil;
+
+    public UserServiceImp(UserRepository userRepository,
+                          VerificationTokenRepository verificationTokenRepository,
+                          PasswordResetTokenRepository passwordResetTokenRepository,
+                          PasswordEncoder passwordEncoder,
+                          MapperUtil mapperUtil) {
         this.userRepository = userRepository;
         this.verificationTokenRepository = verificationTokenRepository;
         this.passwordResetTokenRepository = passwordResetTokenRepository;
         this.passwordEncoder = passwordEncoder;
+        this.mapperUtil = mapperUtil;
     }
 
     @Override
@@ -45,7 +53,7 @@ public class UserServiceImp implements UserService {
             throw new EmailExistsException("There is an account with that email address: " + userDto.getEmail());
         }
 
-        User user = this.mapUserDtoToUser(userDto);
+        User user = mapperUtil.mapUserDtoToUser(userDto);
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         user.setRoles(Arrays.asList("ROLE_USER"));
         user.setEnabled(false);
@@ -99,7 +107,7 @@ public class UserServiceImp implements UserService {
     @Loggable
     @Transactional
     public void createPasswordResetTokenForUser(final UserDto userDto, final String token) {
-        User user = mapUserDtoToUser(userDto);
+        User user = mapperUtil.mapUserDtoToUser(userDto);
         final PasswordResetToken myToken = new PasswordResetToken(token, user);
         passwordResetTokenRepository.save(myToken);
     }
@@ -121,7 +129,7 @@ public class UserServiceImp implements UserService {
         List<UserDto> userDtos = new ArrayList<>();
 
         for (User user: users) {
-            UserDto userDto = this.mapUserToUserDto(user);
+            UserDto userDto = mapperUtil.mapUserToUserDto(user);
             userDtos.add(userDto);
         }
         return userDtos;
@@ -132,7 +140,7 @@ public class UserServiceImp implements UserService {
     @Transactional
     public UserDto getUserDtoByEmail(String email) {
         User user = userRepository.findByEmail(email);
-        return this.mapUserToUserDto(user);
+        return mapperUtil.mapUserToUserDto(user);
     }
 
     @Override
@@ -140,18 +148,17 @@ public class UserServiceImp implements UserService {
     @Transactional
     public UserDto getUserDtoById(long id) {
         User user = userRepository.findById(id).get();
-        return this.mapUserToUserDto(user);
+        return mapperUtil.mapUserToUserDto(user);
     }
 
     @Override
     @Loggable
     @Transactional
     public UserDto editUser(UserDto userDto) {
-        User user = this.mapUserDtoToUser(userDto);
+        User user = mapperUtil.mapUserDtoToUser(userDto);
         userRepository.save(user);
         return userDto;
     }
-
 
 
 
@@ -161,39 +168,4 @@ public class UserServiceImp implements UserService {
         User user = userRepository.findByEmail(email);
         return user != null;
     }
-
-    private UserDto mapUserToUserDto(User user) {
-        UserDto userDto = new UserDto();
-        userDto.setId(user.getId());
-        userDto.setEnabled(user.isEnabled());
-//        userDto.setUsername(user.getUsername());
-        userDto.setFirstName(user.getFirstName());
-        userDto.setLastName(user.getLastName());
-        userDto.setEmail(user.getEmail());
-        userDto.setPassword(user.getPassword());
-        userDto.setDateOfBirth(user.getDateOfBirth());
-        userDto.setAddresses(user.getAddresses());
-        userDto.setRoles(user.getRoles());
-        userDto.setOrders(user.getOrders());
-        return userDto;
-    }
-
-    @Override
-    public User mapUserDtoToUser(UserDto userDto) {
-        User user = new User();
-        user.setId(userDto.getId());
-        user.setEnabled(userDto.isEnabled());
-//        user.setUsername(userDto.getUsername());
-        user.setFirstName(userDto.getFirstName());
-        user.setLastName(userDto.getLastName());
-        user.setEmail(userDto.getEmail());
-        user.setPassword(userDto.getPassword());
-        user.setDateOfBirth(userDto.getDateOfBirth());
-        user.setAddresses(userDto.getAddresses());
-        user.setRoles(userDto.getRoles());
-        user.setOrders(userDto.getOrders());
-        return user;
-    }
-
-
 }

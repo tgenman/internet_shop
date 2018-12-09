@@ -4,8 +4,8 @@ import com.dmitrybondarev.shop.model.Product;
 import com.dmitrybondarev.shop.model.dto.ProductDto;
 import com.dmitrybondarev.shop.repository.ProductRepository;
 import com.dmitrybondarev.shop.service.api.ProductService;
+import com.dmitrybondarev.shop.util.MapperUtil;
 import com.dmitrybondarev.shop.util.logging.Loggable;
-import org.dozer.DozerBeanMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,21 +20,26 @@ public class ProductServiceImp implements ProductService {
 
     private ProductRepository productRepository;
 
-    private DozerBeanMapper mapper;
+    private MapperUtil mapperUtil;
 
-    public ProductServiceImp(ProductRepository productRepository, DozerBeanMapper mapper) {
+    public ProductServiceImp(ProductRepository productRepository, MapperUtil mapperUtil) {
         this.productRepository = productRepository;
-        this.mapper = mapper;
+        this.mapperUtil = mapperUtil;
     }
 
     @Override
     @Loggable
     @Transactional
     public ProductDto addNewProductToStock(ProductDto productDto) {
-        Product product = this.mapProductDtoToProduct(productDto);
+        Product productFromDb = productRepository.findByTitle(productDto.getTitle());
+
+        if (productFromDb != null) return null;
+
+        Product product = mapperUtil.mapProductDtoToProduct(productDto);
         product.setId(null);
-        productRepository.save(product);
-        return productDto;
+        Product save = productRepository.save(product);
+
+        return save != null ? mapperUtil.mapProductToProductDto(save) : null;
     }
 
     @Override
@@ -61,14 +66,14 @@ public class ProductServiceImp implements ProductService {
     @Transactional
     public ProductDto getProductById(long id) {
         Product byId = productRepository.findById(id).get();
-        return this.mapProductToProductDto(byId);
+        return mapperUtil.mapProductToProductDto(byId);
     }
 
     @Override
     @Loggable
     @Transactional
     public ProductDto editProductToStock(ProductDto productDto) {
-        Product product = this.mapProductDtoToProduct(productDto);
+        Product product = mapperUtil.mapProductDtoToProduct(productDto);
         productRepository.save(product);
         return productDto;
     }
@@ -83,23 +88,11 @@ public class ProductServiceImp implements ProductService {
 
     // ============== NON-API ============
 
-    private ProductDto mapProductToProductDto(Product product) {
-        ProductDto productDto = new ProductDto();
-        mapper.map(product, productDto);
-        return productDto;
-    }
-
-    private Product mapProductDtoToProduct(ProductDto productDto) {
-        Product product = new Product();
-        mapper.map(productDto, product);
-        return product;
-    }
-
     private Map<String, List<ProductDto>> convertListProductsToMapProductDtos(List<Product> products) {
         Map<String, List<ProductDto>> map = new HashMap<>();
 
         for (Product product: products) {
-            ProductDto productDto = this.mapProductToProductDto(product);
+            ProductDto productDto = mapperUtil.mapProductToProductDto(product);
             String category = productDto.getCategory();
             if (map.containsKey(category)) {
                 List<ProductDto> listProductDto = map.get(category);
