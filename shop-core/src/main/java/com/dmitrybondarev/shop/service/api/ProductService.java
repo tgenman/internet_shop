@@ -10,7 +10,7 @@ public interface ProductService {
 
     ProductDto addNewProductToStock(ProductDto productDto);
 
-    Map<String, List<ProductDto>> getAllProducts();
+    Map<String, List<ProductDto>> getAllExistProducts();
 
     Map<String, List<ProductDto>> getProductsFromStock();
 

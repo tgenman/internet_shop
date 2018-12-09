@@ -60,7 +60,7 @@ public class StatisticServiceImplTest {
 ////        List<Product> result = statisticService.getTopFiveProductsDTOByCashFlow(allOrders);
 //
 ////        for (Product product : result) {
-////            System.out.println(product.getTitle());   //TODO Complete test
+////            System.out.println(product.getTitle());   //TODO Complete contextLoad
 ////        }
 //
 //    }

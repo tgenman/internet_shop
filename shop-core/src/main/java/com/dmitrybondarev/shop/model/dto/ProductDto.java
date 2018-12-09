@@ -23,4 +23,8 @@ public class ProductDto implements Serializable {
     private int volume;
 
     private int quantity;
+
+    private boolean active;
+
+    private String filename;
 }

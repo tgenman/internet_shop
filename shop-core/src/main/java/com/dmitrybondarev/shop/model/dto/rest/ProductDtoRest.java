@@ -15,9 +15,13 @@ public class ProductDtoRest {
 
     private String category;
 
-//    private Map<String, String> parameters;
+    private Map<String, String> parameters;
 
     private int weight;
 
     private int volume;
+
+    private String filename;
+
+    private boolean active;
 }

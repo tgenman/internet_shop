@@ -31,8 +31,8 @@ public class AdminProductController {
     @Loggable
     @GetMapping
     public String showListOfProducts(Model model) {
-        Map<String, List<ProductDto>> allProducts = productService.getAllProducts();
-        model.addAttribute("allProductDto", productService.getAllProducts());
+        Map<String, List<ProductDto>> allProducts = productService.getAllExistProducts();
+        model.addAttribute("allProductDto", productService.getAllExistProducts());
         return "admin/product/productList";
     }
 

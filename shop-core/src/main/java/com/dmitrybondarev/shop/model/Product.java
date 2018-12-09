@@ -42,4 +42,6 @@ public class Product implements Serializable {
 
     private boolean active;
 
+    private String filename;
+
 }

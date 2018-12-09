@@ -1,10 +1,12 @@
 package com.dmitrybondarev.shop.util;
 
 import com.dmitrybondarev.shop.model.Address;
+import com.dmitrybondarev.shop.model.Cart;
 import com.dmitrybondarev.shop.model.Order;
 import com.dmitrybondarev.shop.model.Product;
 import com.dmitrybondarev.shop.model.User;
 import com.dmitrybondarev.shop.model.dto.AddressDto;
+import com.dmitrybondarev.shop.model.dto.CartDto;
 import com.dmitrybondarev.shop.model.dto.OrderDto;
 import com.dmitrybondarev.shop.model.dto.ProductDto;
 import com.dmitrybondarev.shop.model.dto.UserDto;
@@ -21,7 +23,6 @@ public class MapperUtil {
         this.dozerBeanMapper = dozerBeanMapper;
     }
 
-
     public Product mapProductDtoToProduct(ProductDto productDto) {
         Product product = new Product();
         dozerBeanMapper.map(productDto, product);
@@ -36,12 +37,7 @@ public class MapperUtil {
 
     public ProductDtoRest mapProductDtoToProductDtoRest(ProductDto productDto) {
         ProductDtoRest productDtoRest = new ProductDtoRest();
-        productDtoRest.setId(productDto.getId());
-        productDtoRest.setCategory(productDto.getCategory());
-        productDtoRest.setTitle(productDto.getTitle());
-        productDtoRest.setPrice(productDto.getPrice());
-        productDtoRest.setVolume(productDto.getVolume());
-        productDtoRest.setWeight(productDto.getWeight());
+        dozerBeanMapper.map(productDto, productDtoRest);
         return productDtoRest;
     }
 
@@ -121,6 +117,15 @@ public class MapperUtil {
     }
 
 
+    public Cart mapCartDtoToCart(CartDto cartDto) {
+        Cart cart = new Cart();
+        dozerBeanMapper.map(cartDto, cart);
+        return cart;
+    }
 
-
+    public CartDto mapCartToCartDto(Cart cart) {
+        CartDto cartDto = new CartDto();
+        dozerBeanMapper.map(cart, cartDto);
+        return cartDto;
+    }
 }

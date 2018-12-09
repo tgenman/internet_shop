@@ -29,6 +29,8 @@ public class MapperUtilTest {
         int quantity = 1;
         int volume = 1;
         int weight = 1;
+        String filename = "1";
+        boolean active = true;
         Map<String, String> parameters = new HashMap<>();
         parameters.put("color", "1");
         parameters.put("insurance", "1");
@@ -42,6 +44,8 @@ public class MapperUtilTest {
         input.setVolume(volume);
         input.setWeight(weight);
         input.setParameters(parameters);
+        input.setFilename(filename);
+        input.setActive(active);
 
 //      Run
         Product output = mapperUtil.mapProductDtoToProduct(input);
@@ -56,6 +60,8 @@ public class MapperUtilTest {
         Assert.assertEquals(weight, output.getWeight());
         Assert.assertEquals(parameters.get("color"), output.getParameters().get("color"));
         Assert.assertEquals(parameters.get("insurance"), output.getParameters().get("insurance"));
+        Assert.assertEquals(filename, output.getFilename());
+        Assert.assertEquals(active, output.isActive());
     }
 
     @Test
@@ -67,6 +73,8 @@ public class MapperUtilTest {
         int quantity = 1;
         int volume = 1;
         int weight = 1;
+        String filename = "1";
+        boolean active = true;
         Map<String, String> parameters = new HashMap<>();
         parameters.put("color", "1");
         parameters.put("insurance", "1");
@@ -80,6 +88,8 @@ public class MapperUtilTest {
         input.setVolume(volume);
         input.setWeight(weight);
         input.setParameters(parameters);
+        input.setFilename(filename);
+        input.setActive(active);
 
 //      Run
         ProductDto output = mapperUtil.mapProductToProductDto(input);
@@ -94,6 +104,8 @@ public class MapperUtilTest {
         Assert.assertEquals(weight, output.getWeight());
         Assert.assertEquals(parameters.get("color"), output.getParameters().get("color"));
         Assert.assertEquals(parameters.get("insurance"), output.getParameters().get("insurance"));
+        Assert.assertEquals(filename, output.getFilename());
+        Assert.assertEquals(active, output.isActive());
     }
 
 
