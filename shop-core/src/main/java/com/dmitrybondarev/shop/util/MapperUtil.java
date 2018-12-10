@@ -158,7 +158,7 @@ public class MapperUtil {
                     entry.getValue());
         }
 
-        cart.setContent(content);
+        cart.setProducts(content);
 
         return cart;
     }
@@ -168,7 +168,7 @@ public class MapperUtil {
         CartDto cartDto = new CartDto();
         dozerBeanMapper.map(cart, cartDto);
 
-        Map<Product, Integer> content = cart.getContent();
+        Map<Product, Integer> content = cart.getProducts();
         if (content == null) return cartDto;
 
         Map<ProductDto, Integer> contentDto = new HashMap<>();

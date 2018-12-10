@@ -46,7 +46,7 @@ public class CartServiceImp implements CartService {
         if(cart == null) {
             cart = new Cart();
         }
-        cart.getContent().put(product, 1);
+        cart.getProducts().put(product, 1);
         userRepository.save(user);
     }
 
@@ -60,7 +60,7 @@ public class CartServiceImp implements CartService {
         if (cart == null) {
             return;
         }
-        cart.getContent().remove(product);
+        cart.getProducts().remove(product);
         userRepository.save(user);
     }
 }

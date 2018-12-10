@@ -32,55 +32,55 @@ public class ProductServiceImpTest {
 
 
 
-    @Test
-    public void addNewProductToStock() {
-
-//      Values
-        String title = "1";
-        String category = "1";
-        int price = 1;
-        int quantity = 1;
-        int volume = 1;
-        int weight = 1;
-        Map<String, String> parameters = new HashMap<>();
-        parameters.put("color", "1");
-        parameters.put("insurance", "1");
-
-//      Input
-        ProductDto input = new ProductDto();
-        input.setTitle(title);
-        input.setCategory(category);
-        input.setPrice(price);
-        input.setQuantity(quantity);
-        input.setVolume(volume);
-        input.setWeight(weight);
-        input.setParameters(parameters);
-
-//      Mocking
-        when(productRepositoryMock
-                .save(mapperUtil.mapProductDtoToProduct(input)))
-                .thenReturn(mapperUtil.mapProductDtoToProduct(input));
-
-//      Run
-        ProductDto output = productServiceImp.addNewProductToStock(input);
-
-//      Assert
-        Assert.assertNotNull(output);
-        Assert.assertEquals(title, output.getTitle());
-        Assert.assertEquals(category, output.getCategory());
-        Assert.assertEquals(price, output.getPrice());
-        Assert.assertEquals(quantity, output.getQuantity());
-        Assert.assertEquals(volume, output.getVolume());
-        Assert.assertEquals(weight, output.getWeight());
-        Assert.assertEquals(parameters.get("color"), output.getParameters().get("color"));
-        Assert.assertEquals(parameters.get("insurance"), output.getParameters().get("insurance"));
-
-//        Product product = this.mapProductDtoToProduct(input);
-//        product.setId(null);
-//        Mockito.verify(productRepository, Mockito.times(1))
-//                .save(product);
-
-    }
+//    @Test
+//    public void addNewProductToStock() {
+//
+////      Values
+//        String title = "1";
+//        String category = "1";
+//        int price = 1;
+//        int quantity = 1;
+//        int volume = 1;
+//        int weight = 1;
+//        Map<String, String> parameters = new HashMap<>();
+//        parameters.put("color", "1");
+//        parameters.put("insurance", "1");
+//
+////      Input
+//        ProductDto input = new ProductDto();
+//        input.setTitle(title);
+//        input.setCategory(category);
+//        input.setPrice(price);
+//        input.setQuantity(quantity);
+//        input.setVolume(volume);
+//        input.setWeight(weight);
+//        input.setParameters(parameters);
+//
+////      Mocking
+//        when(productRepositoryMock
+//                .save(mapperUtil.mapProductDtoToProduct(input)))
+//                .thenReturn(mapperUtil.mapProductDtoToProduct(input));
+//
+////      Run
+//        ProductDto output = productServiceImp.addNewProductToStock(input);
+//
+////      Assert
+//        Assert.assertNotNull(output);
+//        Assert.assertEquals(title, output.getTitle());
+//        Assert.assertEquals(category, output.getCategory());
+//        Assert.assertEquals(price, output.getPrice());
+//        Assert.assertEquals(quantity, output.getQuantity());
+//        Assert.assertEquals(volume, output.getVolume());
+//        Assert.assertEquals(weight, output.getWeight());
+//        Assert.assertEquals(parameters.get("color"), output.getParameters().get("color"));
+//        Assert.assertEquals(parameters.get("insurance"), output.getParameters().get("insurance"));
+//
+////        Product product = this.mapProductDtoToProduct(input);
+////        product.setId(null);
+////        Mockito.verify(productRepository, Mockito.times(1))
+////                .save(product);
+//
+//    }
 
 
 }

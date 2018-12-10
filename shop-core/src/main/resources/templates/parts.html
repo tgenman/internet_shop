@@ -74,11 +74,13 @@
                 </div>
 
                 <a th:text="#{label.login}"
+                   sec:authorize="!isAuthenticated()"
                    href="/login"
                    role="button"
                    class="btn btn-primary mr-2 my-2 my-sm-0">Login</a>
 
                 <a th:text="#{label.registration}"
+                   sec:authorize="!isAuthenticated()"
                    href="/user/registration"
                    role="button"
                    class="btn btn-primary mr-2 my-2 my-sm-0">Registration</a>

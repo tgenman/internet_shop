@@ -15,14 +15,14 @@ import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Map;
 
-@Entity
 @Data
 @EqualsAndHashCode(exclude = {"quantity", "active", "filename", "price"})
+@Entity(name = "Product")
 @Table(name = "product")
 public class Product implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String title;
@@ -31,8 +31,10 @@ public class Product implements Serializable {
 
     private int price;
 
+    @CollectionTable(
+            name = "product_parameter",
+            joinColumns = @JoinColumn(name = "product_id"))
     @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "product_parameter", joinColumns = @JoinColumn(name = "product_id"))
     private Map<String, String> parameters;
 
     private int weight;

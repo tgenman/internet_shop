@@ -16,22 +16,23 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
 
 @Data
-@Entity
-@Table(name = "orderL")
+@Entity(name = "Order")
+@Table(name = "order_entity")
 public class Order implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
     private User user;
 
     private String addressString;
@@ -50,9 +51,10 @@ public class Order implements Serializable {
     @Enumerated(EnumType.STRING)
     private StatusOfDelivery statusOfDelivery;
 
-//    @ManyToMany
     @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "orderL_products", joinColumns = @JoinColumn(name = "orderL_id"))
+    @CollectionTable(
+            name = "order_entity_product",
+            joinColumns = @JoinColumn(name = "order_entity_id"))
     private Map<Product, Integer> listOfProducts;
 }
 

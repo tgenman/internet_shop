@@ -468,7 +468,7 @@ public class MapperUtilTest {
         Cart input = new Cart();
         input.setId(id);
         input.setSessionId(sessionId);
-        input.setContent(content);
+        input.setProducts(content);
 
 //      Run
         CartDto output = mapperUtil.mapCartToCartDto(input);
@@ -511,7 +511,7 @@ public class MapperUtilTest {
         Assert.assertNotNull(output);
         Assert.assertEquals(id, (long) output.getId());
         Assert.assertEquals(sessionId, output.getSessionId());
-        Assert.assertEquals(1,  (int) output.getContent().get(product1));
-        Assert.assertEquals(2,  (int) output.getContent().get(product2));
+        Assert.assertEquals(1,  (int) output.getProducts().get(product1));
+        Assert.assertEquals(2,  (int) output.getProducts().get(product2));
     }
 }

@@ -10,25 +10,31 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 
 @Data
-@Entity
+@Entity(name = "VerificationToken")
+@Table(name = "verification_token")
 public class VerificationToken implements Serializable {
 
     private static final int EXPIRATION = 60 * 24;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String token;
-
-    @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
-    @JoinColumn(nullable = false, name = "user_id")
+    @OneToOne(
+            targetEntity = User.class,
+            fetch = FetchType.EAGER)
+    @JoinColumn(
+            nullable = false,
+            name = "user_id")
     private User user;
+
+    private String token;
 
     private Date expiryDate;
 
