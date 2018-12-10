@@ -4,9 +4,11 @@ import com.dmitrybondarev.shop.model.Cart;
 
 public interface CartService {
 
-    Cart getCartByUserId(long idUser);
+    Cart getCartByUserEmail(String emailUser);
 
-    void addProduct(long idUser, long idProduct);
+    Cart getCartByBySessionId(String sessionId);
 
-    void deleteProduct(long idUser, long idProduct);
+    void modificationCartByUserEmail(String userEmail, long productId, int amount);
+
+    void modificationCartBySessionId(String sessionId, long productId, int amount);
 }

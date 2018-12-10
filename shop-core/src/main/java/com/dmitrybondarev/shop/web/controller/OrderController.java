@@ -4,7 +4,6 @@ import com.dmitrybondarev.shop.model.Cart;
 import com.dmitrybondarev.shop.model.dto.AddressDto;
 import com.dmitrybondarev.shop.util.MapperUtil;
 import com.dmitrybondarev.shop.util.logging.Loggable;
-import com.dmitrybondarev.shop.model.Address;
 import com.dmitrybondarev.shop.model.Product;
 import com.dmitrybondarev.shop.model.User;
 import com.dmitrybondarev.shop.model.dto.OrderDto;
@@ -19,6 +18,7 @@ import com.dmitrybondarev.shop.service.api.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -67,17 +67,16 @@ public class OrderController {
 
     @Loggable
     @GetMapping("/new")
-    public String showCreationOrderForm(HttpServletRequest request, Model model) {
+    public String showCreationOrderForm(@AuthenticationPrincipal UserDetails userDetails,
+                                        Model model) {
 
-        long idUser = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
-        UserDto user = userService.getUserDtoById(idUser);
-        request.getSession().setAttribute("userR", user);
 
-        Cart cart = cartService.getCartByUserId(idUser);
-        Set<AddressDto> allAddress = user.getAddressDtos();
-        request.getSession().setAttribute("cartR", cart);
+        UserDto userDto = userService.getUserDtoByEmail(userDetails.getUsername());
 
-        model.addAttribute("user", user);         //TODO Change to DTOs
+        Cart cart = cartService.getCartByUserEmail(userDetails.getUsername());
+        Set<AddressDto> allAddress = userDto.getAddressDtos();
+
+        model.addAttribute("user", userDto);         //TODO Change to DTOs
         model.addAttribute("allAddress", allAddress);
         model.addAttribute("cart", cart);
         model.addAttribute("orderDto", new OrderDto());
@@ -88,17 +87,13 @@ public class OrderController {
     @Loggable
     @PostMapping("/new")
     public String createNewOrder(@ModelAttribute("orderDto") @Valid OrderDto orderDto,
-                                       BindingResult result, HttpServletRequest request, Errors errors,
-                                       @AuthenticationPrincipal User user, Model model) {
+                                       BindingResult result, Errors errors,
+                                       @AuthenticationPrincipal UserDetails userDetails, Model model) {
         if (!result.hasErrors()) {
-            UserDto userDtoR = (UserDto) request.getSession().getAttribute("userR");
 
-            User userR = mapperUtil.mapUserDtoToUser(userDtoR);
+            UserDto userDto = userService.getUserDtoByEmail(userDetails.getUsername());
 
-            Map<Product, Integer> cartR = (Map<Product, Integer>) request.getSession().getAttribute("cartR");
-
-            orderDto.setUserDto(mapperUtil.mapUserToUserDto(userR));
-//            orderDto.setListOfProducts(cartR);     //TODO FIX LOGIC
+            orderDto.setUserDto(userDto);
             orderDto.setDateOfOrder(new Date());
             orderDto.setStatusOfDelivery(StatusOfDelivery.WAITING_FOR_PAYMENT);
             orderDto.setStatusOfPayment(StatusOfPayment.WAITING_FOR_PAYMENT);

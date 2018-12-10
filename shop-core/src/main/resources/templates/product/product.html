@@ -15,19 +15,20 @@
         <div class="card my-3">
             <!--<img class="card-img-top" src=".../100px180/?text=Image cap">-->
             <div class="card-body">
-                <h5 class="card-title" th:text="${productDto.title}">title</h5>
+                <h5 class="card-title" th:text="${productDto.brand + ' ' + productDto.title}">title</h5>
                 <p class="card-text" th:text="${productDto.category}">category</p>
             </div>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item" th:text="#{label.product.price}   ${productDto.price}">price</li>
-                <li class="list-group-item" th:text="#{label.product.weight}  ${productDto.weight}">weight</li>
-                <li class="list-group-item" th:text="#{label.product.volume}   ${productDto.volume}">volume</li>
-                <li class="list-group-item" th:text="#{label.product.quantity}   ${productDto.quantity}">quantity</li>
+                <li class="list-group-item" th:text="#{label.product.price} + ': ' + ${productDto.price} + '$'">price</li>
+                <li class="list-group-item" th:text="#{label.product.color} + ': ' + ${productDto.color}">color</li>
+                <li class="list-group-item" th:text="#{label.product.size} + ': ' + ${productDto.size}">volume</li>
+                <li class="list-group-item" th:text="#{label.product.weight} + ': ' + ${productDto.weight}">weight</li>
+                <li class="list-group-item" th:text="#{label.product.dayOfWarranty} + ': ' + ${productDto.dayOfWarranty}">dayOfWarranty</li>
             </ul>
             <div class="card-body">
                 <a class="btn btn-danger" role="button" href="/cart/${productDto.id}"
-                   th:href="@{/cart/${productDto.id}}"
-                   th:text="#{label.product.info.addButton}">Create Order</a>
+                   th:href="@{'/cart/' + ${productDto.id}}"
+                   th:text="#{label.product.list.addToCart}">Add to Cart</a>
             </div>
         </div>
     </div>

@@ -10,6 +10,7 @@ import com.dmitrybondarev.shop.repository.token.VerificationTokenRepository;
 import com.dmitrybondarev.shop.service.api.UserService;
 import com.dmitrybondarev.shop.util.MapperUtil;
 import com.dmitrybondarev.shop.util.exception.EmailExistsException;
+import com.dmitrybondarev.shop.util.exception.UserNotFoundException;
 import com.dmitrybondarev.shop.util.logging.Loggable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -49,9 +51,9 @@ public class UserServiceImp implements UserService {
     @Loggable
     @Transactional
     public User registerNewUserAccount(UserDto userDto) throws EmailExistsException {
-        if (emailExist(userDto.getEmail())) {
+        Optional<User> optionalUser = userRepository.findByEmail(userDto.getEmail());
+        if (optionalUser.isPresent())
             throw new EmailExistsException("There is an account with that email address: " + userDto.getEmail());
-        }
 
         User user = mapperUtil.mapUserDtoToUser(userDto);
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
@@ -99,8 +101,8 @@ public class UserServiceImp implements UserService {
     @Override
     @Loggable
     @Transactional
-    public VerificationToken getVerificationToken(String VerificationToken) {
-        return verificationTokenRepository.findByToken(VerificationToken);
+    public VerificationToken getVerificationToken(String verificationToken) {
+        return verificationTokenRepository.findByToken(verificationToken);
     }
 
     @Override
@@ -116,9 +118,11 @@ public class UserServiceImp implements UserService {
     @Loggable
     @Transactional
     public void changeUserPassword(final Long id, final String password) {
-        User byId = userRepository.findById(id).get();
-        byId.setPassword(passwordEncoder.encode(password));
-        userRepository.save(byId);
+        Optional<User> optionalUser = userRepository.findById(id);
+        if (!optionalUser.isPresent()) throw new UserNotFoundException("No user found with id: "+ id);
+        User user = optionalUser.get();
+        user.setPassword(passwordEncoder.encode(password));
+        userRepository.save(user);
     }
 
     @Override
@@ -139,7 +143,9 @@ public class UserServiceImp implements UserService {
     @Loggable
     @Transactional
     public UserDto getUserDtoByEmail(String email) {
-        User user = userRepository.findByEmail(email);
+        Optional<User> optionalUser = userRepository.findByEmail(email);
+        if (!optionalUser.isPresent()) throw new UserNotFoundException("No user found with email: "+ email);
+        User user = optionalUser.get();
         return mapperUtil.mapUserToUserDto(user);
     }
 
@@ -147,7 +153,9 @@ public class UserServiceImp implements UserService {
     @Loggable
     @Transactional
     public UserDto getUserDtoById(long id) {
-        User user = userRepository.findById(id).get();
+        Optional<User> optionalUser = userRepository.findById(id);
+        if (!optionalUser.isPresent()) throw new UserNotFoundException("No user found with id: "+ id);
+        User user = optionalUser.get();
         return mapperUtil.mapUserToUserDto(user);
     }
 
@@ -158,14 +166,5 @@ public class UserServiceImp implements UserService {
         User user = mapperUtil.mapUserDtoToUser(userDto);
         userRepository.save(user);
         return userDto;
-    }
-
-
-
-// ============== NON-API ============
-
-    private boolean emailExist(String email) {
-        User user = userRepository.findByEmail(email);
-        return user != null;
     }
 }

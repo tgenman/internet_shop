@@ -8,25 +8,26 @@
 <div th:replace="parts :: navbar"></div>
 
 <div class="container mt-5">
-    <h2 th:text="#{label.product.list.title}">Market</h2>
-
     <!--/*@thymesVar id="allProductDto" type="java.util.Map<java.lang.String, java.util.List<com.dmitrybondarev.shop.model.dto.ProductDto>>"*/-->
-    <div class="card-columns" th:each="category : ${allProductDto.keySet()}">
-        <div class="card my-3" th:each="productDto : ${allProductDto.get(category)}">
-            <!--<%&#45;&#45;<img class="card-img-top" src=".../100px180/?text=Image cap">&#45;&#45;%>-->
-            <div class="card-body">
-                <h5 class="card-title" th:text="${productDto.title}">title</h5>
-                <p class="card-text" th:text="${category}">category</p>
-            </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item" th:text="#{label.product.price}   ${productDto.price}">price</li>
-            </ul>
-            <div class="card-body">
-                <a class="btn btn-info" href="/product/${productDto.id}" role="button"
-                   th:href="@{/product/${productDto.id}}" th:text="#{label.product.list.moreDetails}">More...</a>
+    <div th:each="category : ${allProductDto.keySet()}">
+        <h5 th:text="${category + 's'}">Category</h5>
+        <div class="card-columns">
+            <div class="card my-3" th:each="productDto : ${allProductDto.get(category)}">
+                <!--<%&#45;&#45;<img class="card-img-top" src=".../100px180/?text=Image cap">&#45;&#45;%>-->
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${productDto.brand + ' ' + productDto.title + ' - ' + productDto.color}">title</h5>
+                    <!--<p class="card-text" th:text="${category}">category</p>-->
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item" th:text="#{label.product.price} + ' ' + ${productDto.price} + '$'">price</li>
+                </ul>
+                <div class="card-body">
+                    <a class="btn btn-info" role="button"
+                       th:href="@{'/product/' + ${productDto.id}}" th:text="#{label.product.list.moreDetails}">More...</a>
 
-                <a class="btn btn-danger" href="/cart/${productDto.id}" role="button"
-                   th:href="@{/cart/${productDto.id}}" th:text="#{label.product.list.addToCart}">Add to Cart</a>
+                    <a class="btn btn-danger" role="button"
+                       th:href="@{'/cart/' + ${productDto.id}}" th:text="#{label.product.list.addToCart}">Add to Cart</a>
+                </div>
             </div>
         </div>
     </div>

@@ -62,6 +62,7 @@ public class User implements Serializable {
     private Set<Address> addresses;
 
     @OneToMany(
+            fetch = FetchType.EAGER,
             mappedBy = "user",
             cascade = CascadeType.ALL,
             orphanRemoval = true)

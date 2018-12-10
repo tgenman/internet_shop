@@ -1,16 +1,17 @@
 package com.dmitrybondarev.shop.web.controller;
 
 import com.dmitrybondarev.shop.model.Cart;
-import com.dmitrybondarev.shop.model.User;
 import com.dmitrybondarev.shop.service.api.CartService;
 import com.dmitrybondarev.shop.util.logging.Loggable;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.context.request.RequestContextHolder;
 
 @Controller
 @RequestMapping("/cart")
@@ -24,28 +25,49 @@ public class CartController {
 
     @Loggable
     @GetMapping
-    public String showCart(Model model) {
-        long idUser = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
-        Cart cart = cartService.getCartByUserId(idUser);
+    public String showCart(@AuthenticationPrincipal UserDetails userDetails,
+                           Model model) {
+        Cart cart;
+        if (userDetails == null) {
+            cart = cartService.getCartByBySessionId(RequestContextHolder.currentRequestAttributes().getSessionId());
+        } else {
+            cart = cartService.getCartByUserEmail(userDetails.getUsername());
+        }
         model.addAttribute("cart", cart);
         return "cart/showCart";
     }
 
     @Loggable
-    @GetMapping("/{idProduct}")
-    public String addProductToCart(@PathVariable long idProduct) {
-        long idUser = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
-        cartService.addProduct(idUser, idProduct);
+    @GetMapping("/{productId}")
+    public String addProductToCart(@PathVariable long productId,
+                                   @AuthenticationPrincipal UserDetails userDetails) {
+        if (userDetails == null) {
+            cartService.modificationCartBySessionId(
+                    RequestContextHolder.currentRequestAttributes().getSessionId(),
+                    productId, 1);
+            return "redirect:/product";
+        }
+
+        cartService.modificationCartByUserEmail(
+                userDetails.getUsername(),
+                productId,1);
         return "redirect:/product";
     }
 
     @Loggable
-    @PostMapping("/delete/{idProduct}")
-    public String deleteProductFromCart(@PathVariable long idProduct) {
-        long idUser = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
-        cartService.deleteProduct(idUser, idProduct);
+    @DeleteMapping("/delete/{productId}")
+    public String deleteProductFromCart(@PathVariable long productId,
+                                        @AuthenticationPrincipal UserDetails userDetails) {
+        if (userDetails == null) {
+            cartService.modificationCartBySessionId(
+                    RequestContextHolder.currentRequestAttributes().getSessionId(),
+                    productId, -1);    //TODO CATCH AMOUNT
+            return "redirect:/cart";
+        }
+
+        cartService.modificationCartByUserEmail(
+                userDetails.getUsername(),
+                productId, -1);       //TODO CATCH AMOUNT
         return "redirect:/cart";
     }
-
-
 }

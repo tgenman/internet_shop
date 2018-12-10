@@ -14,29 +14,29 @@
         <thead>
         <tr>
             <th scope="col" th:text="#{label.product.id}">art.</th>
+            <th scope="col" th:text="#{label.product.brand}">brand</th>
             <th scope="col" th:text="#{label.product.title}">Title</th>
             <th scope="col" th:text="#{label.product.price}">Price</th>
             <th scope="col" th:text="#{label.product.weight}">Weight</th>
-            <th scope="col" th:text="#{label.product.volume}">Volume</th>
+            <th scope="col" th:text="#{label.product.size}">Volume</th>
             <th scope="col" th:text="#{label.product.quantity}">Quantity</th>
             <th scope="col" th:text="#{label.cart.show.removeProduct}">Remove</th>
         </tr>
         </thead>
 
         <tbody>
-            <!--/*@thymesVar id="cart" type="java.util.Map<com.dmitrybondarev.shop.model.Product, java.lang.Integer>"*/-->
-            <tr th:each="product : ${cart.keySet()}">
+            <!--/*@thymesVar id="cart" type="com.dmitrybondarev.shop.model.Cart"*/-->
+            <tr th:each="product : ${cart.getProducts().keySet()}">
                 <td scope="col" th:text="${product.id}">art.</td>
+                <td scope="col" th:text="${product.brand}">brand</td>
                 <td scope="col" th:text="${product.title}">title</td>
                 <td scope="col" th:text="${product.price}">price</td>
                 <td scope="col" th:text="${product.weight}">weight</td>
-                <td scope="col" th:text="${product.volume}">volume</td>
-                <td scope="col" th:text="${cart.get(product)}">quantity</td>
+                <td scope="col" th:text="${product.size}">volume</td>
+                <td scope="col" th:text="${cart.getProducts().get(product)}">quantity</td>
                 <td scope="col">
-                    <form action="/cart/delete/${product.id}" th:action="@{/cart/delete/${product.id}}" method="post">
-                        <input type="hidden"
-                               name="${_csrf.parameterName}"
-                               value="${_csrf.token}"/>
+                    <form action="#" th:action="@{'/cart/delete/' + ${product.id}}"  method="post">
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                         <input type="submit" class="btn btn-warning btn-sm" th:text="#{label.cart.show.removeProduct}">
                         <!--<input type="submit" class="btn btn-warning btn-sm" value="Remove">-->
                     </form>
@@ -44,6 +44,8 @@
             </tr>
         </tbody>
     </table>
+
+
 
     <a class="btn btn-success" role="button" href="/order/new"
        th:href="@{/order/new}"

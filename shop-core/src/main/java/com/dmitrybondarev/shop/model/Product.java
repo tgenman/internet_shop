@@ -11,7 +11,7 @@ import javax.persistence.Table;
 import java.io.Serializable;
 
 @Data
-@EqualsAndHashCode(of = "title")
+@EqualsAndHashCode(of = "id")
 @Entity(name = "Product")
 @Table(name = "product")
 public class Product implements Serializable {

@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -34,11 +35,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                    .antMatchers("/", "/user/registration", "/registrationConfirm",
-                            "/resources/**").permitAll()
+                    .antMatchers("/","/product","/product/*", "/cart", "/cart/*", "/user/registration",
+                            "/registrationConfirm", "/resources/**").permitAll()
                     .antMatchers("/user/updatePassword*", "/user/savePassword*",
                         "/updatePassword*").hasAuthority("CHANGE_PASSWORD_PRIVILEGE")
-                    .anyRequest().authenticated()
+                    .anyRequest().permitAll()
+//                    .anyRequest().authenticated()
                 .and()
                     .formLogin()
                     .loginPage("/login")
@@ -47,6 +49,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                     .logout()
                     .permitAll();
+
+        http.sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
     }
 
     @Override
