@@ -2,18 +2,23 @@ package com.dmitrybondarev.shop.util;
 
 import com.dmitrybondarev.shop.model.Address;
 import com.dmitrybondarev.shop.model.Cart;
+import com.dmitrybondarev.shop.model.Order;
 import com.dmitrybondarev.shop.model.Product;
 import com.dmitrybondarev.shop.model.User;
 import com.dmitrybondarev.shop.model.dto.AddressDto;
 import com.dmitrybondarev.shop.model.dto.CartDto;
+import com.dmitrybondarev.shop.model.dto.OrderDto;
 import com.dmitrybondarev.shop.model.dto.ProductDto;
 import com.dmitrybondarev.shop.model.dto.UserDto;
 import com.dmitrybondarev.shop.model.dto.rest.ProductDtoRest;
+import com.dmitrybondarev.shop.model.enums.StatusOfDelivery;
+import com.dmitrybondarev.shop.model.enums.StatusOfPayment;
+import com.dmitrybondarev.shop.model.enums.TypeOfDelivery;
+import com.dmitrybondarev.shop.model.enums.TypeOfPayment;
 import org.dozer.DozerBeanMapper;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -124,7 +129,6 @@ public class MapperUtilTest {
         Assert.assertEquals(active, output.isActive());
     }
 
-
     @Test
     public void testMapProductDtoToProductDtoRest() {
 //      Values
@@ -168,7 +172,6 @@ public class MapperUtilTest {
         Assert.assertEquals(filename, output.getFilename());
         Assert.assertEquals(active, output.isActive());
     }
-
 
 
     @Test
@@ -277,15 +280,106 @@ public class MapperUtilTest {
     }
 
 
-//    @Test
-//    public void testMapOrderDtoToOrder() {
-//
-//    }
-//
-//    @Test
-//    public void mapOrderToOrderDto() {
-//
-//    }
+    @Test
+    public void testMapOrderDtoToOrder() {
+        Long id = 1L;
+        UserDto userDto = new UserDto();
+        String addressString = "1";
+        Date dateOfOrder = new Date();
+        TypeOfPayment typeOfPayment = TypeOfPayment.CASH;
+        TypeOfDelivery typeOfDelivery = TypeOfDelivery.POST;
+        StatusOfPayment statusOfPayment = StatusOfPayment.WAITING_FOR_PAYMENT;
+        StatusOfDelivery statusOfDelivery = StatusOfDelivery.WAITING_FOR_PAYMENT;
+        Map<ProductDto, Integer> listOfProductDtos = new HashMap<>();
+        ProductDto productDto1 = new ProductDto();
+        ProductDto productDto2 = new ProductDto();
+        productDto1.setTitle("one");
+        productDto2.setTitle("two");
+        listOfProductDtos.put(productDto1, 1);
+        listOfProductDtos.put(productDto2, 2);
+        userDto.setFirstName("1");
+
+//      Input
+        OrderDto input = new OrderDto();
+        input.setId(id);
+        input.setUserDto(userDto);
+        input.setAddressString(addressString);
+        input.setDateOfOrder(dateOfOrder);
+        input.setTypeOfPayment(typeOfPayment);
+        input.setTypeOfDelivery(typeOfDelivery);
+        input.setStatusOfPayment(statusOfPayment);
+        input.setStatusOfDelivery(statusOfDelivery);
+        input.setListOfProductDtos(listOfProductDtos);
+
+//      Run
+        Order output = mapperUtil.mapOrderDtoToOrder(input);
+        Product product1 = mapperUtil.mapProductDtoToProduct(productDto1);
+        Product product2 = mapperUtil.mapProductDtoToProduct(productDto2);
+
+//      Assert
+        Assert.assertNotNull(output);
+        Assert.assertEquals(id, output.getId());
+        Assert.assertEquals(addressString, output.getAddressString());
+        Assert.assertEquals(dateOfOrder, output.getDateOfOrder());
+        Assert.assertEquals(typeOfPayment, output.getTypeOfPayment());
+        Assert.assertEquals(typeOfDelivery, output.getTypeOfDelivery());
+        Assert.assertEquals(statusOfDelivery, output.getStatusOfDelivery());
+        Assert.assertEquals(statusOfPayment, output.getStatusOfPayment());
+        Assert.assertEquals("1",  output.getUser().getFirstName());
+        Assert.assertEquals(1,  (int) output.getListOfProducts().get(product1));
+        Assert.assertEquals(2,  (int) output.getListOfProducts().get(product2));
+    }
+
+    @Test
+    public void mapOrderToOrderDto() {
+        Long id = 1L;
+        User user = new User();
+        String addressString = "1";
+        Date dateOfOrder = new Date();
+        TypeOfPayment typeOfPayment = TypeOfPayment.CASH;
+        TypeOfDelivery typeOfDelivery = TypeOfDelivery.POST;
+        StatusOfPayment statusOfPayment = StatusOfPayment.WAITING_FOR_PAYMENT;
+        StatusOfDelivery statusOfDelivery = StatusOfDelivery.WAITING_FOR_PAYMENT;
+        Map<Product, Integer> listOfProducts = new HashMap<>();
+        Product product1 = new Product();
+        Product product2 = new Product();
+        product1.setTitle("one");
+        product2.setTitle("two");
+        listOfProducts.put(product1, 1);
+        listOfProducts.put(product2, 2);
+        user.setFirstName("1");
+
+//      Input
+        Order input = new Order();
+        input.setId(id);
+        input.setUser(user);
+        input.setAddressString(addressString);
+        input.setDateOfOrder(dateOfOrder);
+        input.setTypeOfPayment(typeOfPayment);
+        input.setTypeOfDelivery(typeOfDelivery);
+        input.setStatusOfPayment(statusOfPayment);
+        input.setStatusOfDelivery(statusOfDelivery);
+        input.setListOfProducts(listOfProducts);
+
+//      Run
+        OrderDto output = mapperUtil.mapOrderToOrderDto(input);
+        ProductDto productDto1 = mapperUtil.mapProductToProductDto(product1);
+        ProductDto productDto2 = mapperUtil.mapProductToProductDto(product2);
+
+//      Assert
+        Assert.assertNotNull(output);
+        Assert.assertEquals(id, output.getId());
+        Assert.assertEquals(addressString, output.getAddressString());
+        Assert.assertEquals(dateOfOrder, output.getDateOfOrder());
+        Assert.assertEquals(typeOfPayment, output.getTypeOfPayment());
+        Assert.assertEquals(typeOfDelivery, output.getTypeOfDelivery());
+        Assert.assertEquals(statusOfDelivery, output.getStatusOfDelivery());
+        Assert.assertEquals(statusOfPayment, output.getStatusOfPayment());
+        Assert.assertEquals("1",  output.getUserDto().getFirstName());
+        Assert.assertEquals(1,  (int) output.getListOfProductDtos().get(productDto1));
+        Assert.assertEquals(2,  (int) output.getListOfProductDtos().get(productDto2));
+
+    }
 
     @Test
     public void mapAddressDtoToAddress() {
@@ -392,7 +486,7 @@ public class MapperUtilTest {
     @Test
     public void mapCartToCartDto() {
 //      Values
-        long id = 1;
+        long id = 1L;
         String sessionId = "1";
         Map<ProductDto, Integer> content = new HashMap<>();
         ProductDto productDto1 = new ProductDto();

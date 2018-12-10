@@ -1,7 +1,5 @@
 package com.dmitrybondarev.shop.model.dto;
 
-import com.dmitrybondarev.shop.model.Product;
-import com.dmitrybondarev.shop.model.User;
 import com.dmitrybondarev.shop.model.enums.StatusOfDelivery;
 import com.dmitrybondarev.shop.model.enums.StatusOfPayment;
 import com.dmitrybondarev.shop.model.enums.TypeOfDelivery;
@@ -17,9 +15,9 @@ public class OrderDto implements Serializable {
 
     private Long id;
 
-    private User user;
+    private UserDto userDto;
 
-    private String address;
+    private String addressString;
 
     private Date dateOfOrder;
 
@@ -31,5 +29,5 @@ public class OrderDto implements Serializable {
 
     private StatusOfDelivery statusOfDelivery;
 
-    private Map<Product, Integer> listOfProducts;
+    private Map<ProductDto, Integer> listOfProductDtos;
 }

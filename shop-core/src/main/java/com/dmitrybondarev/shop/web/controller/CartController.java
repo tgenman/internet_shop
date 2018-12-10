@@ -1,10 +1,9 @@
 package com.dmitrybondarev.shop.web.controller;
 
 import com.dmitrybondarev.shop.model.Cart;
-import com.dmitrybondarev.shop.util.logging.Loggable;
-import com.dmitrybondarev.shop.model.Product;
 import com.dmitrybondarev.shop.model.User;
 import com.dmitrybondarev.shop.service.api.CartService;
+import com.dmitrybondarev.shop.util.logging.Loggable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,8 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.Map;
 
 @Controller
 @RequestMapping("/cart")

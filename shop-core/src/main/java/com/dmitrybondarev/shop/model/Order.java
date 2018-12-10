@@ -34,7 +34,7 @@ public class Order implements Serializable {
     @OneToOne
     private User user;
 
-    private String address;
+    private String addressString;
 
     private Date dateOfOrder;
 

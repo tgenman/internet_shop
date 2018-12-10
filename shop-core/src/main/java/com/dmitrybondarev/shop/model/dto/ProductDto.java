@@ -1,11 +1,13 @@
 package com.dmitrybondarev.shop.model.dto;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 import java.util.Map;
 
 @Data
+@EqualsAndHashCode(exclude = {"quantity", "active", "filename", "price"})
 public class ProductDto implements Serializable {
 
     private Long id;

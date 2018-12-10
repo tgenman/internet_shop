@@ -1,22 +1,22 @@
 package com.dmitrybondarev.shop.service.impl;
 
 import com.dmitrybondarev.shop.model.User;
+import com.dmitrybondarev.shop.model.dto.UserDto;
 import com.dmitrybondarev.shop.model.token.PasswordResetToken;
 import com.dmitrybondarev.shop.model.token.VerificationToken;
-import com.dmitrybondarev.shop.model.dto.UserDto;
 import com.dmitrybondarev.shop.repository.UserRepository;
 import com.dmitrybondarev.shop.repository.token.PasswordResetTokenRepository;
 import com.dmitrybondarev.shop.repository.token.VerificationTokenRepository;
 import com.dmitrybondarev.shop.service.api.UserService;
 import com.dmitrybondarev.shop.util.MapperUtil;
-import com.dmitrybondarev.shop.util.logging.Loggable;
 import com.dmitrybondarev.shop.util.exception.EmailExistsException;
+import com.dmitrybondarev.shop.util.logging.Loggable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -55,7 +55,7 @@ public class UserServiceImp implements UserService {
 
         User user = mapperUtil.mapUserDtoToUser(userDto);
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        user.setRoles(Arrays.asList("ROLE_USER"));
+        user.setRoles(Collections.singletonList("ROLE_USER"));
         user.setEnabled(false);
         user.setId(null);
 

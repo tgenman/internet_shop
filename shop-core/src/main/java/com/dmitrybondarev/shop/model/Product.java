@@ -1,6 +1,7 @@
 package com.dmitrybondarev.shop.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
@@ -16,7 +17,7 @@ import java.util.Map;
 
 @Entity
 @Data
-//@EqualsAndHashCode(exclude = {"quantity", "parameters"})       //TODO find how to hashcode Map
+@EqualsAndHashCode(exclude = {"quantity", "active", "filename", "price"})
 @Table(name = "product")
 public class Product implements Serializable {
 

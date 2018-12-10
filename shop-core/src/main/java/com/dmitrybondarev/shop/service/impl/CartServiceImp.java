@@ -10,9 +10,6 @@ import com.dmitrybondarev.shop.util.logging.Loggable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @Service
 public class CartServiceImp implements CartService {
 

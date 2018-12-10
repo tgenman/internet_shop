@@ -16,9 +16,7 @@ import org.dozer.DozerBeanMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
@@ -88,30 +86,46 @@ public class MapperUtil {
     @Loggable
     public Order mapOrderDtoToOrder(OrderDto orderDto) {
         Order order = new Order();
-        order.setId(null);
-        order.setAddress(orderDto.getAddress());
-        order.setDateOfOrder(orderDto.getDateOfOrder());
-        order.setListOfProducts(orderDto.getListOfProducts());
-        order.setStatusOfDelivery(orderDto.getStatusOfDelivery());
-        order.setStatusOfPayment(orderDto.getStatusOfPayment());
-        order.setTypeOfDelivery(orderDto.getTypeOfDelivery());
-        order.setTypeOfPayment(orderDto.getTypeOfPayment());
-        order.setUser(orderDto.getUser());
+        dozerBeanMapper.map(orderDto, order);
+
+        if (orderDto.getListOfProductDtos() == null || orderDto.getUserDto() == null) return order;
+
+        User user = this.mapUserDtoToUser(orderDto.getUserDto());
+
+        Map<ProductDto, Integer> listOfProductDtos = orderDto.getListOfProductDtos();
+        Map<Product, Integer> listOfProducts = new HashMap<>();
+        for (Map.Entry<ProductDto, Integer> entry : listOfProductDtos.entrySet()) {
+            listOfProducts.put(
+                    this.mapProductDtoToProduct(entry.getKey()),
+                    entry.getValue());
+        }
+
+        order.setUser(user);
+        order.setListOfProducts(listOfProducts);
+
         return order;
     }
 
     @Loggable
     public OrderDto mapOrderToOrderDto(Order order) {
         OrderDto orderDto = new OrderDto();
-        orderDto.setId(order.getId());
-        orderDto.setAddress(order.getAddress());
-        orderDto.setDateOfOrder(order.getDateOfOrder());
-        orderDto.setListOfProducts(order.getListOfProducts());
-        orderDto.setStatusOfDelivery(order.getStatusOfDelivery());
-        orderDto.setStatusOfPayment(order.getStatusOfPayment());
-        orderDto.setTypeOfDelivery(order.getTypeOfDelivery());
-        orderDto.setTypeOfPayment(order.getTypeOfPayment());
-        orderDto.setUser(order.getUser());
+        dozerBeanMapper.map(order, orderDto);
+
+        if (order.getListOfProducts() == null || order.getUser() == null) return orderDto;
+
+        UserDto userDto = this.mapUserToUserDto(order.getUser());
+
+        Map<Product, Integer> listOfProducts = order.getListOfProducts();
+        Map<ProductDto, Integer> listOfProductDtos = new HashMap<>();
+        for (Map.Entry<Product, Integer> entry : listOfProducts.entrySet()) {
+            listOfProductDtos.put(
+                    this.mapProductToProductDto(entry.getKey()),
+                    entry.getValue());
+        }
+
+        orderDto.setUserDto(userDto);
+        orderDto.setListOfProductDtos(listOfProductDtos);
+
         return orderDto;
     }
 

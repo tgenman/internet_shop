@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -96,9 +97,9 @@ public class OrderController {
 
             Map<Product, Integer> cartR = (Map<Product, Integer>) request.getSession().getAttribute("cartR");
 
-            orderDto.setUser(userR);
-            orderDto.setListOfProducts(cartR);
-            orderDto.setDateOfOrder("today");
+            orderDto.setUserDto(mapperUtil.mapUserToUserDto(userR));
+//            orderDto.setListOfProducts(cartR);     //TODO FIX LOGIC
+            orderDto.setDateOfOrder(new Date());
             orderDto.setStatusOfDelivery(StatusOfDelivery.WAITING_FOR_PAYMENT);
             orderDto.setStatusOfPayment(StatusOfPayment.WAITING_FOR_PAYMENT);
 
