@@ -3,20 +3,15 @@ package com.dmitrybondarev.shop.model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.CollectionTable;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 import java.io.Serializable;
-import java.util.Map;
 
 @Data
-@EqualsAndHashCode(exclude = {"quantity", "active", "filename", "price"})
+@EqualsAndHashCode(of = "title")
 @Entity(name = "Product")
 @Table(name = "product")
 public class Product implements Serializable {
@@ -25,26 +20,25 @@ public class Product implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    private boolean active;
+
     private String title;
+
+    private String brand;
 
     private String category;
 
     private int price;
 
-    @CollectionTable(
-            name = "product_parameter",
-            joinColumns = @JoinColumn(name = "product_id"))
-    @ElementCollection(fetch = FetchType.EAGER)
-    private Map<String, String> parameters;
+    private String color;
 
     private int weight;
 
-    private int volume;
+    private String size;
+
+    private int dayOfWarranty;
 
     private int quantity;
 
-    private boolean active;
-
     private String filename;
-
 }

@@ -1,31 +1,45 @@
-create table address (
+create table product (
     id bigint not null,
-    building varchar(255),
-    city varchar(255),
-    country varchar(255),
-    flat varchar(255),
-    postal_code integer not null,
-    street varchar(255),
+    active bit not null,
+    title varchar(255),
+    brand varchar(255),
+    category varchar(255),
+    price integer not null,
+    color varchar(255),
+    quantity integer not null,
+    size varchar(255),
+    weight integer not null,
+    day_of_warranty integer not null,
+    filename varchar(255),
     primary key (id)
 ) engine=InnoDB;
 
-create table product (
-     id bigint not null,
-     active bit not null,
-     category varchar(255),
-     filename varchar(255),
-     price integer not null,
-     quantity integer not null,
-     title varchar(255),
-     volume integer not null,
-     weight integer not null,
-     primary key (id)
+create table user (
+    id bigint not null,
+    email varchar(255),
+    password varchar(60),
+    enabled bit,
+    first_name varchar(255),
+    last_name varchar(255),
+    date_of_birth datetime,
+    primary key (id)
+) engine=InnoDB;
+
+create table address (
+    id bigint not null,
+    postal_code integer not null,
+    country varchar(255),
+    city varchar(255),
+    street varchar(255),
+    building varchar(255),
+    flat varchar(255),
+    primary key (id)
 ) engine=InnoDB;
 
 create table cart (
     id bigint not null,
-    session_id varchar(255),
     user_id bigint,
+    session_id varchar(255),
     primary key (id)
 ) engine=InnoDB;
 
@@ -38,13 +52,13 @@ create table cart_products (
 
 create table order_entity (
     id bigint not null,
-    address_string varchar(255),
     date_of_order datetime,
+    user_id bigint,
+    address_string varchar(255),
     status_of_delivery varchar(255),
     status_of_payment varchar(255),
     type_of_delivery varchar(255),
     type_of_payment varchar(255),
-    user_id bigint,
     primary key (id)
 ) engine=InnoDB;
 
@@ -54,23 +68,6 @@ create table order_entity_product (
     list_of_products_key bigint not null,
     primary key (order_entity_id, list_of_products_key)
 ) engine=InnoDB;
-
-create table product_parameter (
-    product_id bigint not null,
-    parameters varchar(255),
-    parameters_key varchar(255) not null,
-    primary key (product_id, parameters_key)
-) engine=InnoDB;
-
-create table user (
-    id bigint not null,
-    date_of_birth datetime,
-    email varchar(255),
-    enabled bit,
-    first_name varchar(255),
-    last_name varchar(255),
-    password varchar(60),
-primary key (id)) engine=InnoDB;
 
 create table user_addresses (
     user_id bigint not null,
@@ -138,10 +135,6 @@ alter table order_entity_product
 alter table password_reset_token
     add constraint FK5lwtbncug84d4ero33v3cfxvl
     foreign key (user_id) references user (id);
-
-alter table product_parameter
-    add constraint FK78fyfsydxu5ncui96o4pgafwl
-    foreign key (product_id) references product (id);
 
 alter table user_addresses
     add constraint FKd2jqv60joaqmw8h94mdpx0f55

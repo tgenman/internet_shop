@@ -12,21 +12,25 @@ public class ProductDto implements Serializable {
 
     private Long id;
 
+    private boolean active;
+
     private String title;
 
-    private int price;
+    private String brand;
 
     private String category;
 
-    private Map<String, String> parameters;
+    private int price;
+
+    private String color;
 
     private int weight;
 
-    private int volume;
+    private String size;
+
+    private int dayOfWarranty;
 
     private int quantity;
-
-    private boolean active;
 
     private String filename;
 }

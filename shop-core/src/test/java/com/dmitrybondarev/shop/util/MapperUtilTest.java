@@ -43,13 +43,13 @@ public class MapperUtilTest {
         String category = "1";
         int price = 1;
         int quantity = 1;
-        int volume = 1;
+        String size = "1";
         int weight = 1;
         String filename = "1";
         boolean active = true;
-        Map<String, String> parameters = new HashMap<>();
-        parameters.put("color", "1");
-        parameters.put("insurance", "1");
+        String color = "1";
+        String brand = "1";
+        int dayOfWarranty = 1;
 
 //      Input
         ProductDto input = new ProductDto();
@@ -58,11 +58,13 @@ public class MapperUtilTest {
         input.setCategory(category);
         input.setPrice(price);
         input.setQuantity(quantity);
-        input.setVolume(volume);
+        input.setSize(size);
         input.setWeight(weight);
-        input.setParameters(parameters);
         input.setFilename(filename);
         input.setActive(active);
+        input.setColor(color);
+        input.setBrand(brand);
+        input.setDayOfWarranty(dayOfWarranty);
 
 //      Run
         Product output = mapperUtil.mapProductDtoToProduct(input);
@@ -74,12 +76,13 @@ public class MapperUtilTest {
         Assert.assertEquals(category, output.getCategory());
         Assert.assertEquals(price, output.getPrice());
         Assert.assertEquals(quantity, output.getQuantity());
-        Assert.assertEquals(volume, output.getVolume());
+        Assert.assertEquals(size, output.getSize());
         Assert.assertEquals(weight, output.getWeight());
-        Assert.assertEquals(parameters.get("color"), output.getParameters().get("color"));
-        Assert.assertEquals(parameters.get("insurance"), output.getParameters().get("insurance"));
         Assert.assertEquals(filename, output.getFilename());
         Assert.assertEquals(active, output.isActive());
+        Assert.assertEquals(color, output.getColor());
+        Assert.assertEquals(brand, output.getBrand());
+        Assert.assertEquals(dayOfWarranty, output.getDayOfWarranty());
     }
 
     @Test
@@ -90,13 +93,13 @@ public class MapperUtilTest {
         String category = "1";
         int price = 1;
         int quantity = 1;
-        int volume = 1;
+        String size = "1";
         int weight = 1;
         String filename = "1";
         boolean active = true;
-        Map<String, String> parameters = new HashMap<>();
-        parameters.put("color", "1");
-        parameters.put("insurance", "1");
+        String color = "1";
+        String brand = "1";
+        int dayOfWarranty = 1;
 
 //      Input
         Product input = new Product();
@@ -105,11 +108,13 @@ public class MapperUtilTest {
         input.setCategory(category);
         input.setPrice(price);
         input.setQuantity(quantity);
-        input.setVolume(volume);
+        input.setSize(size);
         input.setWeight(weight);
-        input.setParameters(parameters);
         input.setFilename(filename);
         input.setActive(active);
+        input.setColor(color);
+        input.setBrand(brand);
+        input.setDayOfWarranty(dayOfWarranty);
 
 //      Run
         ProductDto output = mapperUtil.mapProductToProductDto(input);
@@ -121,12 +126,13 @@ public class MapperUtilTest {
         Assert.assertEquals(category, output.getCategory());
         Assert.assertEquals(price, output.getPrice());
         Assert.assertEquals(quantity, output.getQuantity());
-        Assert.assertEquals(volume, output.getVolume());
+        Assert.assertEquals(size, output.getSize());
         Assert.assertEquals(weight, output.getWeight());
-        Assert.assertEquals(parameters.get("color"), output.getParameters().get("color"));
-        Assert.assertEquals(parameters.get("insurance"), output.getParameters().get("insurance"));
         Assert.assertEquals(filename, output.getFilename());
         Assert.assertEquals(active, output.isActive());
+        Assert.assertEquals(color, output.getColor());
+        Assert.assertEquals(brand, output.getBrand());
+        Assert.assertEquals(dayOfWarranty, output.getDayOfWarranty());
     }
 
     @Test
@@ -136,13 +142,16 @@ public class MapperUtilTest {
         String title = "1";
         String category = "1";
         int price = 1;
-        int volume = 1;
+        String size = "1";
         int weight = 1;
         String filename = "1";
         boolean active = true;
         Map<String, String> parameters = new HashMap<>();
         parameters.put("color", "1");
         parameters.put("insurance", "1");
+        String color = "1";
+        String brand = "1";
+        int dayOfWarranty = 1;
 
 //      Input
         ProductDto input = new ProductDto();
@@ -150,11 +159,13 @@ public class MapperUtilTest {
         input.setTitle(title);
         input.setCategory(category);
         input.setPrice(price);
-        input.setVolume(volume);
+        input.setSize(size);
         input.setWeight(weight);
-        input.setParameters(parameters);
         input.setFilename(filename);
         input.setActive(active);
+        input.setColor(color);
+        input.setBrand(brand);
+        input.setDayOfWarranty(dayOfWarranty);
 
 //      Run
         ProductDtoRest output = mapperUtil.mapProductDtoToProductDtoRest(input);
@@ -165,12 +176,13 @@ public class MapperUtilTest {
         Assert.assertEquals(title, output.getTitle());
         Assert.assertEquals(category, output.getCategory());
         Assert.assertEquals(price, output.getPrice());
-        Assert.assertEquals(volume, output.getVolume());
+        Assert.assertEquals(size, output.getSize());
         Assert.assertEquals(weight, output.getWeight());
-        Assert.assertEquals(parameters.get("color"), output.getParameters().get("color"));
-        Assert.assertEquals(parameters.get("insurance"), output.getParameters().get("insurance"));
         Assert.assertEquals(filename, output.getFilename());
         Assert.assertEquals(active, output.isActive());
+        Assert.assertEquals(color, output.getColor());
+        Assert.assertEquals(brand, output.getBrand());
+        Assert.assertEquals(dayOfWarranty, output.getDayOfWarranty());
     }
 
 

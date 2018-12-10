@@ -7,9 +7,7 @@ import com.dmitrybondarev.shop.service.api.ProductService;
 import com.dmitrybondarev.shop.util.MapperUtil;
 import com.dmitrybondarev.shop.util.logging.Loggable;
 import org.springframework.stereotype.Service;
-import javax.transaction.Transactional;
-
-//import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,42 +54,13 @@ public class ProductServiceImp implements ProductService {
     @Loggable
     @Transactional
     public Map<String, List<ProductDto>> getProductsFromStock() {
-        List<Product> products = productRepository.findAllByActiveTrueAndQuantityGreaterThan(0);
-
-        Map<String, List<ProductDto>> map = new HashMap<>();
-
-        for (Product product: products) {
-            product.getParameters();
-        }
-
-        for (Product product: products) {
-            ProductDto productDto = mapperUtil.mapProductToProductDto(product);
-            String category = productDto.getCategory();
-            if (map.containsKey(category)) {
-                List<ProductDto> listProductDto = map.get(category);
-                listProductDto.add(productDto);
-            } else {
-                List<ProductDto> listProductDto = new ArrayList<>();
-                listProductDto.add(productDto);
-                map.put(category, listProductDto);
-            }
-        }
-        return map;
-//        return this.convertListProductsToMapProductDtos(products);
+        List<Product> products = productRepository.findAll()
+                .stream()
+                .filter(x -> x.getQuantity() > 0)
+                .filter(Product::isActive)
+                .collect(Collectors.toList());
+        return this.convertListProductsToMapProductDtos(products);
     }
-
-
-//    @Override
-//    @Loggable
-//    @Transactional
-//    public Map<String, List<ProductDto>> getProductsFromStock() {
-//        List<Product> products = productRepository.findAll()
-//                .stream()
-//                .filter(x -> x.getQuantity() > 0)
-//                .filter(Product::isActive)
-//                .collect(Collectors.toList());
-//        return this.convertListProductsToMapProductDtos(products);
-//    }
 
     @Override
     @Loggable
