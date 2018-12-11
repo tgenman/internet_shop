@@ -14,7 +14,7 @@
 <div class="container">
 
     <h:form>
-        <p:poll interval="1" listener="#{standBean.update}" update="orders trucks drivers"/>
+        <p:poll interval="1" listener="#{standBean.update}" update="products"/>
     </h:form>
 
 
@@ -23,7 +23,7 @@
     <p class="lead">by sales</p>
 
     <div class="row main">
-        <h:dataTable id="products" value="#{standBean.products}}" var="product"
+        <h:dataTable id="products" value="#{standBean.products}" var="product"
                      styleClass="table"
                      style="margin-right: 2%">
             <h:column>

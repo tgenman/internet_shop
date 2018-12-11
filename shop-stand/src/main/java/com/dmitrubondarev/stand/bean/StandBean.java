@@ -24,11 +24,7 @@ public class StandBean implements Serializable {
     }
 
     public List<Product> getProducts() {
-        logger.info("[START] getTrucks()");
+        logger.info("[START] getProducts()");
         return dataStateBean.getProducts();
     }
-
-
-
-
 }

@@ -33,7 +33,6 @@ public class DataStateListener {
         logger.info("[START] dataIsNotActual()");
         actualDataState = false;
         logger.info("[END] dataIsNotActual()");
-//        return actualDataState;
     }
 
     public static DataStateListener getInstance() {

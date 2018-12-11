@@ -30,20 +30,12 @@ public class DataStateBean {
             listener.setInitialDataLoaded(true);
         }
 
-
         if (!listener.getDataState()) {
             logger.info("[getDataState=false] update()");
             products = dataLoader.getProducts();
             listener.resetDataState();
         }
         logger.info("[END] update()");
-
-        logger.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  UPDATE STATE 2 APP !!!!!!!!!!!!!!!!!!!!!!!!");
-        for (Product product : products) {
-            logger.info("PRODUCT: " + product.getTitle());
-
-        }
-
     }
 
     public List<Product> getProducts() {

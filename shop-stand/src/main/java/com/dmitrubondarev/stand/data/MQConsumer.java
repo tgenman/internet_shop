@@ -37,7 +37,6 @@ public class MQConsumer {
                                        AMQP.BasicProperties properties, byte[] body) throws IOException {
                 String message = new String(body, StandardCharsets.UTF_8);
                 logger.info(" [x] Received " + message);
-                System.out.println("!!!!!!!!!!!!!!!!!! point");
                 if (message.contains("Top")) {
                     logger.info("DATA RECEIVED");
                     listener.dataIsNotActual();

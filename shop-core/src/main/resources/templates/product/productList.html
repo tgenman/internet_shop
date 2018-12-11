@@ -10,7 +10,7 @@
 <div class="container mt-5">
     <!--/*@thymesVar id="allProductDto" type="java.util.Map<java.lang.String, java.util.List<com.dmitrybondarev.shop.model.dto.ProductDto>>"*/-->
     <div th:each="category : ${allProductDto.keySet()}">
-        <h5 th:text="${category + 's'}">Category</h5>
+        <h5 th:text="${category}">Category</h5>
         <div class="card-columns">
             <div class="card my-3" th:each="productDto : ${allProductDto.get(category)}">
                 <!--<%&#45;&#45;<img class="card-img-top" src=".../100px180/?text=Image cap">&#45;&#45;%>-->
