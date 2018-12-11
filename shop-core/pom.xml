@@ -111,6 +111,8 @@
     </dependencies>
 
     <build>
+        <finalName>shop-core</finalName>
+
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

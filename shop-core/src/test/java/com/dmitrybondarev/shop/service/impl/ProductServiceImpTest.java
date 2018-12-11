@@ -17,18 +17,18 @@ import java.util.Map;
 
 import static org.mockito.Mockito.when;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
+//@RunWith(SpringRunner.class)
+//@SpringBootTest
 public class ProductServiceImpTest {
-
-    @Autowired
-    private ProductServiceImp productServiceImp;
-
-    @Autowired
-    private MapperUtil mapperUtil;
-
-    @MockBean
-    private ProductRepository productRepositoryMock;
+//
+//    @Autowired
+//    private ProductServiceImp productServiceImp;
+//
+//    @Autowired
+//    private MapperUtil mapperUtil;
+//
+//    @MockBean
+//    private ProductRepository productRepositoryMock;
 
 
 

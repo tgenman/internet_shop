@@ -29,11 +29,11 @@ public class DataStateListener {
         actualDataState = true;
     }
 
-    public Boolean dataIsNotActual() {
+    void dataIsNotActual() {
         logger.info("[START] dataIsNotActual()");
         actualDataState = false;
         logger.info("[END] dataIsNotActual()");
-        return actualDataState;
+//        return actualDataState;
     }
 
     public static DataStateListener getInstance() {

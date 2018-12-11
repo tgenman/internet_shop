@@ -5,10 +5,12 @@ import com.dmitrybondarev.shop.model.Product;
 import com.dmitrybondarev.shop.model.dto.ProductDto;
 import com.dmitrybondarev.shop.model.dto.rest.ProductDtoRest;
 import com.dmitrybondarev.shop.repository.OrderRepository;
+import com.dmitrybondarev.shop.repository.ProductRepository;
 import com.dmitrybondarev.shop.service.api.StatisticService;
 import com.dmitrybondarev.shop.util.MapperUtil;
 import com.dmitrybondarev.shop.util.logging.Loggable;
 import org.dozer.DozerBeanMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +24,9 @@ import java.util.stream.Collectors;
 public class StatisticServiceImpl implements StatisticService{
 
     private OrderRepository orderRepository;
+
+    @Autowired
+    private ProductRepository productRepository;
 
     private MapperUtil mapperUtil;
 
@@ -71,12 +76,19 @@ public class StatisticServiceImpl implements StatisticService{
     @Loggable
     @Transactional
     public List<ProductDtoRest> getTopFiveProductsDTORestByCashFlow() {
-        List<ProductDto> productDtos = this.getTopFiveProductsDTOByCashFlow();
-        List<ProductDtoRest> result = new ArrayList<>();
-        for (ProductDto productDto : productDtos) {
-            result.add(mapperUtil.mapProductDtoToProductDtoRest(productDto));
-        }
-        return result;
+//        List<ProductDto> productDtos = this.getTopFiveProductsDTOByCashFlow();
+//        List<ProductDtoRest> result = new ArrayList<>();
+//        for (ProductDto productDto : productDtos) {
+//            result.add(mapperUtil.mapProductDtoToProductDtoRest(productDto));
+//        }
+//        return result;
+        List<Product> products = productRepository.findAllByActiveTrueAndQuantityGreaterThan(0);
+        return products.stream()
+                .map(x -> mapperUtil.mapProductDtoToProductDtoRest(
+                        mapperUtil.mapProductToProductDto(x)))
+                .collect(Collectors.toList());
     }
+
+
 
 }

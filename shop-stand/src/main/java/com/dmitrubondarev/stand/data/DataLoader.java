@@ -22,7 +22,7 @@ public class DataLoader {
 
     private DataLoader() {
         client = Client.create();
-        client.addFilter(new HTTPBasicAuthFilter("admin", "admin"));
+        client.addFilter(new HTTPBasicAuthFilter("admin@admin.ru", "1"));
     }
 
     public static DataLoader getInstance() {
@@ -39,7 +39,7 @@ public class DataLoader {
     }
 
     public List<Product> getProducts() {
-        String response = getResponse("http://truckservice:8080/api/product/list");
+        String response = getResponse("http://shop-core:8081/api/product/list");
         List<Product> products = null;
         try {
             products = mapper.readValue(response, new TypeReference<List<Product>>() {

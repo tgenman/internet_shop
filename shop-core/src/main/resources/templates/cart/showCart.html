@@ -26,7 +26,8 @@
 
         <tbody>
             <!--/*@thymesVar id="cart" type="com.dmitrybondarev.shop.model.Cart"*/-->
-            <tr th:each="product : ${cart.getProducts().keySet()}">
+            <tr th:if="${cart.getProducts() != null}"
+                th:each="product : ${cart.getProducts().keySet()}">
                 <td scope="col" th:text="${product.id}">art.</td>
                 <td scope="col" th:text="${product.brand}">brand</td>
                 <td scope="col" th:text="${product.title}">title</td>

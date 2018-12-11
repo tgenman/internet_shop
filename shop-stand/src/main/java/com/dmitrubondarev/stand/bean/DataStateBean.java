@@ -17,12 +17,12 @@ import java.util.concurrent.TimeoutException;
 public class DataStateBean {
 
     private List<Product> products;
-    MQConsumer mqConsumer = new MQConsumer();
+    private MQConsumer mqConsumer = new MQConsumer();
     private static final Logger logger = Logger.getLogger(DataStateBean.class);
     private DataStateListener listener = DataStateListener.getInstance();
     private DataLoader dataLoader = DataLoader.getInstance();
 
-    public void update() {
+    void update() {
         logger.info("[START] update()");
         if (!listener.isInitialDataLoaded()) {
             logger.info("[isInitialDataLoaded=false] update()");
@@ -38,7 +38,20 @@ public class DataStateBean {
         }
         logger.info("[END] update()");
 
+        logger.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  UPDATE STATE 2 APP !!!!!!!!!!!!!!!!!!!!!!!!");
+        for (Product product : products) {
+            logger.info("PRODUCT: " + product.getTitle());
+
+        }
+
     }
+
+    public List<Product> getProducts() {
+        return this.products;
+    }
+
+
+//  =================== NON-API ===================
 
     @PostConstruct
     private void init() throws IOException, TimeoutException {
@@ -51,9 +64,5 @@ public class DataStateBean {
     @PreDestroy
     private void destroy() throws IOException, TimeoutException {
         mqConsumer.stop();
-    }
-
-    public List<Product> getProducts() {
-        return products;
     }
 }

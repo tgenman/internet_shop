@@ -9,45 +9,45 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=12345
       - MYSQL_DATABASE=internet_shop
-      - MYSQL_USER=non-root
-      - MYSQL_PASSWORD=123
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=12345
     restart: always
-#  rabbitmq:
-#    hostname: rabbitmq
-#    image: rabbitmq
-#    volumes:
-#      - ./docker-init/rabbitmq-isolated.conf:/etc/rabbitmq/rabbitmq.config
-#    command: rabbitmq-server
-#    ports:
-#      - "15672:15672"
-#      - "5672:5672"
-#    restart: always
-  shop_core:
+  rabbitmq:
+    hostname: rabbitmq
+    image: rabbitmq
+    volumes:
+      - ./docker-init/rabbitmq-isolated.conf:/etc/rabbitmq/rabbitmq.config
+    command: rabbitmq-server
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    restart: always
+  shop-core:
     build:
       context: ./shop-core
       dockerfile: Dockerfile
     image: core
     links:
       - database
-#      - rabbitmq
+      - rabbitmq
     ports:
       - "8081:8081"
     restart: always
     depends_on:
       - database
-#      - rabbitmq
-#  shop_stand:
-#    image: jboss/wildfly
-#    links:
-#      - shop_core
-#      - rabbitmq
-#    volumes:
-#      - ./core-stand/target/:/opt/jboss/wildfly/standalone/deployments/
-#    environment:
-#      - JAVA_OPTS= -Djava.net.preferIPv4Stack=true -Djboss.socket.binding.port-offset=100
-#    ports:
-#      - "8082:8082"
-#    depends_on:
-#      - truckservice
-#      - rabbitmq
-#    restart: always
+      - rabbitmq
+  shop-stand:
+    image: jboss/wildfly
+    links:
+      - shop-core
+      - rabbitmq
+    volumes:
+      - ./shop-stand/target/:/opt/jboss/wildfly/standalone/deployments/
+    environment:
+      - JAVA_OPTS= -Djava.net.preferIPv4Stack=true -Djboss.socket.binding.port-offset=100
+    ports:
+      - "8180:8180"
+    depends_on:
+      - shop-core
+      - rabbitmq
+    restart: always

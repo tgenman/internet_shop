@@ -17,8 +17,8 @@ public class MQConsumer {
 
     private static final String EXCHANGE_NAME = "shop-core";
     private static final Logger logger = Logger.getLogger(MQConsumer.class);
-    Channel channel;
-    Connection connection;
+    private Channel channel;
+    private Connection connection;
     private DataStateListener listener = DataStateListener.getInstance();
 
 
@@ -37,13 +37,11 @@ public class MQConsumer {
                                        AMQP.BasicProperties properties, byte[] body) throws IOException {
                 String message = new String(body, StandardCharsets.UTF_8);
                 logger.info(" [x] Received " + message);
-//                if (message.contains("Created") || message.contains("Delete")
-//                        || message.contains("Updated") || message.contains("Update")
-//                        || message.contains("Create")) {
-
-//                    logger.info("DATA RECEIVED");
-//                    listener.dataIsNotActual();
-//                }
+                System.out.println("!!!!!!!!!!!!!!!!!! point");
+                if (message.contains("Top")) {
+                    logger.info("DATA RECEIVED");
+                    listener.dataIsNotActual();
+                }
             }
         };
         channel.basicConsume(EXCHANGE_NAME, true, consumer);

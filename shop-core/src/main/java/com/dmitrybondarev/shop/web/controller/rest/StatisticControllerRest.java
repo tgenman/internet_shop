@@ -4,11 +4,13 @@ import com.dmitrybondarev.shop.model.dto.rest.ProductDtoRest;
 import com.dmitrybondarev.shop.service.api.StatisticService;
 import com.dmitrybondarev.shop.util.logging.Loggable;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/product")
 public class StatisticControllerRest {
 
     private StatisticService statisticService;
@@ -18,8 +20,7 @@ public class StatisticControllerRest {
     }
 
     @Loggable
-    @GetMapping("/api/product/list")
-//    @Secured("ROLE_ADMIN")
+    @GetMapping("/list")
     public List<ProductDtoRest> getTopFiveProductsDtoRest() {
         return statisticService.getTopFiveProductsDTORestByCashFlow();
     }

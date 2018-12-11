@@ -36,11 +36,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                     .antMatchers("/","/product","/product/*", "/cart", "/cart/*", "/user/registration",
-                            "/registrationConfirm", "/resources/**").permitAll()
+                            "/registrationConfirm", "/resources/**", "/api/product/list", "/sendmessage").permitAll()
                     .antMatchers("/user/updatePassword*", "/user/savePassword*",
                         "/updatePassword*").hasAuthority("CHANGE_PASSWORD_PRIVILEGE")
-                    .anyRequest().permitAll()
-//                    .anyRequest().authenticated()
+//                    .anyRequest().permitAll()
+                    .anyRequest().authenticated()
                 .and()
                     .formLogin()
                     .loginPage("/login")

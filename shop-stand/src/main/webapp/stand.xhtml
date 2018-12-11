@@ -7,130 +7,66 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://java.sun.com/jsp/jstl/core"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 <h:head>
-    <title>Furious Turtle Board</title>
+    <title>Top 5 products</title>
     <h:outputStylesheet name="css/bootstrap.min.css"/>
 </h:head>
 <body>
 <div class="container">
 
     <h:form>
-        <p:poll interval="1" listener="#{boardBean.update}" update="orders trucks drivers"/>
+        <p:poll interval="1" listener="#{standBean.update}" update="orders trucks drivers"/>
     </h:form>
-    <h1>The Statistics Board of Furious Turtle</h1>
-    <p class="lead">Here you can realize company resource facilities</p>
-    <div class="row">
-        <div class="col-3">
-            <h6>Trucks</h6>
-            <h:form id="trucks">
-                <ul class="list-group">
-                    <li class="list-group-item">Total: #{boardBean.totalTrucks}</li>
-                    <li class="list-group-item">Free: #{boardBean.freeTrucks}</li>
-                    <li class="list-group-item">Busy: #{boardBean.busyTrucks}</li>
-                    <li class="list-group-item">Inoperable: #{boardBean.inoperableTrucks}</li>
-                </ul>
-            </h:form>
 
-        </div>
-        <div class="col-3">
-            <h6>Drivers</h6>
-            <h:form id="drivers">
-                <ul class="list-group">
-                    <li class="list-group-item">Total: #{boardBean.totalDrivers}</li>
-                    <li class="list-group-item">Free: #{boardBean.freeDrivers}</li>
-                    <li class="list-group-item">Busy: #{boardBean.busyDrivers}</li>
-                </ul>
-            </h:form>
 
-        </div>
-    </div>
-    <br/>
-    <h3>Orders</h3>
+
+    <h1>Top 5 products</h1>
+    <p class="lead">by sales</p>
+
     <div class="row main">
-        <h:dataTable id="orders" value="#{boardBean.orders}" var="order"
+        <h:dataTable id="products" value="#{standBean.products}}" var="product"
                      styleClass="table"
                      style="margin-right: 2%">
             <h:column>
                 <f:facet name="header">
-                    <h:outputText value="ID"/>
+                    <h:outputText value="art."/>
                 </f:facet>
-                <h:outputText value="#{order.id}"/>
+                <h:outputText value="#{product.id}"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">
-                    <h:outputText value="Customer"/>
+                    <h:outputText value="Brand"/>
                 </f:facet>
-
-                <ui:repeat id="customer-items" value="#{order.customerId}" var="customerId">
-                    <ui:repeat value="#{boardBean.customers}" var="customer">
-                        <h:outputText id="item" rendered="#{customer.id == customerId}" value="#{customer.name}"/>
-                    </ui:repeat>
-                </ui:repeat>
+                <h:outputText value="#{product.brand}"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">
-                    <h:outputText value="Date"/>
+                    <h:outputText value="Title"/>
                 </f:facet>
-                <h:outputText value="#{order.date}"/>
+                <h:outputText value="#{product.title}"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">
-                    <h:outputText value="Status"/>
+                    <h:outputText value="Color"/>
                 </f:facet>
-                <h:outputText value="#{order.status}"/>
+                <h:outputText value="#{product.color}"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">
-                    <h:outputText value="Drivers"/>
+                    <h:outputText value="Category"/>
                 </f:facet>
-                <ui:repeat id="driver-items" value="#{order.driversId}" var="driverID">
-                    <ui:repeat value="#{boardBean.drivers}" var="driver">
-                        <h:outputText id="item" rendered="#{driver.id == driverID}" value="#{driver.firstName} #{driver.lastName}"/>
-                    </ui:repeat>
-                </ui:repeat>
+                <h:outputText value="#{product.category}"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">
-                    <h:outputText value="Truck"/>
+                    <h:outputText value="Price"/>
                 </f:facet>
-                <ui:repeat id="order-items" value="#{order.truckId}" var="truckId">
-                    <ui:repeat value="#{boardBean.trucks}" var="truck">
-                        <h:outputText id="item" rendered="#{truck.id == truckId}" value="#{truck.brand} #{truck.model}"/>
-                    </ui:repeat>
-                </ui:repeat>
+                <h:outputText value="#{product.price}"/>
             </h:column>
-
-            <h:column>
-                <f:facet name="header">
-                    <h:outputText value="Route Points"/>
-                </f:facet>
-
-                <ui:repeat id="route-points-items" value="#{order.id}" var="orderId">
-                    <ui:repeat value="#{boardBean.routePoints}" var="routePoint">
-                        <h:outputText id="item" rendered="#{routePoint.orderId == orderId}" value="City: #{routePoint.cityName}   |   Type:#{routePoint.type}         "/>
-                    </ui:repeat>
-                </ui:repeat>
-            </h:column>
-
-            <h:column>
-                <f:facet name="header">
-                    <h:outputText value="Cargoes"/>
-                </f:facet>
-
-                <ui:repeat id="cargo-items" value="#{order.id}" var="orderId">
-                    <ui:repeat value="#{boardBean.routePoints}" var="routePoint">
-                        <ui:repeat value="#{boardBean.cargoes}" var="cargo">
-                            <h:outputText id="item" rendered="#{routePoint.orderId == orderId and cargo.routePointDropOff == routePoint.id}"
-                                          value="Name: #{cargo.name}  |  Status: #{cargo.status}                 "/>
-                        </ui:repeat>
-                    </ui:repeat>
-                </ui:repeat>
-            </h:column>
-
 
         </h:dataTable>
     </div>

@@ -74,8 +74,18 @@ public class User implements Serializable {
             optional = false)
     private Cart cart;
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", roles=" + roles +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                '}';
+    }
 
-//    public boolean isAdmin() {
+    //    public boolean isAdmin() {
 //        return roles.contains(Role.ADMIN);
 //    }
 }

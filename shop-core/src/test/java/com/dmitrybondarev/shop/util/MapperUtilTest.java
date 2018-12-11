@@ -305,8 +305,8 @@ public class MapperUtilTest {
         Map<ProductDto, Integer> listOfProductDtos = new HashMap<>();
         ProductDto productDto1 = new ProductDto();
         ProductDto productDto2 = new ProductDto();
-        productDto1.setTitle("one");
-        productDto2.setTitle("two");
+        productDto1.setId(1L);
+        productDto2.setId(2L);
         listOfProductDtos.put(productDto1, 1);
         listOfProductDtos.put(productDto2, 2);
         userDto.setFirstName("1");
@@ -355,8 +355,8 @@ public class MapperUtilTest {
         Map<Product, Integer> listOfProducts = new HashMap<>();
         Product product1 = new Product();
         Product product2 = new Product();
-        product1.setTitle("one");
-        product2.setTitle("two");
+        product1.setId(1L);
+        product2.setId(2L);
         listOfProducts.put(product1, 1);
         listOfProducts.put(product2, 2);
         user.setFirstName("1");
@@ -471,8 +471,8 @@ public class MapperUtilTest {
         Map<Product, Integer> content = new HashMap<>();
         Product product1 = new Product();
         Product product2 = new Product();
-        product1.setTitle("one");
-        product2.setTitle("two");
+        product1.setId(1L);
+        product2.setId(2L);
         content.put(product1, 1);
         content.put(product2, 2);
 
@@ -503,8 +503,8 @@ public class MapperUtilTest {
         Map<ProductDto, Integer> content = new HashMap<>();
         ProductDto productDto1 = new ProductDto();
         ProductDto productDto2 = new ProductDto();
-        productDto1.setTitle("one");
-        productDto2.setTitle("two");
+        productDto1.setId(1L);
+        productDto2.setId(2L);
         content.put(productDto1, 1);
         content.put(productDto2, 2);
 

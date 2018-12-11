@@ -41,12 +41,7 @@ public class CartServiceImp implements CartService {
         if (!optionalUser.isPresent()) throw new UserNotFoundException("No user found with email: "+ emailUser);
         User user = optionalUser.get();
 
-        Cart cart = user.getCart();
-        if (cart == null) {
-            cart = new Cart();
-            user.setCart(cart);
-            userRepository.save(user);
-        }
+        Cart cart = this.checkCartFromUserAndInit(user);
 
         this.checkHavingUnauthorizedCart(cart);
 
@@ -60,11 +55,11 @@ public class CartServiceImp implements CartService {
         Optional<Cart> optionalCart = cartRepository.findBySessionId(sessionId);
 
         if (!optionalCart.isPresent()) {
-            Cart cart = new Cart();
-            cart.setUser(null);
-            cart.setSessionId(sessionId);
-            cartRepository.save(cart);
-            return cart;
+            Cart newCart = new Cart();
+            newCart.setUser(null);
+            newCart.setSessionId(sessionId);
+            newCart.setProducts(new HashMap<>());
+            return cartRepository.save(newCart);
         }
         return optionalCart.get();
     }
@@ -81,13 +76,13 @@ public class CartServiceImp implements CartService {
         User user = optionalUser.get();
         Product product = optionalProduct.get();
 
-        Cart cart = user.getCart();
-        if(cart == null) cart = new Cart();
+        Cart cart = this.checkCartFromUserAndInit(user);
 
         this.checkHavingUnauthorizedCart(cart);
 
-        cart.getProducts().put(product, amount);
+        this.modificationProductAmount(cart, product, amount);
         cart.setSessionId(null);
+        cartRepository.save(cart);
         userRepository.save(user);
     }
 
@@ -99,8 +94,6 @@ public class CartServiceImp implements CartService {
 
         Optional<Cart> optionalCart = cartRepository.findBySessionId(sessionId);
         Cart cart = optionalCart.orElseGet(Cart::new);
-//        if (optionalCart.isPresent()) cart = optionalCart.get();
-//        else cart = new Cart();
 
         this.modificationProductAmount(cart, product, amount);
         cart.setUser(null);
@@ -136,7 +129,7 @@ public class CartServiceImp implements CartService {
         String sessionId = RequestContextHolder.currentRequestAttributes().getSessionId();
         Optional<Cart> optionalCart = cartRepository.findBySessionId(sessionId);
 
-        optionalCart.ifPresent(cart -> this.mergeCarts(authorizedCart, cart));
+        optionalCart.ifPresent(cartBySessionId -> this.mergeCarts(authorizedCart, cartBySessionId));
     }
 
     private void mergeCarts(Cart authorizedCart, Cart sessionCart) {
@@ -155,5 +148,18 @@ public class CartServiceImp implements CartService {
         }
         cartRepository.delete(sessionCart);
         cartRepository.save(authorizedCart);
+    }
+
+    private Cart checkCartFromUserAndInit(User user) {
+        Cart cart = user.getCart();
+        if(cart == null) {
+            Cart newCart = new Cart();
+            newCart.setUser(user);
+            newCart.setProducts(new HashMap<>());
+            cart = cartRepository.save(newCart);
+            user.setCart(cart);
+            userRepository.save(user);
+        }
+        return cart;
     }
 }
