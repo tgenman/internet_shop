@@ -11,7 +11,16 @@
     <h2 th:text="#{label.adminForm.newProduct.title}">Create product</h2>
 
     <!--/*@thymesVar id="productDto" type="com.dmitrybondarev.shop.model.dto.ProductDto"*/-->
-    <form action="/admin/product/new" th:object="${productDto}" method="POST" enctype="utf8">
+    <form action="/admin/product/new" th:object="${productDto}" method="POST" enctype="multipart/form-data">
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label"
+                   th:text="#{label.product.file}">File</label>
+            <div class="col-sm-3">
+                <input type="file" name="file">
+            </div>
+        </div>
+
         <div class="form-group row">
             <label class="col-sm-2 col-form-label"
                    th:text="#{label.product.title}">Title</label>

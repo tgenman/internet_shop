@@ -3,6 +3,7 @@ package com.dmitrybondarev.shop.web.controller.admin;
 import com.dmitrybondarev.shop.util.logging.Loggable;
 import com.dmitrybondarev.shop.model.dto.ProductDto;
 import com.dmitrybondarev.shop.service.api.ProductService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,10 +12,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/admin/product")
@@ -23,6 +29,9 @@ public class AdminProductController {
     private ProductService productService;
 
     private static final String PRODUCT_DTO = "productDto";
+
+    @Value("${upload.path}")
+    private String uploadPath;
 
     public AdminProductController(ProductService productService) {
         this.productService = productService;
@@ -46,14 +55,29 @@ public class AdminProductController {
     @Loggable
     @PostMapping("/new")
     public String addNewProduct(@ModelAttribute("productDto") @Valid ProductDto productDto,
-                                      BindingResult result, Model model) {
+                                @RequestParam("file") MultipartFile file,
+                                BindingResult result, Model model) throws IOException {
         if (result.hasErrors()) {
             model.addAttribute(PRODUCT_DTO, productDto);
             return "/admin/product/newProduct";
-        } else {
-            productService.addNewProductToStock(productDto);
-            return "redirect:/admin/product";
         }
+
+        if (file != null && !file.getOriginalFilename().isEmpty()) {
+            File uploadDir = new File(uploadPath);
+
+            if (!uploadDir.exists()) uploadDir.mkdir();
+
+            String uuidFile = UUID.randomUUID().toString();
+            String resultFilename = uuidFile + "." + file.getOriginalFilename();
+
+            file.transferTo(new File(uploadPath + "/" + resultFilename));
+
+            productDto.setFilename(resultFilename);
+        }
+
+        productService.addNewProductToStock(productDto);
+        return "redirect:/admin/product";
+
     }
 
     @Loggable
@@ -84,4 +108,5 @@ public class AdminProductController {
 //        productService.removeProductFromStock(id);
 //        return "redirect:/admin/product/";
 //    }
+
 }

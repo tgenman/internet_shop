@@ -1,9 +1,10 @@
 package com.dmitrybondarev.shop.web.config;
 
 import com.dmitrybondarev.shop.web.validation.validator.EmailValidator;
+import com.dmitrybondarev.shop.web.validation.validator.PasswordConstraintValidator;
 import com.dmitrybondarev.shop.web.validation.validator.PasswordMatchesValidator;
 import org.dozer.DozerBeanMapper;
-import org.springframework.context.ApplicationContext;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,49 +20,12 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
 import java.util.Locale;
 
-//import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
-
 @Configuration
 @PropertySource("classpath:application.properties")
 public class MvcConfig implements WebMvcConfigurer {
 
-    private ApplicationContext applicationContext;
-
-    public MvcConfig(ApplicationContext applicationContext) {
-        this.applicationContext = applicationContext;
-    }
-
-//// ============== THYMELEAF ============
-//
-//    @Bean
-//    public SpringResourceTemplateResolver templateResolver(){
-//        SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
-//        templateResolver.setApplicationContext(applicationContext);
-//        templateResolver.setPrefix("/WEB-INF/templates/");
-//        templateResolver.setSuffix(".html");
-//        templateResolver.setTemplateMode(TemplateMode.HTML);
-//        templateResolver.setCacheable(true);
-//        return templateResolver;
-//    }
-
-//    @Bean
-//    public SpringTemplateEngine templateEngine(){
-//        SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-//        templateEngine.setTemplateResolver(templateResolver());
-//        templateEngine.setEnableSpringELCompiler(true);
-//        templateEngine.addDialect(new SpringSecurityDialect());
-//        return templateEngine;
-//    }
-
-//    @Bean
-//    public ThymeleafViewResolver viewResolver(){
-//        ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
-//        viewResolver.setTemplateEngine(templateEngine());
-//        return viewResolver;
-//    }
-
-
-// ============== SPRING ============
+    @Value("${upload.path}")
+    private String uploadPath;
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
@@ -70,21 +34,27 @@ public class MvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(final ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/images/**").addResourceLocations("/images/");
-        registry.addResourceHandler("/css/**").addResourceLocations("/css/");
-        registry.addResourceHandler("/js/**").addResourceLocations("/js/");
+        registry.addResourceHandler("/img/**")
+                .addResourceLocations("file://" + uploadPath + "/");
+        registry.addResourceHandler("/static/**")
+                .addResourceLocations("classpath:/static/");
     }
 
 // ============== VALIDATION ============
 
     @Bean
-    public EmailValidator usernameValidator() {
+    public EmailValidator emailValidator() {
         return new EmailValidator();
     }
 
     @Bean
     public PasswordMatchesValidator passwordMatchesValidator() {
         return new PasswordMatchesValidator();
+    }
+
+    @Bean
+    public PasswordConstraintValidator passwordConstraintValidator() {
+        return new PasswordConstraintValidator();
     }
 
 // ============== LOCALIZATION ============

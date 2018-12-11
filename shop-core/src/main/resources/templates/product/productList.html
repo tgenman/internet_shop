@@ -8,14 +8,25 @@
 <div th:replace="parts :: navbar"></div>
 
 <div class="container mt-5">
+
+    <!--<div class="form-row">-->
+        <!--<div class="form-group col-md-6">-->
+            <!--<form method="get" action="/main" class="form-inline">-->
+                <!--<input type="text" name="filter" class="form-control" value="${filter?ifExists}" placeholder="Search by tag">-->
+                <!--<button type="submit" class="btn btn-primary ml-2">Search</button>-->
+            <!--</form>-->
+        <!--</div>-->
+    <!--</div>-->
+
+
     <!--/*@thymesVar id="allProductDto" type="java.util.Map<java.lang.String, java.util.List<com.dmitrybondarev.shop.model.dto.ProductDto>>"*/-->
     <div th:each="category : ${allProductDto.keySet()}">
-        <h5 th:text="${category}">Category</h5>
+        <h4 th:text="${category}">Category</h4>
         <div class="card-columns">
             <div class="card my-3" th:each="productDto : ${allProductDto.get(category)}">
-                <!--<%&#45;&#45;<img class="card-img-top" src=".../100px180/?text=Image cap">&#45;&#45;%>-->
+                <img class="card-img-top" src="#" th:src="@{'/img/' + ${productDto.filename}}">
                 <div class="card-body">
-                    <h5 class="card-title" th:text="${productDto.brand + ' ' + productDto.title + ' - ' + productDto.color}">title</h5>
+                    <h5 class="card-title" th:text="${productDto.brand + ' ' + productDto.title + ' ' + productDto.color}">title</h5>
                     <!--<p class="card-text" th:text="${category}">category</p>-->
                 </div>
                 <ul class="list-group list-group-flush">
