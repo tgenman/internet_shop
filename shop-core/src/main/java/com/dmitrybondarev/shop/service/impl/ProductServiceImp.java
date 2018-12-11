@@ -5,14 +5,22 @@ import com.dmitrybondarev.shop.model.dto.ProductDto;
 import com.dmitrybondarev.shop.repository.ProductRepository;
 import com.dmitrybondarev.shop.service.api.ProductService;
 import com.dmitrybondarev.shop.util.MapperUtil;
+import com.dmitrybondarev.shop.util.exception.ProductExistsException;
+import com.dmitrybondarev.shop.util.exception.ProductNotFoundException;
 import com.dmitrybondarev.shop.util.logging.Loggable;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,6 +30,9 @@ public class ProductServiceImp implements ProductService {
 
     private MapperUtil mapperUtil;
 
+    @Value("${upload.path}")
+    private String uploadPath;
+
     public ProductServiceImp(ProductRepository productRepository, MapperUtil mapperUtil) {
         this.productRepository = productRepository;
         this.mapperUtil = mapperUtil;
@@ -30,10 +41,19 @@ public class ProductServiceImp implements ProductService {
     @Override
     @Loggable
     @Transactional
-    public ProductDto addNewProductToStock(ProductDto productDto) {
-        Product productFromDb = productRepository.findByTitle(productDto.getTitle());
+    public ProductDto addNewProductToStock(ProductDto productDto, MultipartFile file) throws ProductExistsException, IOException {
+        Optional<Product> optionalProduct = productRepository.findByTitleAndBrand(productDto.getTitle(), productDto.getBrand());
+        if (optionalProduct.isPresent())
+            throw new ProductExistsException("There is a product with that title: " + productDto.getTitle() + " and brand: " + productDto.getBrand());
 
-        if (productFromDb != null) return null;
+        if (file != null && !file.getOriginalFilename().isEmpty()) {
+            File uploadDir = new File(uploadPath);
+            if (!uploadDir.exists()) uploadDir.mkdir();
+            String uuidFile = UUID.randomUUID().toString();
+            String resultFilename = uuidFile + "." + file.getOriginalFilename();
+            file.transferTo(new File(uploadPath + "/" + resultFilename));
+            productDto.setFilename(resultFilename);
+        }
 
         Product product = mapperUtil.mapProductDtoToProduct(productDto);
         product.setId(null);
@@ -53,27 +73,36 @@ public class ProductServiceImp implements ProductService {
     @Override
     @Loggable
     @Transactional
-    public Map<String, List<ProductDto>> getProductsFromStock() {
-        List<Product> products = productRepository.findAll()
-                .stream()
+    public Map<String, List<ProductDto>> getProductsFromStockByFilter(String filter) {
+        List<Product> products;
+
+        if (filter != null && !filter.isEmpty()) {
+            products = productRepository.findAllByCategory(filter);
+        } else {
+            products = productRepository.findAll();
+        }
+
+        products = products.stream()
                 .filter(x -> x.getQuantity() > 0)
                 .filter(Product::isActive)
                 .collect(Collectors.toList());
+
         return this.convertListProductsToMapProductDtos(products);
     }
 
     @Override
     @Loggable
     @Transactional
-    public ProductDto getProductById(long id) {
-        Product byId = productRepository.findById(id).get();
-        return mapperUtil.mapProductToProductDto(byId);
+    public ProductDto getProductById(long productId) {
+        Product product = this.pullOutProductFromRepository(productId);
+        return mapperUtil.mapProductToProductDto(product);
     }
 
     @Override
     @Loggable
     @Transactional
     public ProductDto editProductToStock(ProductDto productDto) {
+        this.pullOutProductFromRepository(productDto.getId());
         Product product = mapperUtil.mapProductDtoToProduct(productDto);
         productRepository.save(product);
         return productDto;
@@ -82,10 +111,20 @@ public class ProductServiceImp implements ProductService {
     @Override
     @Loggable
     @Transactional
-    public void removeProductFromStock(long id) {  //TODO make unusable
-        productRepository.deleteById(id);
+    public void inactivateProduct(long productId) {
+        Product product = this.pullOutProductFromRepository(productId);
+        product.setActive(false);
+        productRepository.save(product);
     }
 
+    @Override
+    @Loggable
+    @Transactional
+    public void activateProduct(long productId) {
+        Product product = this.pullOutProductFromRepository(productId);
+        product.setActive(true);
+        productRepository.save(product);
+    }
 
     // ============== NON-API ============
 
@@ -106,5 +145,12 @@ public class ProductServiceImp implements ProductService {
             }
         }
         return map;
+    }
+
+    @Loggable
+    private Product pullOutProductFromRepository(long productId) {
+        Optional<Product> optionalProduct = productRepository.findById(productId);
+        if (!optionalProduct.isPresent()) throw new ProductNotFoundException("No product found with id: "+ productId);
+        return optionalProduct.get();
     }
 }

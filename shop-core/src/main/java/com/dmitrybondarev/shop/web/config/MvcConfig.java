@@ -84,7 +84,6 @@ public class MvcConfig implements WebMvcConfigurer {
         return messageSource;
     }
 
-
 // ============== OTHER ============
 
     @Bean
