@@ -1,7 +1,5 @@
-package com.dmitrybondarev.shop.service.impl;
+package com.dmitrybondarev.shop.util.mq;
 
-import com.dmitrybondarev.shop.service.api.MQProducerService;
-import com.dmitrybondarev.shop.service.api.MessageEmitter;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,8 +10,11 @@ import java.util.concurrent.TimeoutException;
 @Service
 public class MessageEmitterImpl implements MessageEmitter {
 
-    @Autowired
     private MQProducerService mqProducerService;
+
+    public MessageEmitterImpl(MQProducerService mqProducerService) {
+        this.mqProducerService = mqProducerService;
+    }
 
     private static final Logger logger = Logger.getLogger(MessageEmitterImpl.class);
 

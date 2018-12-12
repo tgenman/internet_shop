@@ -76,13 +76,7 @@ public class StatisticServiceImpl implements StatisticService{
     @Loggable
     @Transactional
     public List<ProductDtoRest> getTopFiveProductsDTORestByCashFlow() {
-//        List<ProductDto> productDtos = this.getTopFiveProductsDTOByCashFlow();
-//        List<ProductDtoRest> result = new ArrayList<>();
-//        for (ProductDto productDto : productDtos) {
-//            result.add(mapperUtil.mapProductDtoToProductDtoRest(productDto));
-//        }
-//        return result;
-        List<Product> products = productRepository.findAllByActiveTrueAndQuantityGreaterThan(0);
+        List<Product> products = productRepository.findAll();
         return products.stream()
                 .map(x -> mapperUtil.mapProductDtoToProductDtoRest(
                         mapperUtil.mapProductToProductDto(x)))

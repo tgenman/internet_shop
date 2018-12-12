@@ -10,59 +10,132 @@
 <div class="container mt-5">
     <h2 th:text="#{label.adminForm.editProduct.title}">Edit product</h2>
 
+    <div>
+        <img class="card-img-top" src="#" th:src="@{'/img/' + ${productDto.filename}}">
+    </div>
+
     <!--/*@thymesVar id="productDto" type="com.dmitrybondarev.shop.model.dto.ProductDto"*/-->
-    <form action="/admin/product/${productDto.id}" th:object="${productDto}" method="POST" enctype="utf8">
+    <form action="#" th:action="@{'/admin/product/'}" th:object="${productDto}" method="post" enctype="utf8">
+    <!--<form action="#" th:action="@{'/admin/product/' + ${productDto.id}}" th:object="${productDto}" method="post" enctype="utf8">-->
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label"
+                   th:text="#{label.product.brand}">Brand</label>
+            <div class="col-sm-3">
+                <input type="text" th:field="*{brand}" class="form-control" id="inputEmail7"/>
+            </div>
+            <p th:each="error: ${#fields.errors('brand')}" th:text="#{${error}}"
+               class="alert alert-danger" role="alert">Validation error</p>
+        </div>
+
         <div class="form-group row">
             <label class="col-sm-2 col-form-label"
                    th:text="#{label.product.title}">Title</label>
             <div class="col-sm-3">
                 <input type="text" th:field="*{title}" class="form-control" id="inputEmail1"/>
             </div>
+            <p th:each="error: ${#fields.errors('title')}" th:text="#{${error}}"
+               class="alert alert-danger" role="alert">Validation error</p>
         </div>
 
         <div class="form-group row">
             <label class="col-sm-2 col-form-label"
                    th:text="#{label.product.price}">Price</label>
-            <div class="col-sm-3">
-                <input type="text" th:field="*{price}" class="form-control" id="inputEmail2"/>
+            <div class="input-group col-sm-3">
+                <div class="input-group-prepend"><span class="input-group-text">$</span></div>
+                <input type="text" th:field="*{price}" class="form-control" id="inputEmail2"  aria-label="Amount (to the nearest dollar)"/>
+                <div class="input-group-append"><span class="input-group-text">.00</span></div>
             </div>
+            <p th:each="error: ${#fields.errors('price')}" th:text="#{${error}}"
+               class="alert alert-danger" role="alert">Validation error</p>
         </div>
 
         <div class="form-group row">
             <label class="col-sm-2 col-form-label"
                    th:text="#{label.product.category}">Category</label>
             <div class="col-sm-3">
-                <input type="text" th:field="*{category}" class="form-control" id="inputEmail3"/>
+                <input type="text" th:field="*{category}"  class="form-control" id="inputEmail3"/>
+            </div>
+            <p th:each="error: ${#fields.errors('category')}" th:text="#{${error}}"
+               class="alert alert-danger" role="alert">Validation error</p>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label"
+                   th:text="#{label.product.color}">Color</label>
+            <div class="col-sm-3">
+                <input type="text" th:field="*{color}"  class="form-control" id="inputEmail8"/>
+            </div>
+            <p th:each="error: ${#fields.errors('color')}" th:text="#{${error}}"
+               class="alert alert-danger" role="alert">Validation error</p>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label"
+                   th:text="#{label.product.weight}">weight</label>
+            <div class="input-group col-sm-3">
+                <input type="text" th:field="*{weight}"  class="form-control" id="inputEmail4"/>
+                <div class="input-group-append"><span class="input-group-text">kg.</span></div>
+            </div>
+            <p th:each="error: ${#fields.errors('weight')}" th:text="#{${error}}"
+               class="alert alert-danger" role="alert">Validation error</p>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label"
+                   th:text="#{label.product.size}">Size</label>
+            <div class="col-sm-3">
+                <input type="text" th:field="*{size}"  class="form-control" id="inputEmail5"/>
+            </div>
+            <p th:each="error: ${#fields.errors('size')}" th:text="#{${error}}"
+               class="alert alert-danger" role="alert">Validation error</p>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label"
+                   th:text="#{label.product.dayOfWarranty}">Warranty</label>
+            <div class="input-group col-sm-3">
+                <input type="text" th:field="*{dayOfWarranty}" class="form-control" id="inputEmail9"/>
+                <div class="input-group-append"><span class="input-group-text">days</span></div>
+            </div>
+            <p th:each="error: ${#fields.errors('dayOfWarranty')}" th:text="#{${error}}"
+               class="alert alert-danger" role="alert">Validation error</p>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label"
+                   th:text="#{label.product.quantity}">quantity</label>
+            <div class="input-group col-sm-3">
+                <input type="text" th:field="*{quantity}" class="form-control" id="inputEmail6"/>
+                <div class="input-group-append"><span class="input-group-text">ps.</span></div>
+            </div>
+            <p th:each="error: ${#fields.errors('quantity')}" th:text="#{${error}}"
+               class="alert alert-danger" role="alert">Validation error</p>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label"
+                   th:text="#{label.product.active}">Active</label>
+            <div class="col-sm-3">
+                <input type="checkbox" name="active" th:checked="*{active}" id="inputEmail10"/>
             </div>
         </div>
 
         <div class="form-group row">
             <label class="col-sm-2 col-form-label"
-                   th:text="#{label.product.weight}">Weigth</label>
-            <div class="col-sm-3">
-                <input type="text" th:field="*{weight}" class="form-control" id="inputEmail4"/>
+                   th:text="#{label.product.file}">File</label>
+            <div class="input-group col-sm-3">
+                <div class="input-group-prepend"><span class="input-group-text" id="inputGroupFileAddon01">Upload</span></div>
+                <div class="custom-file">
+                    <input type="file" name="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                    <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                </div>
             </div>
         </div>
 
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label"
-                   th:text="#{label.product.volume}">Volume</label>
-            <div class="col-sm-3">
-                <input type="password" th:field="*{volume}" class="form-control" id="inputEmail5"/>
-            </div>
-
-        </div>
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label"
-                   th:text="#{label.product.quantity}">Quantity</label>
-            <div class="col-sm-3">
-                <input type="password" th:field="*{quantity}" class="form-control" id="inputEmail6"/>
-            </div>
-        </div>
-
-        <input type="hidden"
-               name="${_csrf.parameterName}"
-               value="${_csrf.token}"/>
+        <!--<input type="hidden"-->
+               <!--name="${_csrf.parameterName}"-->
+               <!--value="${_csrf.token}"/>-->
 
         <div class="form-group row">
             <div class="col-sm-3">

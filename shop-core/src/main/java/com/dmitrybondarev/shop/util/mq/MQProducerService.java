@@ -1,4 +1,4 @@
-package com.dmitrybondarev.shop.service.api;
+package com.dmitrybondarev.shop.util.mq;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;

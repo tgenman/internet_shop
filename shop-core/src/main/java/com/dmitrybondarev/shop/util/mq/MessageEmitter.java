@@ -1,4 +1,4 @@
-package com.dmitrybondarev.shop.service.api;
+package com.dmitrybondarev.shop.util.mq;
 
 public interface MessageEmitter {
 

@@ -15,18 +15,20 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Locale;
 
-@Component
-public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
-
-    @Autowired
-    @Qualifier("messageSource")
-    private MessageSource messages;
-
-    private LocaleResolver localeResolver;
-
-    public CustomAuthenticationFailureHandler(LocaleResolver localeResolver) {
-        this.localeResolver = localeResolver;
-    }
+//@Component
+public class CustomAuthenticationFailureHandler
+//        extends SimpleUrlAuthenticationFailureHandler
+{
+//
+//    @Autowired
+//    @Qualifier("messageSource")
+//    private MessageSource messages;
+//
+//    private LocaleResolver localeResolver;
+//
+//    public CustomAuthenticationFailureHandler(LocaleResolver localeResolver) {
+//        this.localeResolver = localeResolver;
+//    }
 
 //    @Override
 //    public void onAuthenticationFailure(HttpServletRequest request,

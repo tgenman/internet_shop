@@ -65,8 +65,15 @@ public class ProductServiceImp implements ProductService {
     @Override
     @Loggable
     @Transactional
-    public Map<String, List<ProductDto>> getAllExistProducts() {
-        List<Product> products = productRepository.findAll();
+    public Map<String, List<ProductDto>> getAllExistProductsByFilter(String filter) {
+        List<Product> products;
+
+        if (filter != null && !filter.isEmpty()) {
+            products = productRepository.findAllByCategory(filter);
+        } else {
+            products = productRepository.findAll();
+        }
+
         return this.convertListProductsToMapProductDtos(products);
     }
 
@@ -77,16 +84,10 @@ public class ProductServiceImp implements ProductService {
         List<Product> products;
 
         if (filter != null && !filter.isEmpty()) {
-            products = productRepository.findAllByCategory(filter);
+            products = productRepository.findAllByActiveTrueAndCategoryAndQuantityGreaterThan(filter, 0);
         } else {
             products = productRepository.findAll();
         }
-
-        products = products.stream()
-                .filter(x -> x.getQuantity() > 0)
-                .filter(Product::isActive)
-                .collect(Collectors.toList());
-
         return this.convertListProductsToMapProductDtos(products);
     }
 

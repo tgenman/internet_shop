@@ -13,7 +13,7 @@ public interface ProductService {
 
     ProductDto addNewProductToStock(ProductDto productDto, MultipartFile file) throws ProductExistsException, IOException;
 
-    Map<String, List<ProductDto>> getAllExistProducts();
+    Map<String, List<ProductDto>> getAllExistProductsByFilter(String filter);
 
     Map<String, List<ProductDto>> getProductsFromStockByFilter(String filter);
 

@@ -14,14 +14,25 @@
        th:href="@{/admin/product/new}"
        th:text="#{label.adminForm.productList.createButton}">Create new product</a>
 
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <form method="get" action="/admin/product" class="form-inline">
+                <input type="text" name="filter" class="form-control" placeholder="Search by Category" th:placeholder="#{label.product.list.filter}">
+                <button type="submit" class="btn btn-primary ml-2" th:text="#{label.product.list.filterButton}">Search</button>
+            </form>
+        </div>
+    </div>
+
     <table class="table table-bordered table-sm">
         <thead>
             <tr>
                 <th scope="col" th:text="#{label.product.id}">art.</th>
+                <th scope="col" th:text="#{label.product.active}">Active</th>
+                <th scope="col" th:text="#{label.product.brand}">Brand</th>
                 <th scope="col" th:text="#{label.product.title}">Title</th>
                 <th scope="col" th:text="#{label.product.price}">Price</th>
                 <th scope="col" th:text="#{label.product.weight}">Weight</th>
-                <th scope="col" th:text="#{label.product.volume}">Volume</th>
+                <th scope="col" th:text="#{label.product.size}">Size</th>
                 <th scope="col" th:text="#{label.product.quantity}">Quantity</th>
                 <th scope="col" th:text="#{label.adminForm.productList.editButton}">Edit</th>
             </tr>
@@ -30,18 +41,20 @@
         <!--/*@thymesVar id="allProductDto" type="java.util.Map<java.lang.String, java.util.List<com.dmitrybondarev.shop.model.dto.ProductDto>>"*/-->
         <tbody th:each="category : ${allProductDto.keySet()}">
             <tr>
-                <td colspan="7" class="table-info" th:text="${category}">Category</td>
+                <td colspan="9" class="table-info" th:text="${category}">Category</td>
             </tr>
             <tr th:each="productDto : ${allProductDto.get(category)}">
                 <td scope="col" th:text="${productDto.id}">id</td>
+                <td scope="col" th:text="${productDto.active}">Active</td>
+                <td scope="col" th:text="${productDto.brand}">Brand</td>
                 <td scope="col" th:text="${productDto.title}">title</td>
                 <td scope="col" th:text="${productDto.price}">price</td>
                 <td scope="col" th:text="${productDto.weight}">weight</td>
-                <td scope="col" th:text="${productDto.volume}">volume</td>
+                <td scope="col" th:text="${productDto.size}">size</td>
                 <td scope="col" th:text="${productDto.quantity}">quantity</td>
                 <td scope="col">
-                    <a class="btn btn-warning btn-sm" href="/admin/product/${productDto.id}" role="button"
-                       th:href="@{/admin/productDto/${productDto.id}}" th:text="#{label.adminForm.productList.editButton}">edit</a>
+                    <a class="btn btn-warning btn-sm" href="#" role="button"
+                       th:href="@{'/admin/product/' + ${productDto.id}}" th:text="#{label.adminForm.productList.editButton}">edit</a>
                 </td>
             </tr>
         </tbody>

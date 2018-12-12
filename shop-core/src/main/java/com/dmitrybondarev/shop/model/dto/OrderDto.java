@@ -6,6 +6,7 @@ import com.dmitrybondarev.shop.model.enums.TypeOfDelivery;
 import com.dmitrybondarev.shop.model.enums.TypeOfPayment;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
@@ -15,18 +16,25 @@ public class OrderDto implements Serializable {
 
     private Long id;
 
+//    @NotNull
     private UserDto userDto;
 
+//    @NotNull
     private String addressString;
 
+//    @NotNull
     private Date dateOfOrder;
 
+//    @NotNull
     private TypeOfPayment typeOfPayment;
 
+//    @NotNull
     private TypeOfDelivery typeOfDelivery;
 
+//    @NotNull
     private StatusOfPayment statusOfPayment;
 
+//    @NotNull
     private StatusOfDelivery statusOfDelivery;
 
     private Map<ProductDto, Integer> listOfProductDtos;

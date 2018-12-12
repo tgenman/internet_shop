@@ -19,7 +19,11 @@
                 <div class="col-sm-3">
                     <input type="text" th:field="*{firstName}" class="form-control" id="inputEmail1"/>
                 </div>
-                <p th:each="error: ${#fields.errors('firstName')}" th:text="#{${error}}">Validation error</p>
+                <!--<div class="alert alert-primary" role="alert">-->
+                    <!--Это основное уведомление — check it out!-->
+                <!--</div>-->
+                <p th:each="error: ${#fields.errors('firstName')}" th:text="#{${error}}"
+                      class="alert alert-danger" role="alert">Validation error</p>
             </div>
 
             <div class="form-group row">
@@ -28,7 +32,8 @@
                 <div class="col-sm-3">
                     <input th:field="*{lastName}" class="form-control" id="inputEmail2"/>
                 </div>
-                <p th:each="error : ${#fields.errors('lastName')}" th:text="#{${error}}">Validation error</p>
+                <p th:each="error : ${#fields.errors('lastName')}" th:text="#{${error}}"
+                   class="alert alert-danger" role="alert">Validation error</p>
             </div>
 
             <div class="form-group row">
@@ -37,7 +42,8 @@
                 <div class="col-sm-3">
                     <input type="text" th:field="*{email}" class="form-control" id="inputEmail3" placeholder="example@yandex.ru"/>
                 </div>
-                <p th:each="error : ${#fields.errors('email')}" th:text="#{${error}}">Validation error</p>
+                <p th:each="error : ${#fields.errors('email')}" th:text="#{${error}}"
+                   class="alert alert-danger" role="alert">Validation error</p>
             </div>
 
             <div class="form-group row">
@@ -46,7 +52,8 @@
                 <div class="col-sm-3">
                     <input type="password" th:field="*{password}" class="form-control" id="inputEmail4"/>
                 </div>
-                <p th:each="error : ${#fields.errors('password')}" th:text="#{${error}}">Validation error</p>
+                <p th:each="error : ${#fields.errors('password')}" th:text="#{${error}}"
+                   class="alert alert-danger" role="alert">Validation error</p>
             </div>
 
             <div class="form-group row">
@@ -57,9 +64,9 @@
                 </div>
             </div>
 
-            <!--<input type="hidden"-->
-                   <!--name="${_csrf.parameterName}"-->
-                   <!--value="${_csrf.token}"/>-->
+            <input type="hidden"
+                   name="${_csrf.parameterName}"
+                   value="${_csrf.token}"/>
 
             <div class="form-group row">
                 <div class="col-sm-3">

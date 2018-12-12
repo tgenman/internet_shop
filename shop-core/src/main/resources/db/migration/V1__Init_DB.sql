@@ -1,5 +1,5 @@
 create table product (
-    id bigint not null,
+    id bigint not null auto_increment,
     active bit not null,
     title varchar(255),
     brand varchar(255),
@@ -15,7 +15,7 @@ create table product (
 ) engine=InnoDB;
 
 create table user (
-    id bigint not null,
+    id bigint not null auto_increment,
     email varchar(255),
     password varchar(60),
     enabled bit,
@@ -26,7 +26,7 @@ create table user (
 ) engine=InnoDB;
 
 create table address (
-    id bigint not null,
+    id bigint not null auto_increment,
     postal_code integer not null,
     country varchar(255),
     city varchar(255),
@@ -37,7 +37,7 @@ create table address (
 ) engine=InnoDB;
 
 create table cart (
-    id bigint not null,
+    id bigint not null auto_increment,
     user_id bigint,
     session_id varchar(255),
     primary key (id)
@@ -51,7 +51,7 @@ create table cart_products (
 ) engine=InnoDB;
 
 create table order_entity (
-    id bigint not null,
+    id bigint not null auto_increment,
     date_of_order datetime,
     user_id bigint,
     address_string varchar(255),
@@ -81,14 +81,14 @@ create table user_roles (
 ) engine=InnoDB;
 
 create table verification_token (
-    id bigint not null,
+    id bigint not null auto_increment,
     expiry_date datetime,
     token varchar(255),
     user_id bigint not null,
 primary key (id)) engine=InnoDB;
 
 create table password_reset_token (
-    id bigint not null,
+    id bigint not null auto_increment,
     expiry_date datetime,
     token varchar(255),
     user_id bigint not null,
@@ -100,13 +100,15 @@ create table hibernate_sequence (
 ) engine=InnoDB;
 
 
-insert into hibernate_sequence values ( 1 );
-insert into hibernate_sequence values ( 1 );
-insert into hibernate_sequence values ( 1 );
-insert into hibernate_sequence values ( 1 );
-insert into hibernate_sequence values ( 1 );
-insert into hibernate_sequence values ( 1 );
-insert into hibernate_sequence values ( 1 );
+insert into hibernate_sequence values ( 100 );
+insert into hibernate_sequence values ( 100 );
+insert into hibernate_sequence values ( 100 );
+insert into hibernate_sequence values ( 100 );
+insert into hibernate_sequence values ( 100 );
+insert into hibernate_sequence values ( 100 );
+insert into hibernate_sequence values ( 100 );
+
+ALTER TABLE product AUTO_INCREMENT = 1;
 
 alter table cart
     add constraint FKl70asp4l4w0jmbm1tqyofho4o

@@ -1,6 +1,5 @@
-package com.dmitrybondarev.shop.service.impl;
+package com.dmitrybondarev.shop.util.mq;
 
-import com.dmitrybondarev.shop.service.api.MQProducerService;
 import com.dmitrybondarev.shop.util.logging.Loggable;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
