@@ -44,7 +44,7 @@ public class AdminCategoryController {
     @GetMapping("/new")
     public String showCategoryCreationForm(Model model) {
         model.addAttribute(CATEGORY_DTO, new CategoryDto());
-        return "admin/product/newCategory";
+        return "admin/category/newCategory";
     }
 
     @Loggable
@@ -65,7 +65,7 @@ public class AdminCategoryController {
         } catch (CategoryExistsException e) {
             result.rejectValue("category", "message.regError");
             model.addAttribute(CATEGORY_DTO, categoryDto);
-            return "/admin/product/newProduct";
+            return "/admin/category/newCategory";
         }
 
         return "redirect:/admin/category";
@@ -94,10 +94,10 @@ public class AdminCategoryController {
             return "/admin/category/"+ categoryDto.getId();
         }
 
-        long idCategoryForEdit = Long.parseLong((String) request.getSession().getAttribute("idCategoryForEdit"));
+        long idCategoryForEdit = (Long) request.getSession().getAttribute("idCategoryForEdit");
         categoryDto.setId(idCategoryForEdit);
 
         categoryService.editCategory(categoryDto);
-        return"redirect:/admin/product";
+        return"redirect:/admin/category";
     }
 }

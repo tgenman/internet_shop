@@ -99,10 +99,12 @@ public class MapperUtil {
         Order order = new Order();
         dozerBeanMapper.map(orderDto, order);
 
-        if (orderDto.getListOfProductDtos() == null || orderDto.getUserDto() == null) return order;
-
+        if (orderDto.getUserDto() == null) return order;
         User user = this.mapUserDtoToUser(orderDto.getUserDto());
+        order.setUser(user);
 
+
+        if (orderDto.getListOfProductDtos() == null) return order;
         Map<ProductDto, Integer> listOfProductDtos = orderDto.getListOfProductDtos();
         Map<Product, Integer> listOfProducts = new HashMap<>();
         for (Map.Entry<ProductDto, Integer> entry : listOfProductDtos.entrySet()) {
@@ -111,7 +113,6 @@ public class MapperUtil {
                     entry.getValue());
         }
 
-        order.setUser(user);
         order.setListOfProducts(listOfProducts);
 
         return order;

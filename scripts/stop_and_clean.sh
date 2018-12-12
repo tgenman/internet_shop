@@ -3,6 +3,7 @@ cd ..
 docker-compose rm -v
 docker stop $(docker ps -a -q)
 docker rmi -f $(docker images -q)
+docker system prune
 
 
 ## Delete all stopped containers

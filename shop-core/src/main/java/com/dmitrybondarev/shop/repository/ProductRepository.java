@@ -12,7 +12,11 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     List<Product> findAllByCategory(Category category);
 
+    List<Product> findAllByCategory(List<Category> category);
+
     List<Product> findAllByActiveTrueAndCategoryAndQuantityGreaterThan(Category category, int amount);
+
+    List<Product> findAllByActiveTrueAndCategoryAndQuantityGreaterThan(List<Category> category, int amount);
 
     List<Product> findAllByActiveTrueAndQuantityGreaterThan(int amount);
 

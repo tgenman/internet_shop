@@ -1,6 +1,7 @@
 package com.dmitrybondarev.shop.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
@@ -23,6 +24,7 @@ import java.util.List;
 import java.util.Set;
 
 @Data
+@EqualsAndHashCode(of = "id")
 @Entity(name = "User")
 @Table(name = "user")
 public class User implements Serializable {

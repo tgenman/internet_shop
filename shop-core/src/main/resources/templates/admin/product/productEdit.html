@@ -54,9 +54,9 @@
             <label class="col-sm-2 col-form-label"
                    th:text="#{label.product.category}">Category</label>
             <div class="col-sm-3">
-                <input type="text" th:field="*{category}"  class="form-control" id="inputEmail3"/>
+                <input type="text" th:field="*{categoryDTO.categoryName}"  class="form-control" id="inputEmail3"/>
             </div>
-            <p th:each="error: ${#fields.errors('category')}" th:text="#{${error}}"
+            <p th:each="error: ${#fields.errors('categoryDTO')}" th:text="#{${error}}"
                class="alert alert-danger" role="alert">Validation error</p>
         </div>
 

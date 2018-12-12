@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="parts :: header(#{label.adminForm.newCategory.title})">Create category</div>
+
+<body>
+<div th:replace="parts :: navbar"></div>
+
+<div class="container mt-5">
+    <h2 th:text="#{label.adminForm.newCategory.title}">Create category</h2>
+
+    <!--/*@thymesVar id="categoryDto" type="com.dmitrybondarev.shop.model.dto.CategoryDto"*/-->
+    <form action="/admin/category/new" th:object="${categoryDto}" method="post" enctype="multipart/form-data">
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label"
+                   th:text="#{label.category.name}">Name</label>
+            <div class="col-sm-3">
+                <input type="text" th:field="*{categoryName}" placeholder="Bugs" class="form-control" id="inputEmail7"/>
+            </div>
+            <p th:each="error: ${#fields.errors('categoryName')}" th:text="#{${error}}"
+               class="alert alert-danger" role="alert">Validation error</p>
+        </div>
+
+        <input type="hidden"
+        name="${_csrf.parameterName}"
+        value="${_csrf.token}"/>
+
+        <div class="form-group row">
+            <div class="col-sm-3">
+                <button type="submit" class="btn btn-primary" th:text="#{label.adminForm.newCategory.createButton}">submit</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div th:replace="parts :: footer"></div>
+</body>
+</html>

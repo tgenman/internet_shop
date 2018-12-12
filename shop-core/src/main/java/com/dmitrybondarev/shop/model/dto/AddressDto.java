@@ -21,5 +21,10 @@ public class AddressDto implements Serializable {
 
     private String flat;
 
+    @Override
+    public String toString() {
+        return postalCode + " " + country + " " + city + " " + street + " " + building + " " + flat;
+    }
+
 
 }

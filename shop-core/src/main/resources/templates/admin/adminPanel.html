@@ -11,6 +11,8 @@
     <h2 th:text="#{label.adminPanel.title}">Admin Panel</h2>
 
     <div class="btn-group-vertical btn-group-lg" role="group" aria-label="Basic example">
+        <a class="btn btn-success" role="button" href="/admin/category"
+           th:href="@{/admin/category}" th:text="#{label.adminPanel.categoryList}">Category List</a>
         <a class="btn btn-success" role="button" href="/admin/product"
            th:href="@{/admin/product}" th:text="#{label.adminPanel.productList}">Product List</a>
         <a class="btn btn-success" role="button" href="/admin/order"

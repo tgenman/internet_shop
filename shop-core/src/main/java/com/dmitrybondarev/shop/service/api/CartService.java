@@ -1,6 +1,7 @@
 package com.dmitrybondarev.shop.service.api;
 
 import com.dmitrybondarev.shop.model.Cart;
+import com.dmitrybondarev.shop.model.dto.CartDto;
 
 public interface CartService {
 

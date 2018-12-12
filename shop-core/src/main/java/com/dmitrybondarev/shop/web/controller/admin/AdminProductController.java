@@ -1,6 +1,7 @@
 package com.dmitrybondarev.shop.web.controller.admin;
 
 import com.dmitrybondarev.shop.model.dto.ProductDto;
+import com.dmitrybondarev.shop.service.api.CategoryService;
 import com.dmitrybondarev.shop.service.api.ProductService;
 import com.dmitrybondarev.shop.util.exception.ProductExistsException;
 import com.dmitrybondarev.shop.util.logging.Loggable;
@@ -28,10 +29,13 @@ public class AdminProductController {
 
     private ProductService productService;
 
+    private CategoryService categoryService;
+
     private static final String PRODUCT_DTO = "productDto";
 
-    public AdminProductController(ProductService productService) {
+    public AdminProductController(ProductService productService, CategoryService categoryService) {
         this.productService = productService;
+        this.categoryService = categoryService;
     }
 
     @Loggable
@@ -77,10 +81,13 @@ public class AdminProductController {
 
     @Loggable
     @GetMapping("/{id}")
-    public String showProductEditForm(@PathVariable long id, Model model, HttpSession httpSession) {
+    public String showProductEditForm(@PathVariable long id,
+                                      Model model,
+                                      HttpSession httpSession) {
         httpSession.setAttribute("idProductForEdit", id);
         ProductDto productDto = productService.getProductById(id);
         model.addAttribute(PRODUCT_DTO, productDto);
+        model.addAttribute("allCategoriesDto", categoryService.getAllCategoryDto());
         return "/admin/product/productEdit.html";
     }
 
@@ -97,7 +104,7 @@ public class AdminProductController {
             return "/admin/product/"+ productDto.getId();
         }
 
-        long idProductForEdit = Long.parseLong((String) request.getSession().getAttribute("idProductForEdit"));
+        long idProductForEdit = (Long) request.getSession().getAttribute("idProductForEdit");
         productDto.setId(idProductForEdit);
 
         productService.editProductInStock(productDto);

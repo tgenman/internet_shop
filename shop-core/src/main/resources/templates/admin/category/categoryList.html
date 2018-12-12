@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="parts :: header(#{label.adminForm.categoryList.title})">Product List</div>
+
+<body>
+<div th:replace="parts :: navbar"></div>
+
+<div class="container mt-5">
+    <h2 th:text="#{label.adminForm.categoryList.title}">Category List</h2>
+
+    <a class="btn btn-success" role="button" href="/admin/category/new"
+       th:text="#{label.adminForm.categoryList.createButton}">Create new category</a>
+    <!--th:href="@{/admin/category/new}"-->
+
+
+    <table class="table table-bordered table-sm">
+        <thead>
+        <tr>
+            <th scope="col" th:text="#{label.category.name}">name</th>
+            <th scope="col" th:text="#{label.adminForm.productList.editButton}">Edit</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <!--/*@thymesVar id="allCategoryDto" type="java.util.List<com.dmitrybondarev.shop.model.dto.CategoryDto>"*/-->
+            <tr th:each="categoryDto : ${allCategoryDto}">
+                <td scope="col" th:text="${categoryDto.categoryName}">name</td>
+                <td scope="col">
+                    <a class="btn btn-warning btn-sm" href="#" role="button"
+                       th:href="@{'/admin/category/' + ${categoryDto.id}}" th:text="#{label.adminForm.editCategory.button}">edit</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<div th:replace="parts :: footer"></div>
+</body>
+</html>

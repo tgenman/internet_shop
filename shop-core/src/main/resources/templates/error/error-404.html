@@ -1,11 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>RESOURCE NOT FOUND</title>
 </head>
 <body>
-    <h1>404 RESOURCE NOT FOUND</h1>
-    <a href="/">Go Home</a>
+    <h2 align="center">404 RESOURCE NOT FOUND</h2>
+
+    <div align="center">
+        <img class="card-img-top" src="" th:src="@{'/img/error-404.gif'}">
+    </div>
+
+    <div align="center">
+        <a href="/" role="button" class="btn btn-primary mr-2 my-2">Home</a>
+    </div>
 </body>
 </html>

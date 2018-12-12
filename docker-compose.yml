@@ -30,6 +30,8 @@ services:
     links:
       - database
       - rabbitmq
+    volumes:
+      - /Users/tgenman/repo/internet_shop/uploads/:/Users/tgenman/repo/internet_shop/uploads/
     ports:
       - "8081:8081"
     restart: always

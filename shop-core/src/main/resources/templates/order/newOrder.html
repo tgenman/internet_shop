@@ -7,76 +7,98 @@
 <body>
 <div th:replace="parts :: navbar"></div>
 
-<!--<div class="container mt-5">-->
-    <!--<h2 th:text="#{label.order.new.title}">Create Order</h2>-->
-
-    <!--<table class="table table-bordered table-sm">-->
-        <!--<thead>-->
-        <!--<tr>-->
-            <!--<th scope="col">art.</th>-->
-            <!--<th scope="col">Title</th>-->
-            <!--<th scope="col">Price</th>-->
-            <!--<th scope="col">Weight</th>-->
-            <!--<th scope="col">Volume</th>-->
-            <!--<th scope="col">Quantity</th>-->
-        <!--</tr>-->
-        <!--</thead>-->
-        <!--<tbody>-->
-        <!--<c:forEach var="product" items="${cart}">-->
-            <!--<tr>-->
-                <!--<td scope="col">${product.key.id}</td>-->
-                <!--<td scope="col">${product.key.title}</td>-->
-                <!--<td scope="col">${product.key.price}</td>-->
-                <!--<td scope="col">${product.key.weight}</td>-->
-                <!--<td scope="col">${product.key.size}</td>-->
-                <!--<td scope="col">${product.value}</td>-->
-            <!--</tr>-->
-        <!--</c:forEach>-->
-        <!--</tbody>-->
-    <!--</table>-->
-
-    <!--<form:form action="/order/new" method="post" modelAttribute="orderDto">-->
-        <!--<h4>Choose your address:</h4>-->
-        <!--<div class="form-group row">-->
-            <!--<div class="col-sm-10">-->
-                <!--<ul>-->
-                    <!--<form:radiobuttons element="li" path="address" items="${addresses}"/>-->
-                <!--</ul>-->
-            <!--</div>-->
-        <!--</div>-->
+<div class="container mt-5">
+    <h2 th:text="#{label.order.new.title}">Create Order</h2>
 
 
-        <!--<h4>Choose type of payment:</h4>-->
-        <!--<div class="form-group row">-->
-            <!--<div class="col-sm-3">-->
-                <!--<ul>-->
-                    <!--<form:radiobuttons element="li" path="typeOfPayment" items="${TypeOfPaymentL}"  />-->
-                <!--</ul>-->
-            <!--</div>-->
-        <!--</div>-->
+    <table class="table table-bordered table-sm">
+        <thead>
+        <tr>
+            <th scope="col" th:text="#{label.product.id}">art.</th>
+            <th scope="col" th:text="#{label.product.brand}">brand</th>
+            <th scope="col" th:text="#{label.product.title}">Title</th>
+            <th scope="col" th:text="#{label.product.color}">color</th>
+            <th scope="col" th:text="#{label.product.size}">Volume</th>
+            <th scope="col" th:text="#{label.product.price}">Price</th>
+            <th scope="col" th:text="#{label.product.quantity}">Quantity</th>
+            <th scope="col" th:text="#{label.cart.show.sum}">Sum</th>
+        </tr>
+        </thead>
 
-        <!--<h4>Choose type of delivery:</h4>-->
-        <!--<div class="form-group row">-->
-            <!--<div class="col-sm-3">-->
-                <!--<ul>-->
-                    <!--<form:radiobuttons element="li" path="typeOfDelivery" items="${TypeOfDeliveryL}"  />-->
-                <!--</ul>-->
-            <!--</div>-->
-        <!--</div>-->
+        <tbody>
+        <!--/*@thymesVar id="cart" type="com.dmitrybondarev.shop.model.Cart"*/-->
+        <tr th:if="${cart.getProducts() != null}"
+            th:each="product : ${cart.getProducts().keySet()}">
+            <td scope="col" th:text="${product.id}">art.</td>
+            <td scope="col" th:text="${product.brand}">brand</td>
+            <td scope="col" th:text="${product.title}">title</td>
+            <td scope="col" th:text="${product.color}">color</td>
+            <td scope="col" th:text="${product.size}">size</td>
+            <td scope="col" th:text="${product.price}">price</td>
+            <td scope="col" th:text="${cart.getProducts().get(product)}">quantity</td>
+            <td scope="col" th:text="${cart.getProducts().get(product)} * ${product.price}">quantity</td>
+        </tr>
+        <tr>
+        <tr>
+            <td colspan="7" class="table-info" th:text="#{label.cart.show.totalSum}">Total Sum</td>
+            <td scope="col" class="table-info" th:text="${sum}">X</td>
+        </tr>
+        </tr>
+        </tbody>
+    </table>
 
-        <!--<input type="hidden" value="${user.id}" name="userId">-->
-        <!--<input type="hidden" value="${_csrf.token}" name="_csrf">-->
 
-        <!--<div class="form-group row">-->
-            <!--<div class="col-sm-3">-->
-                <!--<button type="submit" class="btn btn-success btn-lg">Save</button>-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--</form:form>-->
-    <!---->
-    <!---->
-    <!---->
-<!--</div>-->
+
+    <form action="/order/new" th:object="${orderDto}" method="post" enctype="utf8">
+
+        <h3>Choose your address:</h3>
+        <br/>
+        <div class="form-group row">
+            <div class="col-sm-10">
+                <select th:field="*{addressString}">
+                    <option th:each="addressDto : ${allAddressDtos}"
+                            th:value="${addressDto.toString()}"
+                            th:text="${addressDto.toString()}">address</option>
+                </select>
+            </div>
+        </div>
+
+        <h3>Choose type of payment:</h3>
+        <br/>
+        <div class="form-group row">
+            <div class="col-sm-10">
+                <select th:field="*{typeOfPayment}">
+                    <option th:each="typeOfPayment : ${allTypesOfPayment}"
+                            th:value="${typeOfPayment.toString()}"
+                            th:text="${typeOfPayment.toString()}">type of payment</option>
+                </select>
+            </div>
+        </div>
+
+        <h3>Choose type of delivery:</h3>
+        <br/>
+        <div class="form-group row">
+            <div class="col-sm-10">
+                <select th:field="*{typeOfDelivery}">
+                    <option th:each="typeOfDelivery : ${allTypesOfDeliver}"
+                            th:value="${typeOfDelivery.toString()}"
+                            th:text="${typeOfDelivery.toString()}">type of delivery</option>
+                </select>
+            </div>
+        </div>
+
+        <input type="hidden"
+               name="${_csrf.parameterName}"
+               value="${_csrf.token}"/>
+
+        <div class="form-group row">
+            <div class="col-sm-3">
+                <button type="submit" class="btn btn-primary" th:text="#{label.form.order.create.button}">submit</button>
+            </div>
+        </div>
+    </form>
+
+</div>
 
 <div th:replace="parts :: footer"></div>
 </body>

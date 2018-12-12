@@ -2,6 +2,8 @@ package com.dmitrybondarev.shop.web.controller;
 
 import com.dmitrybondarev.shop.model.Cart;
 import com.dmitrybondarev.shop.model.Product;
+import com.dmitrybondarev.shop.model.dto.CartDto;
+import com.dmitrybondarev.shop.model.dto.ProductDto;
 import com.dmitrybondarev.shop.service.api.CartService;
 import com.dmitrybondarev.shop.util.logging.Loggable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -67,13 +69,13 @@ public class CartController {
         if (userDetails == null) {
             cartService.modificationCartBySessionId(
                     RequestContextHolder.currentRequestAttributes().getSessionId(),
-                    productId, -1);    //TODO CATCH AMOUNT
+                    productId, -1);
             return "redirect:/cart";
         }
 
         cartService.modificationCartByUserEmail(
                 userDetails.getUsername(),
-                productId, -1);       //TODO CATCH AMOUNT
+                productId, -1);
         return "redirect:/cart";
     }
 

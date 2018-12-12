@@ -2,6 +2,8 @@ package com.dmitrybondarev.shop.web.controller;
 
 import com.dmitrybondarev.shop.model.Cart;
 import com.dmitrybondarev.shop.model.dto.AddressDto;
+import com.dmitrybondarev.shop.model.dto.CartDto;
+import com.dmitrybondarev.shop.model.dto.ProductDto;
 import com.dmitrybondarev.shop.util.MapperUtil;
 import com.dmitrybondarev.shop.util.logging.Loggable;
 import com.dmitrybondarev.shop.model.Product;
@@ -27,6 +29,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -38,6 +41,7 @@ import java.util.Set;
 
 @Controller
 @RequestMapping("/order")
+@SessionAttributes("idCard")
 public class OrderController {
 
     private OrderService orderService;
@@ -46,23 +50,21 @@ public class OrderController {
 
     private UserService userService;
 
-    @Autowired
-    private MapperUtil mapperUtil;
-
     public OrderController(OrderService orderService, CartService cartService, UserService userService) {
         this.orderService = orderService;
         this.cartService = cartService;
         this.userService = userService;
     }
 
-    @ModelAttribute("allTypesOfDelivery")
-    public List<TypeOfDelivery> deliveryTypes() {
-        return Arrays.asList(TypeOfDelivery.values());
-    }
+    @Loggable
+    @GetMapping
+    public String showListOfOrderForUser(@AuthenticationPrincipal UserDetails userDetails,
+                                         Model model) {
+        List<OrderDto> orderDtos =
+                orderService.getAllOrderDtoByUserEmail(userDetails.getUsername());
+        model.addAttribute("orderDtos", orderDtos);
 
-    @ModelAttribute("allTypesOfPayment")
-    public List<TypeOfPayment> paymentTypes() {
-        return Arrays.asList(TypeOfPayment.values());
+        return "/order/OrderListForUser";
     }
 
     @Loggable
@@ -70,15 +72,17 @@ public class OrderController {
     public String showCreationOrderForm(@AuthenticationPrincipal UserDetails userDetails,
                                         Model model) {
 
-
         UserDto userDto = userService.getUserDtoByEmail(userDetails.getUsername());
 
         Cart cart = cartService.getCartByUserEmail(userDetails.getUsername());
-        Set<AddressDto> allAddress = userDto.getAddressDtos();
+        Set<AddressDto> allAddressDtos = userDto.getAddressDtos();
 
-        model.addAttribute("user", userDto);         //TODO Change to DTOs
-        model.addAttribute("allAddress", allAddress);
+        model.addAttribute("sum", this.countSum(cart));
         model.addAttribute("cart", cart);
+        model.addAttribute("userDto", userDto);
+        model.addAttribute("allAddressDtos", allAddressDtos);
+        model.addAttribute("allTypesOfPayment", Arrays.asList(TypeOfPayment.values()));
+        model.addAttribute("allTypesOfDeliver", Arrays.asList(TypeOfDelivery.values()));
         model.addAttribute("orderDto", new OrderDto());
 
         return "order/newOrder";
@@ -86,34 +90,34 @@ public class OrderController {
 
     @Loggable
     @PostMapping("/new")
-    public String createNewOrder(@ModelAttribute("orderDto") @Valid OrderDto orderDto,
-                                       BindingResult result, Errors errors,
-                                       @AuthenticationPrincipal UserDetails userDetails, Model model) {
-        if (!result.hasErrors()) {
-
-            UserDto userDto = userService.getUserDtoByEmail(userDetails.getUsername());
-
-            orderDto.setUserDto(userDto);
-            orderDto.setDateOfOrder(new Date());
-            orderDto.setStatusOfDelivery(StatusOfDelivery.WAITING_FOR_PAYMENT);
-            orderDto.setStatusOfPayment(StatusOfPayment.WAITING_FOR_PAYMENT);
-
-            orderService.createOrder(orderDto);
-
-            return "redirect:/";
+    public String createNewOrder(OrderDto orderDto,
+                                 BindingResult result, Errors errors,
+                                 @AuthenticationPrincipal UserDetails userDetails,
+                                 Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("orderDto", orderDto);
+            return "order/newOrder";
         }
-        model.addAttribute("orderDto", orderDto);
-        return "order/newOrder";
+
+        orderDto.setUserDto(
+                userService.getUserDtoByEmail(
+                        userDetails.getUsername()));
+
+        orderService.createOrder(orderDto);
+        return "redirect:/";
     }
 
-//    @GetMapping("/list")   TODO Implement showListOfOrderForUser
-//    public ModelAndView showListOfOrderForUser() {
-//        long idUser = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
-//
-//
-//        List<OrderDto> allOrderDto = orderService.getAllOrderDto();
-//        ModelAndView view = new ModelAndView("/admin/order/orderList.jsp", "orderDtos", allOrderDto);
-//        return view;
-//    }
+//  =============== NON_API =================
 
+
+    private int countSum(Cart cart) {
+        int sum = 0;
+        Map<Product, Integer> products = cart.getProducts();
+        for (Map.Entry<Product, Integer> entries : products.entrySet()) {
+            int price = entries.getKey().getPrice();
+            int amount = entries.getValue();
+            sum += price * amount;
+        }
+        return sum;
+    }
 }

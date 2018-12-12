@@ -3,10 +3,12 @@ package com.dmitrybondarev.shop.service.impl;
 import com.dmitrybondarev.shop.model.Cart;
 import com.dmitrybondarev.shop.model.Product;
 import com.dmitrybondarev.shop.model.User;
+import com.dmitrybondarev.shop.model.dto.CartDto;
 import com.dmitrybondarev.shop.repository.CartRepository;
 import com.dmitrybondarev.shop.repository.ProductRepository;
 import com.dmitrybondarev.shop.repository.UserRepository;
 import com.dmitrybondarev.shop.service.api.CartService;
+import com.dmitrybondarev.shop.util.MapperUtil;
 import com.dmitrybondarev.shop.util.exception.ProductNotFoundException;
 import com.dmitrybondarev.shop.util.exception.UserNotFoundException;
 import com.dmitrybondarev.shop.util.logging.Loggable;
@@ -26,6 +28,8 @@ public class CartServiceImp implements CartService {
     private ProductRepository productRepository;
 
     private CartRepository cartRepository;
+
+    private MapperUtil mapperUtil;
 
     public CartServiceImp(UserRepository userRepository, ProductRepository productRepository, CartRepository cartRepository) {
         this.userRepository = userRepository;

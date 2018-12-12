@@ -21,7 +21,7 @@ values
 (8, true, 4, 'Galaxy S8', 'Samsung', 359, 'Black', 10, '5.9x2.7x0.3inches', 1, 30, 'galaxi8.jpg'),
 (9, true, 4, 'Helio P25 Octa Core', 'Elephone', 245, 'Black', 10, '6.1x3x0.2inches', 1, 30, '111.jpg'),
 (10, true, 4, 'iPhone 7 Plus', 'Apple', 760, 'White', 10, '6.2x0.3x3.1inches', 1, 30, 'iphone7.jpg'),
-(11, true, 4, 'Mate 20 Pro', 'HUAWEI', 0, 'Black', 10, '2.9x0.3x6.2inches', 1, 30, 'huawei7.jpg'),
+(11, true, 4, 'Mate 20 Pro', 'HUAWEI', 200, 'Black', 10, '2.9x0.3x6.2inches', 1, 30, 'huawei7.jpg'),
 (12, true, 4, 'S7', 'Ulefone', 50, 'Gold', 10, '145.8*70.8*10.8mm', 1, 30, 'ulefon.jpg'),
 (13, true, 5, 'Zenbook UX310UQ-FC134T', 'ASUS', 882, 'Gray', 10, '223x323x18mm', 2, 30, 'ultrabooZenbook.jpg'),
 (14, true, 5, 'Yoga 730-13IKB', 'Lenovo', 1290, 'Grey', 10, '216x307x14', 2, 30, 'ultrabookYoga.jpg'),

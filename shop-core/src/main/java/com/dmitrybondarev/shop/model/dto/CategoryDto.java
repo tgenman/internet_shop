@@ -4,9 +4,10 @@ import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Data
-public class CategoryDto {
+public class CategoryDto implements Serializable {
 
     private Long id;
 

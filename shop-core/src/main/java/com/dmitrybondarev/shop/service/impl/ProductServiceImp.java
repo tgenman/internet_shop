@@ -96,10 +96,12 @@ public class ProductServiceImp implements ProductService {
         }
 
         Optional<Category> optionalCategory = categoryRepository.findByCategoryNameContains(filter);
+//        List<Category> listCategories = categoryRepository.findAllByCategoryNameContains(filter);
         if (!optionalCategory.isPresent()) throw new CategoryNotFoundException("No category found with name: " + filter);
         Category category = optionalCategory.get();
 
         List<Product> products = productRepository.findAllByActiveTrueAndCategoryAndQuantityGreaterThan(category, 0);
+//        List<Product> products = productRepository.findAllByActiveTrueAndCategoryAndQuantityGreaterThan(listCategories, 0);
         return this.convertListProductsToMapProductDtos(products);
     }
 
@@ -117,6 +119,7 @@ public class ProductServiceImp implements ProductService {
     public void editProductInStock(ProductDto productDto) {
         this.pullOutProductFromRepository(productDto.getId());
         Product product = mapperUtil.mapProductDtoToProduct(productDto);
+        categoryRepository.save(product.getCategory());
         productRepository.save(product);
     }
 
