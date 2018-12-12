@@ -2,11 +2,13 @@ package com.dmitrybondarev.shop.util;
 
 import com.dmitrybondarev.shop.model.Address;
 import com.dmitrybondarev.shop.model.Cart;
+import com.dmitrybondarev.shop.model.Category;
 import com.dmitrybondarev.shop.model.Order;
 import com.dmitrybondarev.shop.model.Product;
 import com.dmitrybondarev.shop.model.User;
 import com.dmitrybondarev.shop.model.dto.AddressDto;
 import com.dmitrybondarev.shop.model.dto.CartDto;
+import com.dmitrybondarev.shop.model.dto.CategoryDto;
 import com.dmitrybondarev.shop.model.dto.OrderDto;
 import com.dmitrybondarev.shop.model.dto.ProductDto;
 import com.dmitrybondarev.shop.model.dto.UserDto;
@@ -32,6 +34,9 @@ public class MapperUtil {
     public Product mapProductDtoToProduct(ProductDto productDto) {
         Product product = new Product();
         dozerBeanMapper.map(productDto, product);
+
+        product.setCategory(
+                this.mapCategoryDtoToCategory(productDto.getCategoryDTO()));
         return product;
     }
 
@@ -39,6 +44,9 @@ public class MapperUtil {
     public ProductDto mapProductToProductDto(Product product) {
         ProductDto productDto = new ProductDto();
         dozerBeanMapper.map(product, productDto);
+
+        productDto.setCategoryDTO(
+                this.mapCategoryToCategoryDto(product.getCategory()));
         return productDto;
     }
 
@@ -46,6 +54,9 @@ public class MapperUtil {
     public ProductDtoRest mapProductDtoToProductDtoRest(ProductDto productDto) {
         ProductDtoRest productDtoRest = new ProductDtoRest();
         dozerBeanMapper.map(productDto, productDtoRest);
+
+        productDtoRest.setCategory(
+                productDto.getCategoryDTO().toString());
         return productDtoRest;
     }
 
@@ -181,5 +192,19 @@ public class MapperUtil {
         cartDto.setContentDto(contentDto);
 
         return cartDto;
+    }
+
+    @Loggable
+    public Category mapCategoryDtoToCategory(CategoryDto categoryDTO) {
+        Category category = new Category();
+        dozerBeanMapper.map(categoryDTO, category);
+        return category;
+    }
+
+    @Loggable
+    public CategoryDto mapCategoryToCategoryDto(Category category) {
+        CategoryDto categoryDTO = new CategoryDto();
+        dozerBeanMapper.map(category, categoryDTO);
+        return categoryDTO;
     }
 }

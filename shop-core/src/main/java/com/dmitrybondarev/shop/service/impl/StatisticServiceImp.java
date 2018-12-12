@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
-public class StatisticServiceImpl implements StatisticService{
+public class StatisticServiceImp implements StatisticService{
 
     private OrderRepository orderRepository;
 
@@ -30,7 +30,7 @@ public class StatisticServiceImpl implements StatisticService{
 
     private MapperUtil mapperUtil;
 
-    public StatisticServiceImpl(OrderRepository orderRepository, MapperUtil mapperUtil) {
+    public StatisticServiceImp(OrderRepository orderRepository, MapperUtil mapperUtil) {
         this.orderRepository = orderRepository;
         this.mapperUtil = mapperUtil;
     }

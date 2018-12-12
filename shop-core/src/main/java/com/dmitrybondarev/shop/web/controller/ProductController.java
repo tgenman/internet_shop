@@ -23,7 +23,7 @@ public class ProductController {
     @GetMapping
     public String showProductList(@RequestParam(required = false, defaultValue = "") String filter,
                                   Model model) {
-        model.addAttribute("allProductDto", productService.getProductsFromStockByFilter(filter));
+        model.addAttribute("allProductDto", productService.getProductDtosFromStockByFilter(filter));
         return "product/productList";
     }
 

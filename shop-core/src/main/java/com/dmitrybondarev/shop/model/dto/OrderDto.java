@@ -19,6 +19,8 @@ public class OrderDto implements Serializable {
 //    @NotNull
     private UserDto userDto;
 
+    private int total;
+
 //    @NotNull
     private String addressString;
 

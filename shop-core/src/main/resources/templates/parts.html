@@ -48,7 +48,7 @@
                            class="nav-link">Cart</a>
                     </li>
 
-                    <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
                         <a th:text="#{label.navbar.adminPanel}"
                            href="/admin"
                            class="nav-link">Admin panel</a>
@@ -68,7 +68,7 @@
                            class="dropdown-item">Profile</a>
 
                         <a th:text="#{label.navbar.orders}"
-                           href="/user"
+                           href="/order"
                            class="dropdown-item">Orders</a>
                     </div>
                 </div>

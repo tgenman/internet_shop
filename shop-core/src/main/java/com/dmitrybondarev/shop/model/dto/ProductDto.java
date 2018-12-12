@@ -1,17 +1,15 @@
 package com.dmitrybondarev.shop.model.dto;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.Map;
 
 @Data
-@EqualsAndHashCode(exclude = {"quantity", "active", "filename", "price"})
+//@EqualsAndHashCode(of = "id")
 public class ProductDto implements Serializable {
 
     private Long id;
@@ -28,7 +26,7 @@ public class ProductDto implements Serializable {
 
     @NotNull
     @NotEmpty(message = "message.NotEmpty")
-    private String category;
+    private CategoryDto categoryDTO;
 
     @NotNull
     @Min(value = 0)

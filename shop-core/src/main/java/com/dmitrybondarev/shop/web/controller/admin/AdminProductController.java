@@ -9,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
@@ -39,7 +39,7 @@ public class AdminProductController {
     public String showListOfProducts(@RequestParam(required = false, defaultValue = "") String filter,
                                      Model model) {
 
-        model.addAttribute("allProductDto", productService.getAllExistProductsByFilter(filter));
+        model.addAttribute("allProductDto", productService.getAllExistProductDtosByFilter(filter));
         return "admin/product/productList";
     }
 
@@ -89,15 +89,18 @@ public class AdminProductController {
     public String editProduct(
             @Valid ProductDto productDto,
             BindingResult result,
-            @ModelAttribute long idProductForEdit,
+            HttpServletRequest request,
             Model model) {
 
         if (result.hasErrors()) {
             model.addAttribute(PRODUCT_DTO, productDto);
-            return String.format("/admin/product/", productDto.getId());
+            return "/admin/product/"+ productDto.getId();
         }
 
-        productService.editProductToStock(productDto);
+        long idProductForEdit = Long.parseLong((String) request.getSession().getAttribute("idProductForEdit"));
+        productDto.setId(idProductForEdit);
+
+        productService.editProductInStock(productDto);
         return"redirect:/admin/product";
     }
 

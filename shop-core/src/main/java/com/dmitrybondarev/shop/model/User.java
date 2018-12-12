@@ -39,7 +39,7 @@ public class User implements Serializable {
     @Column(name = "enabled")
     private boolean enabled;
 
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(
             name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"))
@@ -85,7 +85,7 @@ public class User implements Serializable {
                 '}';
     }
 
-    //    public boolean isAdmin() {
-//        return roles.contains(Role.ADMIN);
-//    }
+    public boolean isAdmin() {
+        return roles.contains("ROLE_ADMIN");
+    }
 }

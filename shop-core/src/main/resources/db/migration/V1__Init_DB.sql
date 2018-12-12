@@ -1,9 +1,15 @@
+create table category(
+    id bigint not null auto_increment,
+    category_name varchar(255),
+    primary key (id)
+) engine=InnoDB;
+
 create table product (
     id bigint not null auto_increment,
     active bit not null,
     title varchar(255),
     brand varchar(255),
-    category varchar(255),
+    category_id bigint,
     price integer not null,
     color varchar(255),
     quantity integer not null,
@@ -54,6 +60,7 @@ create table order_entity (
     id bigint not null auto_increment,
     date_of_order datetime,
     user_id bigint,
+    total integer not null,
     address_string varchar(255),
     status_of_delivery varchar(255),
     status_of_payment varchar(255),
@@ -100,19 +107,23 @@ create table hibernate_sequence (
 ) engine=InnoDB;
 
 
-insert into hibernate_sequence values ( 100 );
-insert into hibernate_sequence values ( 100 );
-insert into hibernate_sequence values ( 100 );
-insert into hibernate_sequence values ( 100 );
-insert into hibernate_sequence values ( 100 );
-insert into hibernate_sequence values ( 100 );
-insert into hibernate_sequence values ( 100 );
+insert into hibernate_sequence values ( 1000 );
+insert into hibernate_sequence values ( 1000 );
+insert into hibernate_sequence values ( 1000 );
+insert into hibernate_sequence values ( 1000 );
+insert into hibernate_sequence values ( 1000 );
+insert into hibernate_sequence values ( 1000 );
+insert into hibernate_sequence values ( 1000 );
 
 ALTER TABLE product AUTO_INCREMENT = 1;
 
+alter table product
+    add constraint FK1mtsbur82frn64de7balymq9s
+    foreign key (category_id) references category (id);
+
 alter table cart
     add constraint FKl70asp4l4w0jmbm1tqyofho4o
-        foreign key (user_id) references user (id);
+    foreign key (user_id) references user (id);
 
 alter table cart_products
     add constraint FK8x7wyc1ajldym6lj0uoi57ono

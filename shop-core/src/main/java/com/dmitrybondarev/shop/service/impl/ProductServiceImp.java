@@ -1,10 +1,14 @@
 package com.dmitrybondarev.shop.service.impl;
 
+import com.dmitrybondarev.shop.model.Category;
 import com.dmitrybondarev.shop.model.Product;
+import com.dmitrybondarev.shop.model.dto.CategoryDto;
 import com.dmitrybondarev.shop.model.dto.ProductDto;
+import com.dmitrybondarev.shop.repository.CategoryRepository;
 import com.dmitrybondarev.shop.repository.ProductRepository;
 import com.dmitrybondarev.shop.service.api.ProductService;
 import com.dmitrybondarev.shop.util.MapperUtil;
+import com.dmitrybondarev.shop.util.exception.CategoryNotFoundException;
 import com.dmitrybondarev.shop.util.exception.ProductExistsException;
 import com.dmitrybondarev.shop.util.exception.ProductNotFoundException;
 import com.dmitrybondarev.shop.util.logging.Loggable;
@@ -17,9 +21,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -28,20 +34,23 @@ public class ProductServiceImp implements ProductService {
 
     private ProductRepository productRepository;
 
+    private CategoryRepository categoryRepository;
+
     private MapperUtil mapperUtil;
 
     @Value("${upload.path}")
     private String uploadPath;
 
-    public ProductServiceImp(ProductRepository productRepository, MapperUtil mapperUtil) {
+    public ProductServiceImp(ProductRepository productRepository, CategoryRepository categoryRepository, MapperUtil mapperUtil) {
         this.productRepository = productRepository;
+        this.categoryRepository = categoryRepository;
         this.mapperUtil = mapperUtil;
     }
 
     @Override
     @Loggable
     @Transactional
-    public ProductDto addNewProductToStock(ProductDto productDto, MultipartFile file) throws ProductExistsException, IOException {
+    public void addNewProductToStock(ProductDto productDto, MultipartFile file) throws ProductExistsException, IOException {
         Optional<Product> optionalProduct = productRepository.findByTitleAndBrand(productDto.getTitle(), productDto.getBrand());
         if (optionalProduct.isPresent())
             throw new ProductExistsException("There is a product with that title: " + productDto.getTitle() + " and brand: " + productDto.getBrand());
@@ -57,37 +66,40 @@ public class ProductServiceImp implements ProductService {
 
         Product product = mapperUtil.mapProductDtoToProduct(productDto);
         product.setId(null);
-        Product save = productRepository.save(product);
-
-        return save != null ? mapperUtil.mapProductToProductDto(save) : null;
+        productRepository.save(product);
     }
 
     @Override
     @Loggable
     @Transactional
-    public Map<String, List<ProductDto>> getAllExistProductsByFilter(String filter) {
-        List<Product> products;
-
-        if (filter != null && !filter.isEmpty()) {
-            products = productRepository.findAllByCategory(filter);
-        } else {
-            products = productRepository.findAll();
+    public Map<CategoryDto, List<ProductDto>> getAllExistProductDtosByFilter(String filter) {
+        if (filter == null || filter.isEmpty()) {
+            return this.convertListProductsToMapProductDtos(
+                    productRepository.findAll());
         }
 
+        Optional<Category> optionalCategory = categoryRepository.findByCategoryNameContains(filter);
+        if (!optionalCategory.isPresent()) throw new CategoryNotFoundException("No category found with name: " + filter);
+        Category category = optionalCategory.get();
+
+        List<Product> products = productRepository.findAllByCategory(category);
         return this.convertListProductsToMapProductDtos(products);
     }
 
     @Override
     @Loggable
     @Transactional
-    public Map<String, List<ProductDto>> getProductsFromStockByFilter(String filter) {
-        List<Product> products;
-
-        if (filter != null && !filter.isEmpty()) {
-            products = productRepository.findAllByActiveTrueAndCategoryAndQuantityGreaterThan(filter, 0);
-        } else {
-            products = productRepository.findAll();
+    public Map<CategoryDto, List<ProductDto>> getProductDtosFromStockByFilter(String filter) {
+        if (filter == null || filter.isEmpty()) {
+            return this.convertListProductsToMapProductDtos(
+                    productRepository.findAllByActiveTrueAndQuantityGreaterThan(0));
         }
+
+        Optional<Category> optionalCategory = categoryRepository.findByCategoryNameContains(filter);
+        if (!optionalCategory.isPresent()) throw new CategoryNotFoundException("No category found with name: " + filter);
+        Category category = optionalCategory.get();
+
+        List<Product> products = productRepository.findAllByActiveTrueAndCategoryAndQuantityGreaterThan(category, 0);
         return this.convertListProductsToMapProductDtos(products);
     }
 
@@ -102,11 +114,10 @@ public class ProductServiceImp implements ProductService {
     @Override
     @Loggable
     @Transactional
-    public ProductDto editProductToStock(ProductDto productDto) {
+    public void editProductInStock(ProductDto productDto) {
         this.pullOutProductFromRepository(productDto.getId());
         Product product = mapperUtil.mapProductDtoToProduct(productDto);
         productRepository.save(product);
-        return productDto;
     }
 
     @Override
@@ -130,19 +141,20 @@ public class ProductServiceImp implements ProductService {
     // ============== NON-API ============
 
     @Loggable
-    private Map<String, List<ProductDto>> convertListProductsToMapProductDtos(List<Product> products) {
-        Map<String, List<ProductDto>> map = new HashMap<>();
+    private Map<CategoryDto, List<ProductDto>> convertListProductsToMapProductDtos(List<Product> products) {
+        Map<CategoryDto, List<ProductDto>> map = new HashMap<>();
 
         for (Product product: products) {
             ProductDto productDto = mapperUtil.mapProductToProductDto(product);
-            String category = productDto.getCategory();
-            if (map.containsKey(category)) {
-                List<ProductDto> listProductDto = map.get(category);
+            CategoryDto categoryDto = productDto.getCategoryDTO();
+
+            if (map.containsKey(categoryDto)) {
+                List<ProductDto> listProductDto = map.get(categoryDto);
                 listProductDto.add(productDto);
             } else {
                 List<ProductDto> listProductDto = new ArrayList<>();
                 listProductDto.add(productDto);
-                map.put(category, listProductDto);
+                map.put(categoryDto, listProductDto);
             }
         }
         return map;

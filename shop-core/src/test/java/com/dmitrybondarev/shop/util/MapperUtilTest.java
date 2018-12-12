@@ -55,7 +55,7 @@ public class MapperUtilTest {
         ProductDto input = new ProductDto();
         input.setId(id);
         input.setTitle(title);
-        input.setCategory(category);
+//        input.setCategory(category);
         input.setPrice(price);
         input.setQuantity(quantity);
         input.setSize(size);
@@ -105,7 +105,7 @@ public class MapperUtilTest {
         Product input = new Product();
         input.setId(id);
         input.setTitle(title);
-        input.setCategory(category);
+//        input.setCategory(category);
         input.setPrice(price);
         input.setQuantity(quantity);
         input.setSize(size);
@@ -123,7 +123,7 @@ public class MapperUtilTest {
         Assert.assertNotNull(output);
         Assert.assertEquals(id, (long) output.getId());
         Assert.assertEquals(title, output.getTitle());
-        Assert.assertEquals(category, output.getCategory());
+//        Assert.assertEquals(category, output.getCategory());
         Assert.assertEquals(price, output.getPrice());
         Assert.assertEquals(quantity, output.getQuantity());
         Assert.assertEquals(size, output.getSize());
@@ -157,7 +157,7 @@ public class MapperUtilTest {
         ProductDto input = new ProductDto();
         input.setId(id);
         input.setTitle(title);
-        input.setCategory(category);
+//        input.setCategory(category);
         input.setPrice(price);
         input.setSize(size);
         input.setWeight(weight);

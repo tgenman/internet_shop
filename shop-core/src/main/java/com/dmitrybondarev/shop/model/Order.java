@@ -6,6 +6,7 @@ import com.dmitrybondarev.shop.model.enums.TypeOfDelivery;
 import com.dmitrybondarev.shop.model.enums.TypeOfPayment;
 import lombok.Data;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -17,9 +18,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 @Data
@@ -34,6 +38,8 @@ public class Order implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
+
+    private int total;
 
     private String addressString;
 
@@ -56,5 +62,16 @@ public class Order implements Serializable {
             name = "order_entity_product",
             joinColumns = @JoinColumn(name = "order_entity_id"))
     private Map<Product, Integer> listOfProducts;
+
+
+    public void setListOfProducts(Map<Product, Integer> i) {
+
+    }
+
+    public Map<Product, Integer> getListOfProducts() {
+        return  new HashMap<Product, Integer>();
+    }
+
+
 }
 
