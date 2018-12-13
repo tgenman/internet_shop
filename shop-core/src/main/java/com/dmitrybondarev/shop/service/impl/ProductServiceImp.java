@@ -65,6 +65,9 @@ public class ProductServiceImp implements ProductService {
         }
 
         Product product = mapperUtil.mapProductDtoToProduct(productDto);
+
+        Optional<Category> byCategoryNameContains = categoryRepository.findByCategoryNameContains(productDto.getCategoryString());
+        product.setCategory(byCategoryNameContains.get());
         product.setId(null);
         productRepository.save(product);
     }
@@ -149,7 +152,7 @@ public class ProductServiceImp implements ProductService {
 
         for (Product product: products) {
             ProductDto productDto = mapperUtil.mapProductToProductDto(product);
-            CategoryDto categoryDto = productDto.getCategoryDTO();
+            CategoryDto categoryDto = productDto.getCategory();
 
             if (map.containsKey(categoryDto)) {
                 List<ProductDto> listProductDto = map.get(categoryDto);

@@ -10,7 +10,7 @@ public class CartDto implements Serializable {
 
     private Long id;
 
-    private Map<ProductDto, Integer> contentDto;
+    private Map<ProductDto, Integer> content;
 
     private String sessionId;
 }

@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -31,14 +33,18 @@ public class AdminUserController {
     @Loggable
     @GetMapping
     public String showListOfAllUsers(Model model) {
-        List<UserDto> allUsers = userService.getAllUsers();
         model.addAttribute("allUserDto", userService.getAllUsers());
         return "admin/user/userList";
     }
 
     @Loggable
     @GetMapping("/{id}")
-    public String showUserEditForm(@PathVariable long id, Model model) {
+    public String showUserEditForm(@PathVariable long id,
+                                   Model model,
+                                   HttpSession httpSession) {
+        httpSession.removeAttribute("idUserForEdit");
+        httpSession.setAttribute("idUserForEdit", id);
+
         UserDto userDtoByUsername = userService.getUserDtoById(id);
 
         model.addAttribute("userDto", userDtoByUsername);
@@ -47,19 +53,20 @@ public class AdminUserController {
         return "admin/user/userEdit";
     }
 
-    @PostMapping("/{id}")
     @Loggable
-    public String editUser(@ModelAttribute("userDto") @Valid UserDto userDto,
-                                 BindingResult result, Errors errors) {  //TODO Implement editing User in admin
-        return "index";
+    @PostMapping
+    public String editUser(@Valid UserDto userDto,
+                           BindingResult result,
+                           HttpServletRequest request,
+                           Model model) {
+        long idUserForEdit = (Long) request.getSession().getAttribute("idUserForEdit");
+        userDto.setId(idUserForEdit);
+
+        if (result.hasErrors()) {
+            model.addAttribute("userDto", userDto);
+            return "/admin/category/"+ userDto.getId();
+        }
+
+        return "admin/user/userEdit";
     }
-
-    @DeleteMapping("/{id}")
-    @Loggable
-    public String deleteUser(@PathVariable long id) {  //TODO Implement deleting User
-
-        return "index";
-    }
-
-
 }

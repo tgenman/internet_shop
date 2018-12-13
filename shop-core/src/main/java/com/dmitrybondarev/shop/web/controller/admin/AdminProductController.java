@@ -61,7 +61,10 @@ public class AdminProductController {
     @Loggable
     @GetMapping("/new")
     public String showProductCreationForm(Model model) {
+        List<CategoryDto> allCategoryDto = categoryService.getAllCategoryDto();
+
         model.addAttribute(PRODUCT_DTO, new ProductDto());
+        model.addAttribute("allCategoryDto", allCategoryDto);
         return "admin/product/newProduct";
     }
 

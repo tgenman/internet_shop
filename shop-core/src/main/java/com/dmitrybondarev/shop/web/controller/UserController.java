@@ -70,7 +70,7 @@ public class UserController {
 
         userDto.setId(oldUserDto.getId());
         userDto.setEnabled(oldUserDto.isEnabled());
-        userDto.setAddressDtos(oldUserDto.getAddressDtos());
+        userDto.setAddresses(oldUserDto.getAddresses());
 
         if (result.hasErrors()) {
             model.addAttribute("userDto", userDto);

@@ -24,7 +24,9 @@ public class ProductDto implements Serializable {
     @NotEmpty(message = "message.NotEmpty")
     private String brand;
 
-    private CategoryDto categoryDTO;
+    private CategoryDto category;
+
+    private String categoryString;
 
     @NotNull
     @Min(value = 0)

@@ -1,6 +1,7 @@
 package com.dmitrybondarev.shop.service.impl;
 
 import com.dmitrybondarev.shop.model.Cart;
+import com.dmitrybondarev.shop.model.Category;
 import com.dmitrybondarev.shop.model.Order;
 import com.dmitrybondarev.shop.model.User;
 import com.dmitrybondarev.shop.model.dto.OrderDto;
@@ -14,6 +15,8 @@ import com.dmitrybondarev.shop.service.api.CartService;
 import com.dmitrybondarev.shop.service.api.OrderService;
 import com.dmitrybondarev.shop.service.api.UserService;
 import com.dmitrybondarev.shop.util.MapperUtil;
+import com.dmitrybondarev.shop.util.exception.CategoryNotFoundException;
+import com.dmitrybondarev.shop.util.exception.OrderNotFoundException;
 import com.dmitrybondarev.shop.util.logging.Loggable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,7 +59,7 @@ public class OrderServiceImp implements OrderService {
         orderDto.setStatusOfPayment(StatusOfPayment.WAITING_FOR_PAYMENT);
         Order order = mapperUtil.mapOrderDtoToOrder(orderDto);
 
-        Cart cartByUserEmail = cartService.getCartByUserEmail(orderDto.getUserDto().getEmail());
+        Cart cartByUserEmail = cartService.getCartByUserEmail(orderDto.getUser().getEmail());
         order.setListOfProducts(cartByUserEmail.getProducts());
         orderRepository.save(order);
 
@@ -83,5 +86,24 @@ public class OrderServiceImp implements OrderService {
         User user = userRepository.findByEmail(email).get();
         List<Order> allByUser = orderRepository.findAllByUser(user);
         return allByUser.stream().map(order -> mapperUtil.mapOrderToOrderDto(order)).collect(Collectors.toList());
+    }
+
+    @Override
+    @Loggable
+    @Transactional
+    public OrderDto getOrderDtoById(long orderId) {
+        Optional<Order> optionalOrder = orderRepository.findById(orderId);
+        if (!optionalOrder.isPresent()) throw new OrderNotFoundException("No Order found with id: "+ orderId);
+        Order order = optionalOrder.get();
+        return mapperUtil.mapOrderToOrderDto(order);
+    }
+
+    @Override
+    @Loggable
+    @Transactional
+    public void editOrder(OrderDto orderDto) {
+        throw new UnsupportedOperationException("public void editOrder(OrderDto orderDto) {");
+
+//        TODO IMPLEMENT
     }
 }

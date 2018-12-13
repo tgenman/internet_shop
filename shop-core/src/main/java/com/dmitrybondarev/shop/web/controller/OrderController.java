@@ -75,7 +75,7 @@ public class OrderController {
         UserDto userDto = userService.getUserDtoByEmail(userDetails.getUsername());
 
         Cart cart = cartService.getCartByUserEmail(userDetails.getUsername());
-        Set<AddressDto> allAddressDtos = userDto.getAddressDtos();
+        Set<AddressDto> allAddressDtos = userDto.getAddresses();
 
         model.addAttribute("sum", this.countSum(cart));
         model.addAttribute("cart", cart);
@@ -99,7 +99,7 @@ public class OrderController {
             return "order/newOrder";
         }
 
-        orderDto.setUserDto(
+        orderDto.setUser(
                 userService.getUserDtoByEmail(
                         userDetails.getUsername()));
 

@@ -35,8 +35,6 @@ public class MapperUtil {
         Product product = new Product();
         dozerBeanMapper.map(productDto, product);
 
-        product.setCategory(
-                this.mapCategoryDtoToCategory(productDto.getCategoryDTO()));
         return product;
     }
 
@@ -45,7 +43,7 @@ public class MapperUtil {
         ProductDto productDto = new ProductDto();
         dozerBeanMapper.map(product, productDto);
 
-        productDto.setCategoryDTO(
+        productDto.setCategory(
                 this.mapCategoryToCategoryDto(product.getCategory()));
         return productDto;
     }
@@ -56,7 +54,7 @@ public class MapperUtil {
         dozerBeanMapper.map(productDto, productDtoRest);
 
         productDtoRest.setCategory(
-                productDto.getCategoryDTO().toString());
+                productDto.getCategory().toString());
         return productDtoRest;
     }
 
@@ -65,12 +63,12 @@ public class MapperUtil {
         User user = new User();
         dozerBeanMapper.map(userDto, user);
 
-        if (userDto.getCartDto() == null || userDto.getAddressDtos() == null) return user;
+        if (userDto.getCartDto() == null || userDto.getAddresses() == null) return user;
 
         user.setCart(this.mapCartDtoToCart(userDto.getCartDto()));
 
         user.setAddresses(
-                userDto.getAddressDtos().stream()
+                userDto.getAddresses().stream()
                         .map(this::mapAddressDtoToAddress)
                         .collect(Collectors.toSet()));
 
@@ -86,7 +84,7 @@ public class MapperUtil {
 
         userDto.setCartDto(this.mapCartToCartDto(user.getCart()));
 
-        userDto.setAddressDtos(
+        userDto.setAddresses(
                 user.getAddresses().stream()
                         .map(this::mapAddressToAddressDto)
                         .collect(Collectors.toSet()));
@@ -99,13 +97,13 @@ public class MapperUtil {
         Order order = new Order();
         dozerBeanMapper.map(orderDto, order);
 
-        if (orderDto.getUserDto() == null) return order;
-        User user = this.mapUserDtoToUser(orderDto.getUserDto());
+        if (orderDto.getUser() == null) return order;
+        User user = this.mapUserDtoToUser(orderDto.getUser());
         order.setUser(user);
 
 
-        if (orderDto.getListOfProductDtos() == null) return order;
-        Map<ProductDto, Integer> listOfProductDtos = orderDto.getListOfProductDtos();
+        if (orderDto.getListOfProducts() == null) return order;
+        Map<ProductDto, Integer> listOfProductDtos = orderDto.getListOfProducts();
         Map<Product, Integer> listOfProducts = new HashMap<>();
         for (Map.Entry<ProductDto, Integer> entry : listOfProductDtos.entrySet()) {
             listOfProducts.put(
@@ -135,8 +133,8 @@ public class MapperUtil {
                     entry.getValue());
         }
 
-        orderDto.setUserDto(userDto);
-        orderDto.setListOfProductDtos(listOfProductDtos);
+        orderDto.setUser(userDto);
+        orderDto.setListOfProducts(listOfProductDtos);
 
         return orderDto;
     }
@@ -160,7 +158,7 @@ public class MapperUtil {
         Cart cart = new Cart();
         dozerBeanMapper.map(cartDto, cart);
 
-        Map<ProductDto, Integer> contentDto = cartDto.getContentDto();
+        Map<ProductDto, Integer> contentDto = cartDto.getContent();
         if (contentDto == null) return cart;
 
         Map<Product, Integer> content = new HashMap<>();
@@ -190,7 +188,7 @@ public class MapperUtil {
                     entry.getValue());
         }
 
-        cartDto.setContentDto(contentDto);
+        cartDto.setContent(contentDto);
 
         return cartDto;
     }

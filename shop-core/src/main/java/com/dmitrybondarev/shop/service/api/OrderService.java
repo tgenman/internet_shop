@@ -12,4 +12,7 @@ public interface OrderService {
 
     void createOrder(OrderDto orderDto);
 
+    OrderDto getOrderDtoById(long orderId);
+
+    void editOrder(OrderDto orderDto);
 }

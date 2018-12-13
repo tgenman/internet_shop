@@ -17,7 +17,7 @@ public class OrderDto implements Serializable {
     private Long id;
 
 //    @NotNull
-    private UserDto userDto;
+    private UserDto user;
 
     private int total;
 
@@ -39,5 +39,5 @@ public class OrderDto implements Serializable {
 //    @NotNull
     private StatusOfDelivery statusOfDelivery;
 
-    private Map<ProductDto, Integer> listOfProductDtos;
+    private Map<ProductDto, Integer> listOfProducts;
 }

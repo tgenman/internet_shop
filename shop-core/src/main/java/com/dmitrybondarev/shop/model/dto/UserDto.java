@@ -41,7 +41,7 @@ public class UserDto implements Serializable {
 
     private Date dateOfBirth;
 
-    private Set<AddressDto> addressDtos;
+    private Set<AddressDto> addresses;
 
     private CartDto cartDto;
 
