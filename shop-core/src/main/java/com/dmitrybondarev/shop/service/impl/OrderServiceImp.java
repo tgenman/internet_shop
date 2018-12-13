@@ -1,11 +1,9 @@
 package com.dmitrybondarev.shop.service.impl;
 
 import com.dmitrybondarev.shop.model.Cart;
-import com.dmitrybondarev.shop.model.Category;
 import com.dmitrybondarev.shop.model.Order;
 import com.dmitrybondarev.shop.model.User;
 import com.dmitrybondarev.shop.model.dto.OrderDto;
-import com.dmitrybondarev.shop.model.dto.UserDto;
 import com.dmitrybondarev.shop.model.enums.StatusOfDelivery;
 import com.dmitrybondarev.shop.model.enums.StatusOfPayment;
 import com.dmitrybondarev.shop.repository.CartRepository;
@@ -13,10 +11,9 @@ import com.dmitrybondarev.shop.repository.OrderRepository;
 import com.dmitrybondarev.shop.repository.UserRepository;
 import com.dmitrybondarev.shop.service.api.CartService;
 import com.dmitrybondarev.shop.service.api.OrderService;
-import com.dmitrybondarev.shop.service.api.UserService;
 import com.dmitrybondarev.shop.util.MapperUtil;
-import com.dmitrybondarev.shop.util.exception.CategoryNotFoundException;
 import com.dmitrybondarev.shop.util.exception.OrderNotFoundException;
+import com.dmitrybondarev.shop.util.exception.UserNotFoundException;
 import com.dmitrybondarev.shop.util.logging.Loggable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -83,7 +80,10 @@ public class OrderServiceImp implements OrderService {
     @Loggable
     @Transactional
     public List<OrderDto> getAllOrderDtoByUserEmail(String email) {
-        User user = userRepository.findByEmail(email).get();
+        Optional<User> optionalUser = userRepository.findByEmail(email);
+        if (!optionalUser.isPresent()) throw new UserNotFoundException("Not found user with email: " + email);
+
+        User user = optionalUser.get();
         List<Order> allByUser = orderRepository.findAllByUser(user);
         return allByUser.stream().map(order -> mapperUtil.mapOrderToOrderDto(order)).collect(Collectors.toList());
     }
@@ -105,5 +105,9 @@ public class OrderServiceImp implements OrderService {
         throw new UnsupportedOperationException("public void editOrder(OrderDto orderDto) {");
 
 //        TODO IMPLEMENT
+    }
+
+    public static void main(String[] args) {
+        System.out.println(new Date().getTime());
     }
 }

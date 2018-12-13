@@ -25,9 +25,27 @@ values (2, 'ROLE_USER'),
 insert into address (id, postal_code, country, city, street, building, flat)
 values (1, 123456, 'Russia', 'Saint-Petesburg', 'some', '10', '20'),
        (2, 123457, 'Russia', 'Saint-Petesburg', 'some', '20', '90'),
-       (3, 123458, 'Russia', 'Saint-Petesburg', 'some', '30', '100');
+       (3, 123458, 'Russia', 'Saint-Petesburg', 'some', '30', '100'),
+       (4, 123456, 'Russia', 'Saint-Petesburg', 'some', '10', '20'),
+       (5, 123457, 'Russia', 'Saint-Petesburg', 'some', '20', '90'),
+       (6, 123458, 'Russia', 'Saint-Petesburg', 'some', '30', '100'),
+       (7, 123456, 'Russia', 'Saint-Petesburg', 'some', '10', '20'),
+       (8, 123457, 'Russia', 'Saint-Petesburg', 'some', '20', '90'),
+       (9, 123458, 'Russia', 'Saint-Petesburg', 'some', '30', '100'),
+       (10, 123456, 'Russia', 'Saint-Petesburg', 'some', '10', '20'),
+       (11, 123457, 'Russia', 'Saint-Petesburg', 'some', '20', '90'),
+       (12, 123458, 'Russia', 'Saint-Petesburg', 'some', '30', '100');
 
 insert into user_addresses (user_id, address_id)
-values (3, 1),
+values (1, 1),
+       (1, 2),
+       (1, 3),
+       (2, 1),
+       (2, 2),
+       (2, 3),
+       (3, 1),
        (3, 2),
-       (3, 3);
+       (3, 3),
+       (4, 1),
+       (4, 2),
+       (4, 3);
