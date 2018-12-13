@@ -37,65 +37,77 @@ import java.util.UUID;
 @Controller
 //@RequestMapping("/user")
 public class RegistrationController {
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private ApplicationEventPublisher eventPublisher;
-
     @Autowired
     @Qualifier("messageSource")
     private MessageSource messages;
 
-    @Autowired
+    private UserService userService;
+
+    private ApplicationEventPublisher eventPublisher;
+
     private JavaMailSender mailSender;
 
-    @Autowired
     private UserSecurityService userSecurityService;
+
+    private static final String GO_TO_REGISTRATION_PAGE = "user/registration";
+
+    private static final String USER_DTO = "userDto";
+
+
+    public RegistrationController(UserService userService, ApplicationEventPublisher eventPublisher, JavaMailSender mailSender, UserSecurityService userSecurityService) {
+        this.userService = userService;
+        this.eventPublisher = eventPublisher;
+        this.mailSender = mailSender;
+        this.userSecurityService = userSecurityService;
+    }
+
 
 
     @Loggable
     @GetMapping("/user/registration")
     public String showRegistrationForm(Model model) {
-        UserDto userDto = new UserDto();
-        model.addAttribute("userDto", userDto);
-        return "user/registration";
+        model.addAttribute(USER_DTO, new UserDto());
+        return GO_TO_REGISTRATION_PAGE;
     }
 
     @Loggable
     @PostMapping("/user/registration")
-    public ModelAndView registerUserAccount(
-            @Valid UserDto userDto,
-            BindingResult result,
-            WebRequest request,
-            Errors errors) {
+    public String registerUserAccount(@Valid UserDto userDto,
+                                            BindingResult result,
+                                            Model model,
+                                            WebRequest request) {
 
         if (result.hasErrors()) {
-            return new ModelAndView("user/registration", "userDto", userDto);
+            model.addAttribute(USER_DTO, userDto);
+            return GO_TO_REGISTRATION_PAGE;
         }
 
-        User registered = createUserAccount(userDto, result);
-        if (registered == null) {
+        User registered;
+        try {
+            registered = userService.registerNewUserAccount(userDto);
+        } catch (EmailExistsException e) {
             result.rejectValue("email", "message.regError");
-            return new ModelAndView("user/registration", "userDto", userDto);
-        } else {
-            try {
-                String appUrl = request.getContextPath();
-                eventPublisher.publishEvent(new OnRegistrationCompleteEvent(registered, request.getLocale(), appUrl));
-            } catch (Exception me) {
-                return new ModelAndView("emailError", "user", userDto);
-            }
+            model.addAttribute(USER_DTO, userDto);
+            return GO_TO_REGISTRATION_PAGE;
         }
 
-        return new ModelAndView("redirect:/login");
+        try {
+            String appUrl = request.getContextPath();
+            eventPublisher.publishEvent(new OnRegistrationCompleteEvent(registered, request.getLocale(), appUrl));
+        } catch (Exception me) {
+            model.addAttribute(USER_DTO, userDto);
+            return "emailError";
+        }
+
+        return "redirect:/login";
     }
 
 
     @Loggable
     @GetMapping("/registrationConfirm")
-    public String confirmRegistration
-            (WebRequest request, Model model, @RequestParam("token") String token) {
+    public String confirmRegistration(@RequestParam("token") String token,
+                                      WebRequest request,
+                                      Model model) {
 
         Locale locale = request.getLocale();
 
@@ -167,15 +179,6 @@ public class RegistrationController {
 
 // ============== NON-API ============
 
-    private User createUserAccount(UserDto accountDto, BindingResult result) {
-        User registered = null;
-        try {
-            registered = userService.registerNewUserAccount(accountDto);
-        } catch (EmailExistsException e) {
-            return null;
-        }
-        return registered;
-    }
 
     private SimpleMailMessage constructResendVerificationTokenEmail    //TODO Move to Service
             (String contextPath, Locale locale, VerificationToken newToken, User user) {

@@ -70,20 +70,13 @@ public class Order implements Serializable {
 
     public void setListOfProducts(Map<Product, Integer> i) {
         this.listOfProducts = i;
-        this.createBill();
     }
 
     public Map<Product, Integer> getListOfProducts() {
         return  new HashMap<>();
     }
 
-    private void createBill() {
-        String result = "";
-        for (Map.Entry<Product, Integer> entry : listOfProducts.entrySet()) {
-            result = result + "|"+ entry.getKey() + ":" + entry.getValue();
-        }
-        this.bill = result;
-    }
+
 
 }
 

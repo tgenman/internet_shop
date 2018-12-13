@@ -7,6 +7,7 @@ import com.dmitrybondarev.shop.security.event.OnRegistrationCompleteEvent;
 import com.dmitrybondarev.shop.service.api.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.MessageSource;
 import org.springframework.mail.SimpleMailMessage;
@@ -19,12 +20,16 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
     @Autowired
     private UserService userService;
 
-    @Qualifier("messageSource")
-    @Autowired
-    private MessageSource messages;
-
     @Autowired
     private JavaMailSender mailSender;
+
+    @Autowired
+    @Qualifier("messageSource")
+    private MessageSource messages;
+
+    @Value("${server.port}")
+    private String port;
+
 
     @Override
     public void onApplicationEvent(OnRegistrationCompleteEvent event) {
@@ -46,7 +51,7 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
         email.setTo(recipientAddress);
         email.setSubject(subject);
         email.setFrom("twidder.bot@yandex.ru");
-        email.setText(message + " \n" + "http://localhost:8080" + confirmationUrl);
+        email.setText(message + " \n" + "http://localhost:" + port + confirmationUrl);
         mailSender.send(email);
     }
 }

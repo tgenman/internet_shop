@@ -12,6 +12,7 @@ import com.dmitrybondarev.shop.service.api.UserService;
 import com.dmitrybondarev.shop.util.MapperUtil;
 import com.dmitrybondarev.shop.util.exception.EmailExistsException;
 import com.dmitrybondarev.shop.util.exception.UserNotFoundException;
+import com.dmitrybondarev.shop.util.exception.VerificationTokenNotFoundException;
 import com.dmitrybondarev.shop.util.logging.Loggable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -80,7 +81,9 @@ public class UserServiceImp implements UserService {
     @Loggable
     @Transactional
     public User getUserByVerificationToken(String verificationToken) {
-        return verificationTokenRepository.findByToken(verificationToken).getUser();
+        Optional<VerificationToken> optionalToken = verificationTokenRepository.findByTokenContains(verificationToken);
+        if (!optionalToken.isPresent()) throw new VerificationTokenNotFoundException("Verification token not found by String: " + verificationToken);
+        return optionalToken.get().getUser();
     }
 
     @Override
@@ -95,7 +98,10 @@ public class UserServiceImp implements UserService {
     @Loggable
     @Transactional
     public VerificationToken generateNewVerificationToken(final String existingVerificationToken) {
-        VerificationToken vToken = verificationTokenRepository.findByToken(existingVerificationToken);
+        Optional<VerificationToken> optionalToken = verificationTokenRepository.findByTokenContains(existingVerificationToken);
+        if (!optionalToken.isPresent()) throw new VerificationTokenNotFoundException("Verification token not found by String: " + existingVerificationToken);
+        VerificationToken vToken = optionalToken.get();
+
         vToken.updateToken(UUID.randomUUID().toString());
         verificationTokenRepository.save(vToken);
         return vToken;
@@ -105,7 +111,9 @@ public class UserServiceImp implements UserService {
     @Loggable
     @Transactional
     public VerificationToken getVerificationToken(String verificationToken) {
-        return verificationTokenRepository.findByToken(verificationToken);
+        Optional<VerificationToken> optionalToken = verificationTokenRepository.findByTokenContains(verificationToken);
+        if (!optionalToken.isPresent()) throw new VerificationTokenNotFoundException("Verification token not found by String: " + verificationToken);
+        return optionalToken.get();
     }
 
     @Override

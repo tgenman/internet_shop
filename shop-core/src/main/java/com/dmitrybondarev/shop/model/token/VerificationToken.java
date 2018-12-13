@@ -5,6 +5,7 @@ import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,6 +33,7 @@ public class VerificationToken implements Serializable {
     @JoinColumn(
             nullable = false,
             name = "user_id")
+//            foreignKey = @ForeignKey(name = "FK_VERIFY_USER"))
     private User user;
 
     private String token;

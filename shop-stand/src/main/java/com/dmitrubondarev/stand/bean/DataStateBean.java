@@ -22,7 +22,7 @@ public class DataStateBean {
     private DataStateListener listener = DataStateListener.getInstance();
     private DataLoader dataLoader = DataLoader.getInstance();
 
-    void update() {
+    public void update() {
         logger.info("[START] update()");
         if (!listener.isInitialDataLoaded()) {
             logger.info("[isInitialDataLoaded=false] update()");
