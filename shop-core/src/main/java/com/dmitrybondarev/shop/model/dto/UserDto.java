@@ -39,7 +39,7 @@ public class UserDto implements Serializable {
     @NotEmpty(message = "message.NotEmpty")
     private String lastName;
 
-    private Date dateOfBirth;
+    private String dateOfBirth;
 
     private Set<AddressDto> addresses;
 

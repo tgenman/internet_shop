@@ -28,4 +28,6 @@ public class ProductDtoRest {
     private int dayOfWarranty;
 
     private String filename;
+
+    private boolean advertising;
 }

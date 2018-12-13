@@ -17,6 +17,7 @@ create table product (
     weight integer not null,
     day_of_warranty integer not null,
     filename varchar(255),
+    advertising bit not null,
     primary key (id)
 ) engine=InnoDB;
 
@@ -27,12 +28,13 @@ create table user (
     enabled bit,
     first_name varchar(255),
     last_name varchar(255),
-    date_of_birth datetime,
+    date_of_birth varchar(255),
     primary key (id)
 ) engine=InnoDB;
 
 create table address (
     id bigint not null auto_increment,
+    active bit not null,
     postal_code integer not null,
     country varchar(255),
     city varchar(255),
@@ -60,7 +62,8 @@ create table order_entity (
     id bigint not null auto_increment,
     date_of_order datetime,
     user_id bigint,
-    total integer not null,
+    total integer,
+    bill varchar(255),
     address_string varchar(255),
     status_of_delivery varchar(255),
     status_of_payment varchar(255),

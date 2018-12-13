@@ -1,6 +1,7 @@
 package com.dmitrybondarev.shop.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,6 +13,7 @@ import java.io.Serializable;
 import java.util.Set;
 
 @Data
+@EqualsAndHashCode(of = "id")
 @Entity(name = "Address")
 @Table(name = "address")
 public class Address implements Serializable {
@@ -19,6 +21,8 @@ public class Address implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    private boolean active;
 
     private String country;
 

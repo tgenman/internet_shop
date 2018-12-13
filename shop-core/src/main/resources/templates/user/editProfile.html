@@ -8,24 +8,18 @@
     <div th:replace="parts :: navbar"></div>
 
     <div class="container mt-5">
-        <h2 th:text="${userDto.firstName + ' ' + userDto.lastName}">First name Family name</h2>
+        <h2 th:text="${userEditForm.firstName + ' ' + userEditForm.lastName}">First name Family name</h2>
 
-        <!--/*@thymesVar id="userDto" type="com.dmitrybondarev.shop.model.dto.UserDto"*/-->
-        <form action="/user" th:object="${userDto}" method="POST" enctype="utf8">
-            <div class="form-group row">
-                <label class="col-sm-2 col-form-label"
-                       th:text="#{label.user.email}">email</label>
-                <div class="col-sm-3">
-                    <input type="text" th:field="*{email}" class="form-control" id="inputEmail1"/>
-                </div>
-            </div>
-
+        <!--/*@thymesVar id="userEditForm" type="com.dmitrybondarev.shop.model.dto.userEditForm"*/-->
+        <form action="/user" th:object="${userEditForm}" method="POST" enctype="utf8">
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label"
                        th:text="#{label.user.firstName}">first name</label>
                 <div class="col-sm-3">
                     <input type="text" th:field="*{firstName}" class="form-control" id="inputEmail2"/>
                 </div>
+                <p th:each="error: ${#fields.errors('firstName')}" th:text="#{${error}}"
+                   class="alert alert-danger" role="alert">Validation error</p>
             </div>
 
             <div class="form-group row">
@@ -34,6 +28,8 @@
                 <div class="col-sm-3">
                     <input type="text" th:field="*{lastName}" class="form-control" id="inputEmail3"/>
                 </div>
+                <p th:each="error: ${#fields.errors('lastName')}" th:text="#{${error}}"
+                   class="alert alert-danger" role="alert">Validation error</p>
             </div>
 
             <div class="form-group row">
@@ -42,6 +38,8 @@
                 <div class="col-sm-3">
                     <input type="text" th:field="*{dateOfBirth}" class="form-control" id="inputEmail4"/>
                 </div>
+                <p th:each="error: ${#fields.errors('dateOfBirth')}" th:text="#{${error}}"
+                   class="alert alert-danger" role="alert">Validation error</p>
             </div>
 
             <input type="hidden"
@@ -67,18 +65,14 @@
         <h2 th:text="#{label.form.editProfile.addresses}">Addresses:</h2>
 
         <div class="card-columns">
-            <div class="card" style="width: 18rem;" th:each="address : ${userDto.addresses}">
+            <div class="card" style="width: 18rem;" th:each="address : ${addresses}">
                 <div class="card-body">
                     <h5 class="card-title">Address</h5>
-                    <p class="card-text" th:text="${address.postalCode} + ${address.country}">
-                        ${address.postalCode}
-                        ${address.country}
-                        ${address.city}
-                        ${address.street}
-                        ${address.building}
-                        ${address.flat}
-                    </p>
-                    <a href="#" th:href="/user/address/${address.id}" class="btn btn-warning" th:text="#{label.form.editProfile.buttonEdit}">edit</a>
+                    <p class="card-text"
+                       th:text="${address.postalCode} + ' ' + ${address.country} + ' ' + ${address.city}
+                       + ${address.street} + ' ' + ${address.building} + ' ' + ${address.flat}"> Address </p>
+                    <a class="btn btn-warning btn-sm" href="#" role="button"
+                       th:href="@{'/user/address/' + ${address.id}}" th:text="#{label.form.editProfile.buttonEdit}">edit</a>
                 </div>
             </div>
         </div>

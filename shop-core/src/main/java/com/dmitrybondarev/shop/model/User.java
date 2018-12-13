@@ -52,7 +52,7 @@ public class User implements Serializable {
 
     private String lastName;
 
-    private Date dateOfBirth;
+    private String dateOfBirth;
 
     @ManyToMany(
             cascade = {CascadeType.PERSIST, CascadeType.MERGE},
@@ -63,18 +63,18 @@ public class User implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "address_id"))
     private Set<Address> addresses;
 
+    @OneToOne(mappedBy = "user",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER,
+            optional = false)
+    private Cart cart;
+
     @OneToMany(
             fetch = FetchType.EAGER,
             mappedBy = "user",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
     private Set<Order> orderList;
-
-    @OneToOne(mappedBy = "user",
-            cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER,
-            optional = false)
-    private Cart cart;
 
     @Override
     public String toString() {

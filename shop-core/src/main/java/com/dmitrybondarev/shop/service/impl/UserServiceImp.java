@@ -1,5 +1,6 @@
 package com.dmitrybondarev.shop.service.impl;
 
+import com.dmitrybondarev.shop.model.Address;
 import com.dmitrybondarev.shop.model.User;
 import com.dmitrybondarev.shop.model.dto.UserDto;
 import com.dmitrybondarev.shop.model.token.PasswordResetToken;
@@ -20,7 +21,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImp implements UserService {
@@ -146,6 +149,11 @@ public class UserServiceImp implements UserService {
         Optional<User> optionalUser = userRepository.findByEmail(email);
         if (!optionalUser.isPresent()) throw new UserNotFoundException("No user found with email: "+ email);
         User user = optionalUser.get();
+
+        Set<Address> addresses = user.getAddresses();
+        addresses.stream().filter(Address::isActive).collect(Collectors.toSet());
+        user.setAddresses(addresses);
+
         return mapperUtil.mapUserToUserDto(user);
     }
 
@@ -163,7 +171,13 @@ public class UserServiceImp implements UserService {
     @Loggable
     @Transactional
     public UserDto editUser(UserDto userDto) {
-        User user = mapperUtil.mapUserDtoToUser(userDto);
+        Optional<User> optionalUser = userRepository.findByEmail(userDto.getEmail());
+        if (!optionalUser.isPresent()) throw new UserNotFoundException("User not found with email: " + userDto.getEmail());
+        User user = optionalUser.get();
+        user.setRoles(userDto.getRoles());
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+        user.setDateOfBirth(userDto.getDateOfBirth());
         userRepository.save(user);
         return userDto;
     }

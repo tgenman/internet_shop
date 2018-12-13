@@ -14,7 +14,7 @@ import javax.persistence.Table;
 import java.io.Serializable;
 
 @Data
-//@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(of = "id")
 @Entity(name = "Product")
 @Table(name = "product")
 public class Product implements Serializable {
@@ -46,4 +46,7 @@ public class Product implements Serializable {
     private int quantity;
 
     private String filename;
+
+    private boolean advertising;
+
 }

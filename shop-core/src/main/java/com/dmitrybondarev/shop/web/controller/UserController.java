@@ -1,5 +1,7 @@
 package com.dmitrybondarev.shop.web.controller;
 
+import com.dmitrybondarev.shop.model.dto.UserEditForm;
+import com.dmitrybondarev.shop.util.exception.AddressNotFoundException;
 import com.dmitrybondarev.shop.util.logging.Loggable;
 import com.dmitrybondarev.shop.model.User;
 import com.dmitrybondarev.shop.model.dto.AddressDto;
@@ -7,7 +9,9 @@ import com.dmitrybondarev.shop.model.dto.UserDto;
 import com.dmitrybondarev.shop.model.enums.Role;
 import com.dmitrybondarev.shop.service.api.AddressService;
 import com.dmitrybondarev.shop.service.api.UserService;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,9 +20,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.Arrays;
 import java.util.List;
 
@@ -46,39 +52,44 @@ public class UserController {
 
     @Loggable
     @GetMapping
-    public String showMyUserEditForm(HttpServletRequest request, Model model) {
-        org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public String showMyUserEditForm(@AuthenticationPrincipal UserDetails userDetails,
+                                     HttpServletRequest request,
+                                     Model model) {
 
-        UserDto userDtoByUsername = userService.getUserDtoByEmail(principal.getUsername());
-        userDtoByUsername.setPassword("");
+        UserDto userDto = userService.getUserDtoByEmail(userDetails.getUsername());
 
-        request.getSession().setAttribute("oldUserDto", userDtoByUsername);
+        UserEditForm userEditForm = new UserEditForm();
+        userEditForm.setFirstName(userDto.getFirstName());
+        userEditForm.setLastName(userDto.getLastName());
+        userEditForm.setDateOfBirth(userDto.getDateOfBirth());
 
-        model.addAttribute("userDto", userDtoByUsername);
-        model.addAttribute("actualRoles", userDtoByUsername.getRoles());
-        model.addAttribute("roles", Role.values());
+        request.getSession().setAttribute("oldUserDto", userDto);
 
+        model.addAttribute("userEditForm", userEditForm);
+        model.addAttribute("addresses", addressService.getAllActiveAddressByUserEmail(userDetails.getUsername()));
         return "user/editProfile";
     }
 
     @Loggable
     @PostMapping
-    public String editUser(@ModelAttribute("userDto") @Valid UserDto userDto,
-                                 BindingResult result, HttpServletRequest request, Model model) {
+    public String editUser(@Valid UserEditForm userEditForm,
+                           BindingResult result,
+                           HttpServletRequest request,
+                           Model model) {
+
+        if (result.hasErrors()) {
+            model.addAttribute("userDto", userEditForm);
+            return REDIRECT_TO_PROFILE;
+        }
 
         UserDto oldUserDto = (UserDto) request.getSession().getAttribute("oldUserDto");
 
-        userDto.setId(oldUserDto.getId());
-        userDto.setEnabled(oldUserDto.isEnabled());
-        userDto.setAddresses(oldUserDto.getAddresses());
+        oldUserDto.setFirstName(userEditForm.getFirstName());
+        oldUserDto.setLastName(userEditForm.getLastName());
+        oldUserDto.setDateOfBirth(userEditForm.getDateOfBirth());
 
-        if (result.hasErrors()) {
-            model.addAttribute("userDto", userDto);
-            return REDIRECT_TO_PROFILE;
-        } else {
-            userService.editUser(userDto);
-            return "redirect:/";
-        }
+        userService.editUser(oldUserDto);
+        return "redirect:/";
     }
 
     @Loggable
@@ -90,22 +101,26 @@ public class UserController {
 
     @Loggable
     @PostMapping("/address/new")
-    public String addNewAddress(@ModelAttribute("addressDto") @Valid AddressDto addressDto,
-                                      BindingResult result, Model model) {
+    public String addNewAddress(@Valid AddressDto addressDto,
+                                BindingResult result,
+                                @AuthenticationPrincipal UserDetails userDetails,
+                                Model model) {
         if (result.hasErrors()) {
             model.addAttribute(ADDRESS_DTO, addressDto);
             return "/user/address/newAddress";
-        } else {
-            long id = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
-            addressService.addNewAddress(addressDto, id);
-            return REDIRECT_TO_PROFILE;
         }
+
+        addressDto.setActive(true);
+        addressService.addNewAddress(addressDto, userDetails.getUsername());
+        return REDIRECT_TO_PROFILE;
     }
 
 
     @Loggable
     @GetMapping("/address/{id}")
-    public String showAddressEditForm(@PathVariable long id, HttpServletRequest request, Model model) {
+    public String showAddressEditForm(@PathVariable long id,
+                                      HttpServletRequest request,
+                                      Model model) {
         AddressDto addressDto = addressService.getAddressDtoById(id);
         request.getSession().setAttribute("oldAddressDto", addressDto);
         model.addAttribute(ADDRESS_DTO, addressDto);
@@ -114,8 +129,10 @@ public class UserController {
 
     @Loggable
     @PostMapping("/address/{id}")
-    public String editAddress(@ModelAttribute("addressDto") @Valid AddressDto addressDto,
-                                    BindingResult result, HttpServletRequest request, Model model) {
+    public String editAddress(@Valid AddressDto addressDto,
+                              BindingResult result,
+                              HttpServletRequest request,
+                              Model model) {
         if (result.hasErrors()) {
             model.addAttribute(ADDRESS_DTO, addressDto);
             return "/user/address/editAddress";
@@ -127,11 +144,10 @@ public class UserController {
         }
     }
 
-
-//    @DeleteMapping("/address/{id}")   TODO FIX DELETING
-//    public String removeAddress(@PathVariable long id) {
-//        long idUser = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
-//        addressService.deleteAddress(id, idUser);
-//        return "redirect:/user/";
-//    }
+    @Loggable
+    @PostMapping("/address/{id}/delete")
+    public String inactivateAddress(@PathVariable long id) {
+        addressService.inactivateAddress(id);
+        return REDIRECT_TO_PROFILE;
+    }
 }

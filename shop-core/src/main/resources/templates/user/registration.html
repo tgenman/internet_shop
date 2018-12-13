@@ -19,9 +19,6 @@
                 <div class="col-sm-3">
                     <input type="text" th:field="*{firstName}" class="form-control" id="inputEmail1"/>
                 </div>
-                <!--<div class="alert alert-primary" role="alert">-->
-                    <!--Это основное уведомление — check it out!-->
-                <!--</div>-->
                 <p th:each="error: ${#fields.errors('firstName')}" th:text="#{${error}}"
                       class="alert alert-danger" role="alert">Validation error</p>
             </div>

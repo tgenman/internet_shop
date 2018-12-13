@@ -1,15 +1,15 @@
-insert into order_entity(id, date_of_order, user_id, total, address_string,
+insert into order_entity(id, user_id, total, address_string,
                          status_of_delivery, status_of_payment, type_of_delivery, type_of_payment)
 
-VALUES (1, 1544701234759, 2, 1, 'address', 'WAITING_FOR_SHIPMENT', 'PAID', 'POSTAMAT', 'NONCASH'),
-       (2, 1544701234759, 2, 1, 'address', 'WAITING_FOR_SHIPMENT', 'PAID', 'POSTAMAT', 'NONCASH'),
-       (3, 1544701234759, 2, 1, 'address', 'WAITING_FOR_SHIPMENT', 'PAID', 'POSTAMAT', 'NONCASH'),
-       (4, 1544701234759, 3, 1, 'address', 'WAITING_FOR_SHIPMENT', 'PAID', 'POSTAMAT', 'NONCASH'),
-       (5, 1544701234759, 3, 1, 'address', 'WAITING_FOR_SHIPMENT', 'PAID', 'POSTAMAT', 'NONCASH'),
-       (6, 1544701234759, 3, 1, 'address', 'WAITING_FOR_SHIPMENT', 'PAID', 'POSTAMAT', 'NONCASH'),
-       (7, 1544701234759, 4, 1, 'address', 'WAITING_FOR_SHIPMENT', 'PAID', 'POSTAMAT', 'NONCASH'),
-       (8, 1544701234759, 4, 1, 'address', 'WAITING_FOR_SHIPMENT', 'PAID', 'POSTAMAT', 'NONCASH'),
-       (9, 1544701234759, 4, 1, 'address', 'WAITING_FOR_SHIPMENT', 'PAID', 'POSTAMAT', 'NONCASH');
+VALUES (1, 2, 1, 'address', 'WAITING_FOR_SHIPMENT', 'PAID', 'POSTAMAT', 'NONCASH'),
+       (2, 2, 1, 'address', 'WAITING_FOR_SHIPMENT', 'PAID', 'POSTAMAT', 'NONCASH'),
+       (3, 2, 1, 'address', 'WAITING_FOR_SHIPMENT', 'PAID', 'POSTAMAT', 'NONCASH'),
+       (4, 3, 1, 'address', 'WAITING_FOR_SHIPMENT', 'PAID', 'POSTAMAT', 'NONCASH'),
+       (5, 3, 1, 'address', 'WAITING_FOR_SHIPMENT', 'PAID', 'POSTAMAT', 'NONCASH'),
+       (6, 3, 1, 'address', 'WAITING_FOR_SHIPMENT', 'PAID', 'POSTAMAT', 'NONCASH'),
+       (7, 4, 1, 'address', 'WAITING_FOR_SHIPMENT', 'PAID', 'POSTAMAT', 'NONCASH'),
+       (8, 4, 1, 'address', 'WAITING_FOR_SHIPMENT', 'PAID', 'POSTAMAT', 'NONCASH'),
+       (9, 4, 1, 'address', 'WAITING_FOR_SHIPMENT', 'PAID', 'POSTAMAT', 'NONCASH');
 
 
 

@@ -18,14 +18,18 @@
                 <div class="col-sm-3">
                     <input type="text" th:field="*{postalCode}" class="form-control" id="inputEmail1"/>
                 </div>
+                <p th:each="error: ${#fields.errors('postalCode')}" th:text="#{${error}}"
+                   class="alert alert-danger" role="alert">Validation error</p>
             </div>
 
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label"
                        th:text="#{label.address.country}">Country</label>
                 <div class="col-sm-3">
-                    <input type="text" th:field="*{postalCode}" class="form-control" id="inputEmail2"/>
+                    <input type="text" th:field="*{country}" class="form-control" id="inputEmail2"/>
                 </div>
+                <p th:each="error: ${#fields.errors('country')}" th:text="#{${error}}"
+                   class="alert alert-danger" role="alert">Validation error</p>
             </div>
 
             <div class="form-group row">
@@ -34,6 +38,8 @@
                 <div class="col-sm-3">
                     <input type="text" th:field="*{city}" class="form-control" id="inputEmail3"/>
                 </div>
+                <p th:each="error: ${#fields.errors('city')}" th:text="#{${error}}"
+                   class="alert alert-danger" role="alert">Validation error</p>
             </div>
 
             <div class="form-group row">
@@ -42,6 +48,8 @@
                 <div class="col-sm-3">
                     <input type="text" th:field="*{street}" class="form-control" id="inputEmail4"/>
                 </div>
+                <p th:each="error: ${#fields.errors('street')}" th:text="#{${error}}"
+                   class="alert alert-danger" role="alert">Validation error</p>
             </div>
 
             <div class="form-group row">
@@ -50,7 +58,8 @@
                 <div class="col-sm-3">
                     <input type="text" th:field="*{building}" class="form-control" id="inputEmail5"/>
                 </div>
-
+                <p th:each="error: ${#fields.errors('building')}" th:text="#{${error}}"
+                   class="alert alert-danger" role="alert">Validation error</p>
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label"
@@ -58,6 +67,8 @@
                 <div class="col-sm-3">
                     <input type="text" th:field="*{flat}" class="form-control" id="inputEmail6"/>
                 </div>
+                <p th:each="error: ${#fields.errors('flat')}" th:text="#{${error}}"
+                   class="alert alert-danger" role="alert">Validation error</p>
             </div>
 
             <input type="hidden"

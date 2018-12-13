@@ -5,6 +5,7 @@ import com.dmitrybondarev.shop.model.enums.StatusOfPayment;
 import com.dmitrybondarev.shop.model.enums.TypeOfDelivery;
 import com.dmitrybondarev.shop.model.enums.TypeOfPayment;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
@@ -25,8 +26,10 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 @Data
+@EqualsAndHashCode(of = "id")
 @Entity(name = "Order")
 @Table(name = "order_entity")
 public class Order implements Serializable {
@@ -63,15 +66,24 @@ public class Order implements Serializable {
             joinColumns = @JoinColumn(name = "order_entity_id"))
     private Map<Product, Integer> listOfProducts;
 
+    private String bill;
 
     public void setListOfProducts(Map<Product, Integer> i) {
-
+        this.listOfProducts = i;
+        this.createBill();
     }
 
     public Map<Product, Integer> getListOfProducts() {
-        return  new HashMap<Product, Integer>();
+        return  new HashMap<>();
     }
 
+    private void createBill() {
+        String result = "";
+        for (Map.Entry<Product, Integer> entry : listOfProducts.entrySet()) {
+            result = result + "|"+ entry.getKey() + ":" + entry.getValue();
+        }
+        this.bill = result;
+    }
 
 }
 

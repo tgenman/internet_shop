@@ -1,6 +1,7 @@
 package com.dmitrybondarev.shop.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
@@ -16,6 +17,7 @@ import java.io.Serializable;
 import java.util.Map;
 
 @Data
+@EqualsAndHashCode(of = "id")
 @Entity(name = "Cart")
 @Table(name = "cart")
 public class Cart implements Serializable {
