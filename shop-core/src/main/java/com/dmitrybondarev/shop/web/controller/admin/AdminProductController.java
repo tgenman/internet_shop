@@ -1,8 +1,10 @@
 package com.dmitrybondarev.shop.web.controller.admin;
 
+import com.dmitrybondarev.shop.model.dto.CategoryDto;
 import com.dmitrybondarev.shop.model.dto.ProductDto;
 import com.dmitrybondarev.shop.service.api.CategoryService;
 import com.dmitrybondarev.shop.service.api.ProductService;
+import com.dmitrybondarev.shop.util.exception.CategoryNotFoundException;
 import com.dmitrybondarev.shop.util.exception.ProductExistsException;
 import com.dmitrybondarev.shop.util.logging.Loggable;
 import org.springframework.stereotype.Controller;
@@ -21,10 +23,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/admin/product")
-@SessionAttributes("idProductForEdit")
 public class AdminProductController {
 
     private ProductService productService;
@@ -43,7 +47,14 @@ public class AdminProductController {
     public String showListOfProducts(@RequestParam(required = false, defaultValue = "") String filter,
                                      Model model) {
 
-        model.addAttribute("allProductDto", productService.getAllExistProductDtosByFilter(filter));
+        Map<CategoryDto, List<ProductDto>> productDtos;
+        try {
+            productDtos = productService.getAllExistProductDtosByFilter(filter);
+        } catch (CategoryNotFoundException e) {
+            productDtos = new HashMap<>();
+        }
+
+        model.addAttribute("allProductDto", productDtos);
         return "admin/product/productList";
     }
 
@@ -60,8 +71,7 @@ public class AdminProductController {
             @Valid ProductDto productDto,
             BindingResult result,
             @RequestParam(value = "file") MultipartFile file,
-            Model model,
-            Errors errors) throws IOException {
+            Model model) throws IOException {
 
         if (result.hasErrors()) {
             model.addAttribute(PRODUCT_DTO, productDto);
@@ -84,6 +94,8 @@ public class AdminProductController {
     public String showProductEditForm(@PathVariable long id,
                                       Model model,
                                       HttpSession httpSession) {
+
+        httpSession.removeAttribute("idProductForEdit");
         httpSession.setAttribute("idProductForEdit", id);
         ProductDto productDto = productService.getProductById(id);
         model.addAttribute(PRODUCT_DTO, productDto);
@@ -99,13 +111,13 @@ public class AdminProductController {
             HttpServletRequest request,
             Model model) {
 
+        long idProductForEdit = (Long) request.getSession().getAttribute("idProductForEdit");
+        productDto.setId(idProductForEdit);
+
         if (result.hasErrors()) {
             model.addAttribute(PRODUCT_DTO, productDto);
             return "/admin/product/"+ productDto.getId();
         }
-
-        long idProductForEdit = (Long) request.getSession().getAttribute("idProductForEdit");
-        productDto.setId(idProductForEdit);
 
         productService.editProductInStock(productDto);
         return"redirect:/admin/product";

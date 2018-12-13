@@ -21,7 +21,6 @@ import java.io.IOException;
 
 @Controller
 @RequestMapping("/admin/category")
-@SessionAttributes("idCategoryForEdit")
 public class AdminCategoryController {
 
     private CategoryService categoryService;
@@ -52,8 +51,7 @@ public class AdminCategoryController {
     public String addNewCategory(
             @Valid CategoryDto categoryDto,
             BindingResult result,
-            Model model,
-            Errors errors) throws IOException {
+            Model model){
 
         if (result.hasErrors()) {
             model.addAttribute(CATEGORY_DTO, categoryDto);
@@ -76,7 +74,9 @@ public class AdminCategoryController {
     public String showCategoryEditForm(@PathVariable long id,
                                        Model model,
                                        HttpSession httpSession) {
+        httpSession.removeAttribute("idCategoryForEdit");
         httpSession.setAttribute("idCategoryForEdit", id);
+
         CategoryDto categoryDto = categoryService.getCategoryDtoById(id);
         model.addAttribute(CATEGORY_DTO, categoryDto);
         return "/admin/category/categoryEdit.html";
@@ -89,13 +89,13 @@ public class AdminCategoryController {
                               HttpServletRequest request,
                               Model model) {
 
+        long idCategoryForEdit = (Long) request.getSession().getAttribute("idCategoryForEdit");
+        categoryDto.setId(idCategoryForEdit);
+
         if (result.hasErrors()) {
             model.addAttribute(CATEGORY_DTO, categoryDto);
             return "/admin/category/"+ categoryDto.getId();
         }
-
-        long idCategoryForEdit = (Long) request.getSession().getAttribute("idCategoryForEdit");
-        categoryDto.setId(idCategoryForEdit);
 
         categoryService.editCategory(categoryDto);
         return"redirect:/admin/category";

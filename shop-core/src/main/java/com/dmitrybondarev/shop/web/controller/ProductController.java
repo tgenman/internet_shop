@@ -1,6 +1,9 @@
 package com.dmitrybondarev.shop.web.controller;
 
+import com.dmitrybondarev.shop.model.dto.CategoryDto;
+import com.dmitrybondarev.shop.model.dto.ProductDto;
 import com.dmitrybondarev.shop.service.api.ProductService;
+import com.dmitrybondarev.shop.util.exception.CategoryNotFoundException;
 import com.dmitrybondarev.shop.util.logging.Loggable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,6 +11,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/product")
@@ -23,7 +30,15 @@ public class ProductController {
     @GetMapping
     public String showProductList(@RequestParam(required = false, defaultValue = "") String filter,
                                   Model model) {
-        model.addAttribute("allProductDto", productService.getProductDtosFromStockByFilter(filter));
+
+        Map<CategoryDto, List<ProductDto>> productDtos;
+        try {
+            productDtos = productService.getProductDtosFromStockByFilter(filter);
+        } catch (CategoryNotFoundException e) {
+            productDtos = new HashMap<>();
+        }
+
+        model.addAttribute("allProductDto", productDtos);
         return "product/productList";
     }
 
