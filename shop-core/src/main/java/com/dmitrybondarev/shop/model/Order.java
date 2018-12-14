@@ -6,6 +6,8 @@ import com.dmitrybondarev.shop.model.enums.TypeOfDelivery;
 import com.dmitrybondarev.shop.model.enums.TypeOfPayment;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
@@ -40,6 +42,7 @@ public class Order implements Serializable {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
+    @NotFound(action = NotFoundAction.IGNORE)
     private User user;
 
     private int total;

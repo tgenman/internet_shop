@@ -28,16 +28,16 @@
         <!--/*@thymesVar id="allUserDto" type="java.util.List<com.dmitrybondarev.shop.model.dto.UserDto>"*/-->
         <tr th:each="userDto : ${allUserDto}">
             <td scope="col" th:text="${userDto.email}">email</td>
-            <td scope="col" th:text="${userDto.active}">active</td>
-            <td scope="col" th:each="role : ${userDto.roles}">
-                <span th:text="${role}"></span>
+            <td scope="col" th:text="${userDto.enabled}">active</td>
+            <td scope="col">
+                <span th:each="role : ${userDto.roles}" th:text="${role} + ' '"></span>
             </td>
             <td scope="col" th:text="${userDto.firstName}">first name</td>
             <td scope="col" th:text="${userDto.lastName}">last name</td>
             <td scope="col" th:text="${userDto.dateOfBirth}">date of birth</td>
             <td scope="col">
                 <a class="btn btn-warning btn-sm" href="/admin/user/${userDto.id}" role="button"
-                   th:href="@{/admin/user/${userDto.id}}" th:text="#{label.adminForm.editUser.editButton}">edit</a>
+                   th:href="@{'/admin/user/' + ${userDto.email}}" th:text="#{label.adminForm.editUser.editButton}">edit</a>
             </td>
         </tr>
         </tbody>

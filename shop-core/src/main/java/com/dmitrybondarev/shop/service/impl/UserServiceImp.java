@@ -153,10 +153,8 @@ public class UserServiceImp implements UserService {
     @Override
     @Loggable
     @Transactional
-    public UserDto getUserDtoByEmail(String email) {
-        Optional<User> optionalUser = userRepository.findByEmail(email);
-        if (!optionalUser.isPresent()) throw new UserNotFoundException("No user found with email: "+ email);
-        User user = optionalUser.get();
+    public UserDto getUserDtoByEmail(String userEmail) {
+        User user = this.pullOutUserFromRepositoryByEmail(userEmail);
 
         Set<Address> addresses = user.getAddresses();
         addresses.stream().filter(Address::isActive).collect(Collectors.toSet());
@@ -179,14 +177,23 @@ public class UserServiceImp implements UserService {
     @Loggable
     @Transactional
     public UserDto editUser(UserDto userDto) {
-        Optional<User> optionalUser = userRepository.findByEmail(userDto.getEmail());
-        if (!optionalUser.isPresent()) throw new UserNotFoundException("User not found with email: " + userDto.getEmail());
-        User user = optionalUser.get();
+        User user = this.pullOutUserFromRepositoryByEmail(userDto.getEmail());
+
         user.setRoles(userDto.getRoles());
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
         user.setDateOfBirth(userDto.getDateOfBirth());
         userRepository.save(user);
         return userDto;
+    }
+
+
+//  ============== NON-API =================
+
+    @Loggable
+    private User pullOutUserFromRepositoryByEmail(String userEmail) {
+        Optional<User> optionalUser = userRepository.findByEmail(userEmail);
+        if (!optionalUser.isPresent()) throw new UserNotFoundException("No category found with email: " + userEmail);
+        return optionalUser.get();
     }
 }

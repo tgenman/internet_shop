@@ -72,8 +72,9 @@ public class User implements Serializable {
     @OneToMany(
             fetch = FetchType.EAGER,
             mappedBy = "user",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true)
+            cascade = CascadeType.ALL
+//            orphanRemoval = true
+    )
     private Set<Order> orderList;
 
     @Override

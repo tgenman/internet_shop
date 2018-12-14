@@ -9,4 +9,9 @@ import java.util.List;
 public interface OrderRepository extends CrudRepository<Order, Long> {
 
     List<Order> findAllByUser(User user);
+
+    List<Order> findByStatusOfDeliveryContains(String status);
+
+    List<Order> findAllByTotalGreaterThan(int total);
+
 }

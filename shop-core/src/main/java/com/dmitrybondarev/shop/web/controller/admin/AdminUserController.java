@@ -38,14 +38,14 @@ public class AdminUserController {
     }
 
     @Loggable
-    @GetMapping("/{id}")
-    public String showUserEditForm(@PathVariable long id,
+    @GetMapping("/{email}")
+    public String showUserEditForm(@PathVariable String email,
                                    Model model,
                                    HttpSession httpSession) {
         httpSession.removeAttribute("idUserForEdit");
-        httpSession.setAttribute("idUserForEdit", id);
+        httpSession.setAttribute("emailUserForEdit", email);
 
-        UserDto userDtoByUsername = userService.getUserDtoById(id);
+        UserDto userDtoByUsername = userService.getUserDtoByEmail(email);
 
         model.addAttribute("userDto", userDtoByUsername);
         model.addAttribute("roles", Role.values());
@@ -59,13 +59,15 @@ public class AdminUserController {
                            BindingResult result,
                            HttpServletRequest request,
                            Model model) {
-        long idUserForEdit = (Long) request.getSession().getAttribute("idUserForEdit");
-        userDto.setId(idUserForEdit);
+        String emailUserForEdit = (String) request.getSession().getAttribute("emailUserForEdit");
+        userDto.setEmail(emailUserForEdit);
 
         if (result.hasErrors()) {
             model.addAttribute("userDto", userDto);
             return "/admin/category/"+ userDto.getId();
         }
+
+        userService.editUser(userDto);
 
         return "admin/user/userEdit";
     }

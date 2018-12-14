@@ -70,7 +70,7 @@ public class OrderServiceImp implements OrderService {
         order.setTotal(this.calculateTotal(orderDto.getUser().getCartDto().getContent()));
 
 
-        Cart cartByUserEmail = cartService.getCartByUserEmail(orderDto.getUser().getEmail());
+        Cart cartByUserEmail = cartService.getCartByUserEmail(orderDto.getUser().getEmail(), "q");
         Map<Product, Integer> products = cartByUserEmail.getProducts();
         order.setListOfProducts(products);
         orderRepository.save(order);
@@ -90,7 +90,12 @@ public class OrderServiceImp implements OrderService {
     @Loggable
     @Transactional
     public List<OrderDto> getAllOrderDto() {
+//        Optional<User> byId = userRepository.findById((long) 2);
+//        User userById1 = userRepository.findUserById1(2);
+
         Iterable<Order> all = orderRepository.findAll();
+
+//        List<Order> all = orderRepository.findAllByTotalGreaterThan(0);
         List<OrderDto> orderDtos = new ArrayList<>();
         for (Order order : all) {
             orderDtos.add(mapperUtil.mapOrderToOrderDto(order));
@@ -114,8 +119,10 @@ public class OrderServiceImp implements OrderService {
     @Loggable
     @Transactional
     public OrderDto getOrderDtoById(long orderId) {
+
         Optional<Order> optionalOrder = orderRepository.findById(orderId);
         if (!optionalOrder.isPresent()) throw new OrderNotFoundException("No Order found with id: "+ orderId);
+
         Order order = optionalOrder.get();
         return mapperUtil.mapOrderToOrderDto(order);
     }
@@ -128,6 +135,9 @@ public class OrderServiceImp implements OrderService {
 
 //        TODO IMPLEMENT
     }
+
+
+//  ================= NON-API =====================
 
     @Loggable
     private String createBill(Map<ProductDto, Integer> listOfProducts) {

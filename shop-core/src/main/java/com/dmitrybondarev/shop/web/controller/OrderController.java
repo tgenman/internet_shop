@@ -74,7 +74,7 @@ public class OrderController {
 
         UserDto userDto = userService.getUserDtoByEmail(userDetails.getUsername());
 
-        Cart cart = cartService.getCartByUserEmail(userDetails.getUsername());
+        Cart cart = cartService.getCartByUserEmail(userDetails.getUsername(), "q");
         Set<AddressDto> allAddressDtos = userDto.getAddresses();
 
         model.addAttribute("sum", this.countSum(cart));
@@ -91,7 +91,7 @@ public class OrderController {
     @Loggable
     @PostMapping("/new")
     public String createNewOrder(OrderDto orderDto,
-                                 BindingResult result, Errors errors,
+                                 BindingResult result,
                                  @AuthenticationPrincipal UserDetails userDetails,
                                  Model model) {
         if (result.hasErrors()) {

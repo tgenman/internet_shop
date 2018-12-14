@@ -12,7 +12,7 @@
 
 
     <!--/*@thymesVar id="userDto" type="com.dmitrybondarev.shop.model.dto.UserDto"*/-->
-    <form action="admin/user/{id}" th:object="${userDto}" method="POST" enctype="utf8">
+    <form action="/" th:object="${userDto}" method="get" enctype="utf8">
         <div class="form-group row">
             <label class="col-sm-2 col-form-label"
                    th:text="#{label.user.firstName}">First name</label>
@@ -26,15 +26,8 @@
             <label class="col-sm-2 col-form-label"
                    th:text="#{label.user.lastName}">Last name</label>
             <div class="col-sm-3">
-                <input type="text" th:field="*{lastName}" class="form-control" id="inputEmail2"/>
-            </div>
-        </div>
-
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label"
-                   th:text="#{label.user.email}">email</label>
-            <div class="col-sm-3">
-                <input type="text" th:field="*{email}" class="form-control" id="inputEmail3"/>
+                <label class="col-sm-2 col-form-label"
+                       th:text="*{lastName}"></label>
             </div>
         </div>
 
@@ -42,7 +35,29 @@
             <label class="col-sm-2 col-form-label"
                    th:text="#{label.user.dateOfBirth}">date of birth</label>
             <div class="col-sm-3">
-                <input type="text" th:field="*{dateOfBirth}" class="form-control" id="inputEmail4"/>
+                <label class="col-sm-2 col-form-label"
+                       th:text="*{dateOfBirth}"></label>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label"
+                   th:text="#{label.user.email}">email</label>
+            <div class="col-sm-3">
+                <label class="col-sm-2 col-form-label"
+                       th:text="*{email}"></label>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label"
+                   th:text="#{label.user.activity}">Active</label>
+            <div class="col-sm-3">
+                <select th:field="*{enabled}">
+                    <!--<option th:value="true">Select Activity</option>-->
+                    <option th:value="true"> Active</option>
+                    <option th:value="false"> Not Active</option>
+                </select>
             </div>
         </div>
 

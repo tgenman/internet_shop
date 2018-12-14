@@ -50,7 +50,7 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
         SimpleMailMessage email = new SimpleMailMessage();
         email.setTo(recipientAddress);
         email.setSubject(subject);
-        email.setFrom("twidder.bot@yandex.ru");
+        email.setFrom("shoptsystems@yandex.ru");
         email.setText(message + " \n" + "http://localhost:" + port + confirmationUrl);
         mailSender.send(email);
     }

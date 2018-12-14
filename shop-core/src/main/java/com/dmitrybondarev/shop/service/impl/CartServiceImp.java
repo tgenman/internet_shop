@@ -19,6 +19,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class CartServiceImp implements CartService {
@@ -40,14 +41,14 @@ public class CartServiceImp implements CartService {
     @Override
     @Loggable
     @Transactional
-    public Cart getCartByUserEmail(String emailUser) {
+    public Cart getCartByUserEmail(String emailUser, String cartUID) {
         Optional<User> optionalUser = userRepository.findByEmail(emailUser);
         if (!optionalUser.isPresent()) throw new UserNotFoundException("No user found with email: "+ emailUser);
         User user = optionalUser.get();
 
         Cart cart = this.checkCartFromUserAndInit(user);
 
-        this.checkHavingUnauthorizedCart(cart);
+        this.checkHavingUnauthorizedCart(cart, cartUID);
 
         return cart;
     }
@@ -55,13 +56,14 @@ public class CartServiceImp implements CartService {
     @Override
     @Loggable
     @Transactional
-    public Cart getCartByBySessionId(String sessionId) {
-        Optional<Cart> optionalCart = cartRepository.findBySessionId(sessionId);
+    public Cart getCartByByCardUID(String cartUID) {
+
+        Optional<Cart> optionalCart = cartRepository.findBySessionId(cartUID);
 
         if (!optionalCart.isPresent()) {
             Cart newCart = new Cart();
             newCart.setUser(null);
-            newCart.setSessionId(sessionId);
+            newCart.setSessionId(cartUID);
             newCart.setProducts(new HashMap<>());
             return cartRepository.save(newCart);
         }
@@ -71,7 +73,7 @@ public class CartServiceImp implements CartService {
     @Override
     @Loggable
     @Transactional
-    public void modificationCartByUserEmail(String emailUser, long productId, int amount) {
+    public void modificationCartByUserEmail(String emailUser, long productId, int amount, String cartUID) {
         Optional<User> optionalUser = userRepository.findByEmail(emailUser);
         Optional<Product> optionalProduct = productRepository.findById(productId);
         if (!optionalUser.isPresent()) throw new UserNotFoundException("No user found with email: "+ emailUser);
@@ -82,7 +84,7 @@ public class CartServiceImp implements CartService {
 
         Cart cart = this.checkCartFromUserAndInit(user);
 
-        this.checkHavingUnauthorizedCart(cart);
+        this.checkHavingUnauthorizedCart(cart, cartUID);
 
         this.modificationProductAmount(cart, product, amount);
         cart.setSessionId(null);
@@ -91,17 +93,17 @@ public class CartServiceImp implements CartService {
     }
 
     @Override
-    public void modificationCartBySessionId(String sessionId, long productId, int amount) {
+    public void modificationCartByCartId(String cartUid, long productId, int amount) {
         Optional<Product> optionalProduct = productRepository.findById(productId);
         if (!optionalProduct.isPresent()) throw new ProductNotFoundException("No product found with id: "+ productId);
         Product product = optionalProduct.get();
 
-        Optional<Cart> optionalCart = cartRepository.findBySessionId(sessionId);
+        Optional<Cart> optionalCart = cartRepository.findBySessionId(cartUid);
         Cart cart = optionalCart.orElseGet(Cart::new);
 
         this.modificationProductAmount(cart, product, amount);
         cart.setUser(null);
-        cart.setSessionId(sessionId);
+        cart.setSessionId(cartUid);
         cartRepository.save(cart);
     }
 
@@ -129,11 +131,10 @@ public class CartServiceImp implements CartService {
         }
     }
 
-    private void checkHavingUnauthorizedCart(Cart authorizedCart) {
-        String sessionId = RequestContextHolder.currentRequestAttributes().getSessionId();
-        Optional<Cart> optionalCart = cartRepository.findBySessionId(sessionId);
+    private void checkHavingUnauthorizedCart(Cart authorizedCart, String cartUID) {
+        Optional<Cart> optionalCart = cartRepository.findBySessionId(cartUID);
 
-        optionalCart.ifPresent(cartBySessionId -> this.mergeCarts(authorizedCart, cartBySessionId));
+        optionalCart.ifPresent(cartByCartUID -> this.mergeCarts(authorizedCart, cartByCartUID));
     }
 
     private void mergeCarts(Cart authorizedCart, Cart sessionCart) {

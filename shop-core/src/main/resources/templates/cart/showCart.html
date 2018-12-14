@@ -38,11 +38,17 @@
                 <td scope="col" th:text="${cart.getProducts().get(product)}">quantity</td>
                 <td scope="col" th:text="${cart.getProducts().get(product)} * ${product.price}">quantity</td>
                 <td scope="col">
-                    <form action="#" th:action="@{'/cart/delete/' + ${product.id}}"  method="post">
-                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                        <input type="submit" class="btn btn-warning btn-sm" th:text="#{label.cart.show.removeProduct}">
-                        <!--<input type="submit" class="btn btn-warning btn-sm" value="Remove">-->
-                    </form>
+                    <a th:text="#{label.cart.show.removeProduct}"
+                       href="#"
+                       th:href="@{'/cart/delete/' + ${product.id}}"
+                       role="button"
+                       class="btn btn-primary mr-2 my-2 my-sm-0">Remove</a>
+
+                    <!--<form action="#" th:action="@{'/cart/delete/' + ${product.id}}"  method="post">-->
+                        <!--<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>-->
+                        <!--<input type="submit" class="btn btn-warning btn-sm" th:text="#{label.cart.show.removeProduct}">-->
+                        <!--&lt;!&ndash;<input type="submit" class="btn btn-warning btn-sm" value="Remove">&ndash;&gt;-->
+                    <!--</form>-->
                 </td>
             </tr>
             <tr>

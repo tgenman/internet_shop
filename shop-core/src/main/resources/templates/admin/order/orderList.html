@@ -14,7 +14,7 @@
         <thead>
             <tr>
                 <th scope="col" th:text="#{label.order.id}">num.</th>
-                <th scope="col" th:text="#{label.order.user}">username</th>
+                <!--<th scope="col" th:text="#{label.order.user}">username</th>-->
                 <th scope="col" th:text="#{label.order.address}">address</th>
                 <th scope="col" th:text="#{label.order.dateOfOrder}">dateOfOrder</th>
                 <th scope="col" th:text="#{label.order.typeOfPayment}">typeOfPayment</th>
@@ -29,8 +29,8 @@
             <!--/*@thymesVar id="allOrderDto" type="java.util.List<com.dmitrybondarev.shop.model.dto.OrderDto>"*/-->
             <tr th:each="orderDto : ${allOrderDto}">
                 <td scope="col" th:text="${orderDto.id}">num.</td>
-                <td scope="col" th:text="${orderDto.user.firstName} ${orderDto.user.lastName}">name</td>
-                <td scope="col" th:text="${orderDto.address}">address</td>
+                <!--<td scope="col" th:text="${orderDto.user.firstName} + '' + ${orderDto.user.lastName}">name</td>-->
+                <td scope="col" th:text="${orderDto.addressString}">address</td>
                 <td scope="col" th:text="${orderDto.dateOfOrder}">date</td>
                 <td scope="col" th:text="${orderDto.typeOfPayment}">type of payment</td>
                 <td scope="col" th:text="${orderDto.statusOfPayment}">status of payment</td>
@@ -38,7 +38,7 @@
                 <td scope="col" th:text="${orderDto.statusOfDelivery}">status of delivery</td>
                 <td scope="col">
                     <a class="btn btn-warning btn-sm" href="/admin/order/${orderDto}" role="button"
-                       th:href="@{/admin/order/${orderDto}}" th:text="#{label.adminForm.editOrder.editButton}">edit</a>
+                       th:href="@{'/admin/order/' + ${orderDto}}" th:text="#{label.adminForm.editOrder.editButton}">edit</a>
                 </td>
             </tr>
         </tbody>

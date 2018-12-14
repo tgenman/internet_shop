@@ -5,11 +5,11 @@ import com.dmitrybondarev.shop.model.dto.CartDto;
 
 public interface CartService {
 
-    Cart getCartByUserEmail(String emailUser);
+    Cart getCartByUserEmail(String emailUser, String cartUID);
 
-    Cart getCartByBySessionId(String sessionId);
+    Cart getCartByByCardUID(String sessionId);
 
-    void modificationCartByUserEmail(String userEmail, long productId, int amount);
+    void modificationCartByUserEmail(String userEmail, long productId, int amount, String cardUID);
 
-    void modificationCartBySessionId(String sessionId, long productId, int amount);
+    void modificationCartByCartId(String cartUID, long productId, int amount);
 }
