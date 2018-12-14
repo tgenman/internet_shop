@@ -3,7 +3,10 @@ package com.dmitrybondarev.shop.service.api;
 import com.dmitrybondarev.shop.model.Category;
 import com.dmitrybondarev.shop.model.dto.CategoryDto;
 import com.dmitrybondarev.shop.model.dto.ProductDto;
+import com.dmitrybondarev.shop.model.dto.rest.ProductDtoRest;
 import com.dmitrybondarev.shop.util.exception.ProductExistsException;
+import com.dmitrybondarev.shop.util.logging.Loggable;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -26,4 +29,5 @@ public interface ProductService {
 
     void activateProduct(long productId);
 
+    List<ProductDtoRest> getListAllAdvertisingProductDtoRest();
 }

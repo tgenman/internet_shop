@@ -4,6 +4,7 @@ import com.dmitrybondarev.shop.model.Category;
 import com.dmitrybondarev.shop.model.Product;
 import com.dmitrybondarev.shop.model.dto.CategoryDto;
 import com.dmitrybondarev.shop.model.dto.ProductDto;
+import com.dmitrybondarev.shop.model.dto.rest.ProductDtoRest;
 import com.dmitrybondarev.shop.repository.CategoryRepository;
 import com.dmitrybondarev.shop.repository.ProductRepository;
 import com.dmitrybondarev.shop.service.api.ProductService;
@@ -12,6 +13,7 @@ import com.dmitrybondarev.shop.util.exception.CategoryNotFoundException;
 import com.dmitrybondarev.shop.util.exception.ProductExistsException;
 import com.dmitrybondarev.shop.util.exception.ProductNotFoundException;
 import com.dmitrybondarev.shop.util.logging.Loggable;
+import com.dmitrybondarev.shop.util.mq.MessageEmitter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,11 +23,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -38,13 +38,16 @@ public class ProductServiceImp implements ProductService {
 
     private MapperUtil mapperUtil;
 
+    private MessageEmitter messageEmitter;
+
     @Value("${upload.path}")
     private String uploadPath;
 
-    public ProductServiceImp(ProductRepository productRepository, CategoryRepository categoryRepository, MapperUtil mapperUtil) {
+    public ProductServiceImp(ProductRepository productRepository, CategoryRepository categoryRepository, MapperUtil mapperUtil, MessageEmitter messageEmitter) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
         this.mapperUtil = mapperUtil;
+        this.messageEmitter = messageEmitter;
     }
 
     @Override
@@ -63,6 +66,8 @@ public class ProductServiceImp implements ProductService {
 
         product.setId(null);
         productRepository.save(product);
+
+        messageEmitter.produceMessage("Top");
     }
 
     @Override
@@ -84,6 +89,8 @@ public class ProductServiceImp implements ProductService {
         product.setCategory(category);
 
         productRepository.save(product);
+
+        messageEmitter.produceMessage("Top");
     }
 
     @Override
@@ -142,7 +149,23 @@ public class ProductServiceImp implements ProductService {
         productRepository.save(product);
     }
 
+    @Override
+    @Loggable
+    @Transactional
+    public List<ProductDtoRest> getListAllAdvertisingProductDtoRest() {
+        List<Product> products = productRepository.findAllByAdvertisingTrueAndActiveTrue();
+        return this.convertListProductsToProductDtoResrs(products);
+    }
+
     // ============== NON-API ============
+
+    @Loggable
+    private List<ProductDtoRest> convertListProductsToProductDtoResrs(List<Product> products) {
+        return products.stream()
+                    .map(product -> mapperUtil.mapProductToProductDto(product))
+                    .map(productDto -> mapperUtil.mapProductDtoToProductDtoRest(productDto))
+                    .collect(Collectors.toList());
+    }
 
     @Loggable
     private Map<CategoryDto, List<ProductDto>> convertListProductsToMapProductDtos(List<Product> products) {
@@ -163,9 +186,6 @@ public class ProductServiceImp implements ProductService {
         }
         return map;
     }
-
-
-//  ================= NON-API =============
 
     @Loggable
     private Product pullOutProductFromRepository(long productId) {
