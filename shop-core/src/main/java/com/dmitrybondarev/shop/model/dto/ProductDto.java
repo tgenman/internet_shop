@@ -14,7 +14,7 @@ public class ProductDto implements Serializable {
 
     private Long id;
 
-    private boolean active;
+    private Boolean active;
 
     @NotNull
     @NotEmpty(message = "message.NotEmpty")

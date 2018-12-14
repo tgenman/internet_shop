@@ -20,7 +20,7 @@ public interface ProductService {
 
     ProductDto getProductById(long productId);
 
-    void editProductInStock(ProductDto productDto);
+    void editProductInStock(ProductDto productDto, MultipartFile file) throws ProductExistsException, IOException;
 
     void inactivateProduct(long productId);
 

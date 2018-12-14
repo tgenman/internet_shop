@@ -51,24 +51,38 @@ public class ProductServiceImp implements ProductService {
     @Loggable
     @Transactional
     public void addNewProductToStock(ProductDto productDto, MultipartFile file) throws ProductExistsException, IOException {
-        Optional<Product> optionalProduct = productRepository.findByTitleAndBrand(productDto.getTitle(), productDto.getBrand());
-        if (optionalProduct.isPresent())
-            throw new ProductExistsException("There is a product with that title: " + productDto.getTitle() + " and brand: " + productDto.getBrand());
+        this.checkExistenceProductWithTitleAndBrand(productDto);
 
-        if (file != null && !file.getOriginalFilename().isEmpty()) {
-            File uploadDir = new File(uploadPath);
-            if (!uploadDir.exists()) uploadDir.mkdir();
-            String uuidFile = UUID.randomUUID().toString();
-            String resultFilename = uuidFile + "." + file.getOriginalFilename();
-            file.transferTo(new File(uploadPath + "/" + resultFilename));
-            productDto.setFilename(resultFilename);
-        }
+        if (file != null && !file.getOriginalFilename().isEmpty())
+            productDto.setFilename(this.saveFile(file));
 
         Product product = mapperUtil.mapProductDtoToProduct(productDto);
 
-        Optional<Category> byCategoryNameContains = categoryRepository.findByCategoryNameContains(productDto.getCategoryString());
-        product.setCategory(byCategoryNameContains.get());
+        Category category = this.pullOutCategoryFromRepositoryByName(productDto.getCategoryString());
+        product.setCategory(category);
+
         product.setId(null);
+        productRepository.save(product);
+    }
+
+    @Override
+    @Loggable
+    @Transactional
+    public void editProductInStock(ProductDto productDto, MultipartFile file) throws ProductExistsException, IOException {
+        Product oldProduct = this.pullOutProductFromRepository(productDto.getId());
+
+        if (file != null && !file.getOriginalFilename().isEmpty()) {
+            productDto.setFilename(this.saveFile(file));
+        } else {
+            productDto.setFilename(oldProduct.getFilename());
+        }
+
+
+        Product product = mapperUtil.mapProductDtoToProduct(productDto);
+
+        Category category = this.pullOutCategoryFromRepositoryByName(productDto.getCategoryString());
+        product.setCategory(category);
+
         productRepository.save(product);
     }
 
@@ -81,9 +95,7 @@ public class ProductServiceImp implements ProductService {
                     productRepository.findAll());
         }
 
-        Optional<Category> optionalCategory = categoryRepository.findByCategoryNameContains(filter);
-        if (!optionalCategory.isPresent()) throw new CategoryNotFoundException("No category found with name: " + filter);
-        Category category = optionalCategory.get();
+        Category category = this.pullOutCategoryFromRepositoryByName(filter);
 
         List<Product> products = productRepository.findAllByCategory(category);
         return this.convertListProductsToMapProductDtos(products);
@@ -93,18 +105,14 @@ public class ProductServiceImp implements ProductService {
     @Loggable
     @Transactional
     public Map<CategoryDto, List<ProductDto>> getProductDtosFromStockByFilter(String filter) {
-        if (filter == null || filter.isEmpty()) {
+        if (filter == null || filter.isEmpty() || filter.equals("All")) {
             return this.convertListProductsToMapProductDtos(
                     productRepository.findAllByActiveTrueAndQuantityGreaterThan(0));
         }
 
-        Optional<Category> optionalCategory = categoryRepository.findByCategoryNameContains(filter);
-//        List<Category> listCategories = categoryRepository.findAllByCategoryNameContains(filter);
-        if (!optionalCategory.isPresent()) throw new CategoryNotFoundException("No category found with name: " + filter);
-        Category category = optionalCategory.get();
+        Category category = this.pullOutCategoryFromRepositoryByName(filter);
 
         List<Product> products = productRepository.findAllByActiveTrueAndCategoryAndQuantityGreaterThan(category, 0);
-//        List<Product> products = productRepository.findAllByActiveTrueAndCategoryAndQuantityGreaterThan(listCategories, 0);
         return this.convertListProductsToMapProductDtos(products);
     }
 
@@ -114,16 +122,6 @@ public class ProductServiceImp implements ProductService {
     public ProductDto getProductById(long productId) {
         Product product = this.pullOutProductFromRepository(productId);
         return mapperUtil.mapProductToProductDto(product);
-    }
-
-    @Override
-    @Loggable
-    @Transactional
-    public void editProductInStock(ProductDto productDto) {
-        this.pullOutProductFromRepository(productDto.getId());
-        Product product = mapperUtil.mapProductDtoToProduct(productDto);
-        categoryRepository.save(product.getCategory());
-        productRepository.save(product);
     }
 
     @Override
@@ -166,10 +164,37 @@ public class ProductServiceImp implements ProductService {
         return map;
     }
 
+
+//  ================= NON-API =============
+
     @Loggable
     private Product pullOutProductFromRepository(long productId) {
         Optional<Product> optionalProduct = productRepository.findById(productId);
         if (!optionalProduct.isPresent()) throw new ProductNotFoundException("No product found with id: "+ productId);
         return optionalProduct.get();
+    }
+
+    @Loggable
+    private Category pullOutCategoryFromRepositoryByName(String categoryName) {
+        Optional<Category> optionalCategory = categoryRepository.findByCategoryNameContains(categoryName);
+        if (!optionalCategory.isPresent()) throw new CategoryNotFoundException("No category found with name: " + categoryName);
+        return optionalCategory.get();
+    }
+
+    @Loggable
+    private void checkExistenceProductWithTitleAndBrand(ProductDto productDto) throws ProductExistsException {
+        Optional<Product> optionalProduct = productRepository.findByTitleAndBrand(productDto.getTitle(), productDto.getBrand());
+        if (optionalProduct.isPresent())
+            throw new ProductExistsException("There is a product with that title: " + productDto.getTitle() + " and brand: " + productDto.getBrand());
+    }
+
+    @Loggable
+    private String saveFile(MultipartFile file) throws IOException {
+        File uploadDir = new File(uploadPath);
+        if (!uploadDir.exists()) uploadDir.mkdir();
+        String uuidFile = UUID.randomUUID().toString();
+        String resultFilename = uuidFile + "." + file.getOriginalFilename();
+        file.transferTo(new File(uploadPath + "/" + resultFilename));
+        return resultFilename;
     }
 }

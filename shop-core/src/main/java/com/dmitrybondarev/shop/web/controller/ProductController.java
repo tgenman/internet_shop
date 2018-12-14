@@ -2,6 +2,7 @@ package com.dmitrybondarev.shop.web.controller;
 
 import com.dmitrybondarev.shop.model.dto.CategoryDto;
 import com.dmitrybondarev.shop.model.dto.ProductDto;
+import com.dmitrybondarev.shop.service.api.CategoryService;
 import com.dmitrybondarev.shop.service.api.ProductService;
 import com.dmitrybondarev.shop.util.exception.CategoryNotFoundException;
 import com.dmitrybondarev.shop.util.logging.Loggable;
@@ -22,8 +23,11 @@ public class ProductController {
 
     private ProductService productService;
 
-    public ProductController(ProductService productService) {
+    private CategoryService categoryService;
+
+    public ProductController(ProductService productService, CategoryService categoryService) {
         this.productService = productService;
+        this.categoryService = categoryService;
     }
 
     @Loggable
@@ -37,8 +41,10 @@ public class ProductController {
         } catch (CategoryNotFoundException e) {
             productDtos = new HashMap<>();
         }
-
         model.addAttribute("allProductDto", productDtos);
+
+        List<CategoryDto> allCategoryDto = categoryService.getAllCategoryDto();
+        model.addAttribute("allCategoryDto", allCategoryDto);
         return "product/productList";
     }
 

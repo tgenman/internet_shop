@@ -11,7 +11,7 @@
     <h2 th:text="#{label.form.editAddress.title}">Edit address</h2>
 
     <!--/*@thymesVar id="addressDto" type="com.dmitrybondarev.shop.model.dto.AddressDto"*/-->
-    <form action="/user/address/${addressDto.id}" th:object="${addressDto}" method="POST" enctype="utf8">
+    <form action="#" th:action="'/user/address/' + ${addressDto.id}" th:object="${addressDto}" method="POST" enctype="utf8">
         <div class="form-group row">
             <label class="col-sm-2 col-form-label"
                    th:text="#{label.address.postalCode}">Postal Code</label>

@@ -35,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                    .antMatchers("/","/product","/product/*", "/cart", "/cart/**", "/user/registration",
+                    .antMatchers("/","/product","/product/**", "/cart", "/cart/**", "/user/registration",
                             "/registrationConfirm", "/static/**", "/img/**", "/api/product/list").permitAll()
                     .antMatchers("/user/updatePassword*", "/user/savePassword*",
                         "/updatePassword*").hasAuthority("CHANGE_PASSWORD_PRIVILEGE")

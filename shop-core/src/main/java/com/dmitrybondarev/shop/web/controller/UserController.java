@@ -139,6 +139,7 @@ public class UserController {
         } else {
             AddressDto oldAddressDto = (AddressDto) request.getSession().getAttribute("oldAddressDto");
             addressDto.setId(oldAddressDto.getId());
+            addressDto.setActive(true);
             addressService.editAddress(addressDto);
             return REDIRECT_TO_PROFILE;
         }

@@ -10,13 +10,11 @@ import com.dmitrybondarev.shop.util.logging.Loggable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -55,6 +53,9 @@ public class AdminProductController {
         }
 
         model.addAttribute("allProductDto", productDtos);
+
+        List<CategoryDto> allCategoryDto = categoryService.getAllCategoryDto();
+        model.addAttribute("allCategoryDto", allCategoryDto);
         return "admin/product/productList";
     }
 
@@ -102,7 +103,7 @@ public class AdminProductController {
         httpSession.setAttribute("idProductForEdit", id);
         ProductDto productDto = productService.getProductById(id);
         model.addAttribute(PRODUCT_DTO, productDto);
-        model.addAttribute("allCategoriesDto", categoryService.getAllCategoryDto());
+        model.addAttribute("allCategoryDto", categoryService.getAllCategoryDto());
         return "/admin/product/productEdit.html";
     }
 
@@ -111,8 +112,9 @@ public class AdminProductController {
     public String editProduct(
             @Valid ProductDto productDto,
             BindingResult result,
+            @RequestParam(value = "file") MultipartFile file,
             HttpServletRequest request,
-            Model model) {
+            Model model) throws IOException {
 
         long idProductForEdit = (Long) request.getSession().getAttribute("idProductForEdit");
         productDto.setId(idProductForEdit);
@@ -122,7 +124,14 @@ public class AdminProductController {
             return "/admin/product/"+ productDto.getId();
         }
 
-        productService.editProductInStock(productDto);
+        try {
+            productService.editProductInStock(productDto, file);
+        } catch (ProductExistsException e) {
+            result.rejectValue("product", "message.regError");
+            model.addAttribute(PRODUCT_DTO, productDto);
+            return "/admin/product/" + idProductForEdit;
+        }
+
         return"redirect:/admin/product";
     }
 

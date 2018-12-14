@@ -15,7 +15,7 @@
     </div>
 
     <!--/*@thymesVar id="productDto" type="com.dmitrybondarev.shop.model.dto.ProductDto"*/-->
-    <form action="#" th:action="@{'/admin/product/'}" th:object="${productDto}" method="post" enctype="utf8">
+    <form action="#" th:action="@{'/admin/product/'}" th:object="${productDto}" method="post" enctype="multipart/form-data">
     <!--<form action="#" th:action="@{'/admin/product/' + ${productDto.id}}" th:object="${productDto}" method="post" enctype="utf8">-->
 
         <div class="form-group row">
@@ -54,9 +54,16 @@
             <label class="col-sm-2 col-form-label"
                    th:text="#{label.product.category}">Category</label>
             <div class="col-sm-3">
-                <input type="text" th:field="*{categoryDTO.categoryName}"  class="form-control" id="inputEmail3"/>
+                <select class="form-control" id="testOrder" name="testOrder" th:field="*{categoryString}">
+                    <!--<option value="">Select Category</option>-->
+                    <!--/*@thymesVar id="allCategoryDto" type="java.util.List<com.dmitrybondarev.shop.model.dto.CategoryDto>"*/-->
+                    <option th:each="categoryDto : ${allCategoryDto}"
+                            th:value="${categoryDto.toString()}"
+                            th:selected="${categoryDto.equals(productDto.category)}"
+                            th:text="${categoryDto.toString()}"></option>
+                </select>
             </div>
-            <p th:each="error: ${#fields.errors('categoryDTO')}" th:text="#{${error}}"
+            <p th:each="error: ${#fields.errors('category')}" th:text="#{${error}}"
                class="alert alert-danger" role="alert">Validation error</p>
         </div>
 
@@ -117,7 +124,19 @@
             <label class="col-sm-2 col-form-label"
                    th:text="#{label.product.active}">Active</label>
             <div class="col-sm-3">
-                <input type="checkbox" name="active" th:checked="*{active}" id="inputEmail10"/>
+                <select th:field="*{active}">
+                    <!--<option th:value="true">Select Activity</option>-->
+                    <option th:value="true"> Active</option>
+                    <option th:value="false"> Not Active</option>
+                </select>
+
+                <!--<input type="checkbox"-->
+                       <!--th:name="*{active}"-->
+                       <!--id="inputEmail10"/>-->
+
+
+                <!--th:checked="${productDto.active}"-->
+                <!--id="inputEmail10"/>-->
             </div>
         </div>
 
@@ -125,7 +144,21 @@
             <label class="col-sm-2 col-form-label"
                    th:text="#{label.product.advertising}">Advertising</label>
             <div class="col-sm-3">
-                <input type="checkbox" name="active" th:checked="*{advertising}" id="inputEmail11"/>
+                <select th:field="*{advertising}">
+                    <!--<option th:value="true">Select Activity</option>-->
+                    <option th:value="true">Advertising</option>
+                    <option th:value="false">Not Advertising</option>
+                </select>
+
+
+
+                <!--<input type="checkbox"-->
+                       <!--th:name="*{advertising}"-->
+                       <!--id="inputEmail11"/>-->
+
+
+                <!--th:checked="${productDto.advertising}"-->
+                <!--id="inputEmail11"/>-->
             </div>
         </div>
 
