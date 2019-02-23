@@ -8,10 +8,7 @@ import java.util.Optional;
 
 public interface UserRepository extends CrudRepository<User, Long> {
 
-    Optional<User> findByIdEquals(Long id);
-
     Optional<User> findByEmail(String email);
-
 
 
 //    @Query("SELECT u FROM user u WHERE u.id = ?1")

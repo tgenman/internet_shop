@@ -27,7 +27,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -90,12 +89,8 @@ public class OrderServiceImp implements OrderService {
     @Loggable
     @Transactional
     public List<OrderDto> getAllOrderDto() {
-//        Optional<User> byId = userRepository.findById((long) 2);
-//        User userById1 = userRepository.findUserById1(2);
-
         Iterable<Order> all = orderRepository.findAll();
 
-//        List<Order> all = orderRepository.findAllByTotalGreaterThan(0);
         List<OrderDto> orderDtos = new ArrayList<>();
         for (Order order : all) {
             orderDtos.add(mapperUtil.mapOrderToOrderDto(order));
@@ -106,7 +101,7 @@ public class OrderServiceImp implements OrderService {
     @Override
     @Loggable
     @Transactional
-    public List<OrderDto> getAllOrderDtoByUserEmail(String email) {
+    public List<OrderDto> getAllOrdersDtoByUserEmail(String email) {
         Optional<User> optionalUser = userRepository.findByEmail(email);
         if (!optionalUser.isPresent()) throw new UserNotFoundException("Not found user with email: " + email);
 

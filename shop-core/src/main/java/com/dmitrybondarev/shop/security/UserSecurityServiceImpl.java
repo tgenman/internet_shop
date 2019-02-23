@@ -3,7 +3,6 @@ package com.dmitrybondarev.shop.security;
 import com.dmitrybondarev.shop.model.User;
 import com.dmitrybondarev.shop.model.token.PasswordResetToken;
 import com.dmitrybondarev.shop.repository.token.PasswordResetTokenRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

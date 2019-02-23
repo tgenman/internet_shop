@@ -35,6 +35,10 @@ public class AdminProductController {
 
     private static final String PRODUCT_DTO = "productDto";
 
+    private static final String ALL_CATEGORY_DTO= "allCategoryDto";
+
+    private static final String ID_PRODUCT_FOR_EDIT = "idProductForEdit";
+
     public AdminProductController(ProductService productService, CategoryService categoryService) {
         this.productService = productService;
         this.categoryService = categoryService;
@@ -55,7 +59,7 @@ public class AdminProductController {
         model.addAttribute("allProductDto", productDtos);
 
         List<CategoryDto> allCategoryDto = categoryService.getAllCategoryDto();
-        model.addAttribute("allCategoryDto", allCategoryDto);
+        model.addAttribute(ALL_CATEGORY_DTO, allCategoryDto);
         return "admin/product/productList";
     }
 
@@ -65,7 +69,7 @@ public class AdminProductController {
         List<CategoryDto> allCategoryDto = categoryService.getAllCategoryDto();
 
         model.addAttribute(PRODUCT_DTO, new ProductDto());
-        model.addAttribute("allCategoryDto", allCategoryDto);
+        model.addAttribute(ALL_CATEGORY_DTO, allCategoryDto);
         return "admin/product/newProduct";
     }
 
@@ -99,11 +103,11 @@ public class AdminProductController {
                                       Model model,
                                       HttpSession httpSession) {
 
-        httpSession.removeAttribute("idProductForEdit");
-        httpSession.setAttribute("idProductForEdit", id);
+        httpSession.removeAttribute(ID_PRODUCT_FOR_EDIT);
+        httpSession.setAttribute(ID_PRODUCT_FOR_EDIT, id);
         ProductDto productDto = productService.getProductById(id);
         model.addAttribute(PRODUCT_DTO, productDto);
-        model.addAttribute("allCategoryDto", categoryService.getAllCategoryDto());
+        model.addAttribute(ALL_CATEGORY_DTO, categoryService.getAllCategoryDto());
         return "/admin/product/productEdit.html";
     }
 
@@ -116,7 +120,7 @@ public class AdminProductController {
             HttpServletRequest request,
             Model model) throws IOException {
 
-        long idProductForEdit = (Long) request.getSession().getAttribute("idProductForEdit");
+        long idProductForEdit = (Long) request.getSession().getAttribute(ID_PRODUCT_FOR_EDIT);
         productDto.setId(idProductForEdit);
 
         if (result.hasErrors()) {

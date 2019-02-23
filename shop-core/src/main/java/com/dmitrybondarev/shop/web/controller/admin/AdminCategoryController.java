@@ -7,17 +7,14 @@ import com.dmitrybondarev.shop.util.logging.Loggable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.io.IOException;
 
 @Controller
 @RequestMapping("/admin/category")
@@ -26,6 +23,8 @@ public class AdminCategoryController {
     private CategoryService categoryService;
 
     private static final String CATEGORY_DTO = "categoryDto";
+
+    private static final String ID_CATEGORY_FOR_EDIT = "idCategoryForEdit";
 
     public AdminCategoryController(CategoryService categoryService) {
         this.categoryService = categoryService;
@@ -74,8 +73,8 @@ public class AdminCategoryController {
     public String showCategoryEditForm(@PathVariable long id,
                                        Model model,
                                        HttpSession httpSession) {
-        httpSession.removeAttribute("idCategoryForEdit");
-        httpSession.setAttribute("idCategoryForEdit", id);
+        httpSession.removeAttribute(ID_CATEGORY_FOR_EDIT);
+        httpSession.setAttribute(ID_CATEGORY_FOR_EDIT, id);
 
         CategoryDto categoryDto = categoryService.getCategoryDtoById(id);
         model.addAttribute(CATEGORY_DTO, categoryDto);
@@ -89,7 +88,7 @@ public class AdminCategoryController {
                               HttpServletRequest request,
                               Model model) {
 
-        long idCategoryForEdit = (Long) request.getSession().getAttribute("idCategoryForEdit");
+        long idCategoryForEdit = (Long) request.getSession().getAttribute(ID_CATEGORY_FOR_EDIT);
         categoryDto.setId(idCategoryForEdit);
 
         if (result.hasErrors()) {

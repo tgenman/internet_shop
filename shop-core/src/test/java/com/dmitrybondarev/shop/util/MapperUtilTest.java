@@ -28,7 +28,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class MapperUtilTest {
-//
+
 //    private MapperUtil mapperUtil;
 //
 //    public MapperUtilTest() {
@@ -129,7 +129,7 @@ public class MapperUtilTest {
 //        Assert.assertEquals(size, output.getSize());
 //        Assert.assertEquals(weight, output.getWeight());
 //        Assert.assertEquals(filename, output.getFilename());
-//        Assert.assertEquals(active, output.isActive());
+//        Assert.assertEquals(active, output.getActive());
 //        Assert.assertEquals(color, output.getColor());
 //        Assert.assertEquals(brand, output.getBrand());
 //        Assert.assertEquals(dayOfWarranty, output.getDayOfWarranty());
@@ -235,8 +235,8 @@ public class MapperUtilTest {
 //        Assert.assertEquals(lastName, output.getLastName());
 //        Assert.assertEquals(dateOfBirth, output.getDateOfBirth());
 //        Assert.assertEquals(cartDto, output.getCartDto());
-//        Assert.assertTrue(output.getAddressDtos().contains(addressDto1));
-//        Assert.assertTrue(output.getAddressDtos().contains(addressDto2));
+//        Assert.assertTrue(output.getAddresses().contains(addressDto1));
+//        Assert.assertTrue(output.getAddresses().contains(addressDto2));
 //    }
 //
 //    @Test

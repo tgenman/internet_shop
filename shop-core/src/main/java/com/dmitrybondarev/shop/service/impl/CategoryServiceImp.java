@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,10 +40,9 @@ public class CategoryServiceImp implements CategoryService {
     @Override
     @Loggable
     @Transactional
-    public CategoryDto getCategoryDtoById(long categoryId) {
-        Optional<Category> optionalCategory = categoryRepository.findById(categoryId);
-        if (!optionalCategory.isPresent()) throw new CategoryNotFoundException("No category found with id: "+ categoryId);
-        Category category = optionalCategory.get();
+    public CategoryDto getCategoryDtoById(long categoryId) throws CategoryNotFoundException {
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new CategoryNotFoundException("No category found with id: "+ categoryId));
         return mapperUtil.mapCategoryToCategoryDto(category);
     }
 
@@ -63,9 +61,10 @@ public class CategoryServiceImp implements CategoryService {
     @Override
     @Loggable
     @Transactional
-    public void editCategory(CategoryDto categoryDto) {
-        Optional<Category> optionalCategory = categoryRepository.findById(categoryDto.getId());
-        if (!optionalCategory.isPresent()) throw new CategoryNotFoundException("No category found with id: "+ categoryDto.getId());
+    public void editCategory(CategoryDto categoryDto) throws CategoryNotFoundException {
+        categoryRepository.findById(categoryDto.getId())
+                .orElseThrow(() -> new CategoryNotFoundException("No category found with id: " + categoryDto.getId()));
+
         Category category = mapperUtil.mapCategoryDtoToCategory(categoryDto);
         categoryRepository.save(category);
     }

@@ -1,6 +1,6 @@
 package com.dmitrybondarev.shop.util.exception;
 
-public class VerificationTokenNotFoundException extends RuntimeException {
+public class VerificationTokenNotFoundException extends Exception {
 
 
     private static final long serialVersionUID = 5861315336628763L;

@@ -1,6 +1,6 @@
 package com.dmitrybondarev.shop.util.exception;
 
-public class AddressNotFoundException extends RuntimeException {
+public class AddressNotFoundException extends Exception {
 
     private static final long serialVersionUID = 5861334153366287163L;
 

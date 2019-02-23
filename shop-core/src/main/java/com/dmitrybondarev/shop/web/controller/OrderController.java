@@ -1,47 +1,32 @@
 package com.dmitrybondarev.shop.web.controller;
 
 import com.dmitrybondarev.shop.model.Cart;
-import com.dmitrybondarev.shop.model.dto.AddressDto;
-import com.dmitrybondarev.shop.model.dto.CartDto;
-import com.dmitrybondarev.shop.model.dto.ProductDto;
-import com.dmitrybondarev.shop.util.MapperUtil;
-import com.dmitrybondarev.shop.util.logging.Loggable;
 import com.dmitrybondarev.shop.model.Product;
-import com.dmitrybondarev.shop.model.User;
+import com.dmitrybondarev.shop.model.dto.AddressDto;
 import com.dmitrybondarev.shop.model.dto.OrderDto;
 import com.dmitrybondarev.shop.model.dto.UserDto;
-import com.dmitrybondarev.shop.model.enums.StatusOfDelivery;
-import com.dmitrybondarev.shop.model.enums.StatusOfPayment;
 import com.dmitrybondarev.shop.model.enums.TypeOfDelivery;
 import com.dmitrybondarev.shop.model.enums.TypeOfPayment;
 import com.dmitrybondarev.shop.service.api.CartService;
 import com.dmitrybondarev.shop.service.api.OrderService;
 import com.dmitrybondarev.shop.service.api.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.dmitrybondarev.shop.util.logging.Loggable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 @Controller
 @RequestMapping("/order")
-@SessionAttributes("idCard")
 public class OrderController {
 
     private OrderService orderService;
@@ -61,7 +46,7 @@ public class OrderController {
     public String showListOfOrderForUser(@AuthenticationPrincipal UserDetails userDetails,
                                          Model model) {
         List<OrderDto> orderDtos =
-                orderService.getAllOrderDtoByUserEmail(userDetails.getUsername());
+                orderService.getAllOrdersDtoByUserEmail(userDetails.getUsername());
         model.addAttribute("orderDtos", orderDtos);
 
         return "/order/OrderListForUser";

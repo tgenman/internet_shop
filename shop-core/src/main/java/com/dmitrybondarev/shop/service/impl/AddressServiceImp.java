@@ -13,8 +13,6 @@ import com.dmitrybondarev.shop.util.logging.Loggable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -37,9 +35,8 @@ public class AddressServiceImp implements AddressService {
     @Loggable
     @Transactional
     public void addNewAddress(AddressDto addressDto, String userEmail) {
-        Optional<User> optionalUser = userRepository.findByEmail(userEmail);
-        if (!optionalUser.isPresent()) throw new UserNotFoundException("Dont find all users with email: " + userEmail);
-        User user = optionalUser.get();
+        User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new UserNotFoundException("Dont find user with email: " + userEmail));
 
         Address address = mapperUtil.mapAddressDtoToAddress(addressDto);
         address.setId(null);
@@ -53,10 +50,9 @@ public class AddressServiceImp implements AddressService {
     @Override
     @Loggable
     @Transactional
-    public AddressDto getAddressDtoById(long id) {
-        Optional<Address> optionalAddress = addressRepository.findById(id);
-        if (!optionalAddress.isPresent()) throw new AddressNotFoundException("Address doesn't found  with id: " + id);
-        Address address = optionalAddress.get();
+    public AddressDto getAddressDtoById(long addressId) throws AddressNotFoundException {
+        Address address = addressRepository.findById(addressId)
+                .orElseThrow(() -> new AddressNotFoundException("Address doesn't found  with id: " + addressId));
         return mapperUtil.mapAddressToAddressDto(address);
     }
 
@@ -72,12 +68,11 @@ public class AddressServiceImp implements AddressService {
     @Override
     @Loggable
     @Transactional
-    public void inactivateAddress(long addressId) {
-        Optional<Address> optionalAddress = addressRepository.findById(addressId);
-        if (!optionalAddress.isPresent()) throw new AddressNotFoundException("Address doesn't found with id: " + addressId);
+    public void inactivateAddress(long addressId) throws AddressNotFoundException {
+        Address address =  addressRepository.findById(addressId)
+                .orElseThrow(() -> new AddressNotFoundException("Address doesn't found  with id: " + addressId));
 
-        Address address =  optionalAddress.get();
-
+        address.setActive(false);
         addressRepository.save(address);
     }
 
@@ -85,11 +80,12 @@ public class AddressServiceImp implements AddressService {
     @Loggable
     @Transactional
     public Set<Address> getAllActiveAddressByUserEmail(String userEmail) {
-        Optional<User> optionalUser = userRepository.findByEmail(userEmail);
-        if (!optionalUser.isPresent()) throw new UserNotFoundException("Dont find all users with email: " + userEmail);
-        User user = optionalUser.get();
+        User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new UserNotFoundException("Dont find all users with email: " + userEmail));
 
         Set<Address> addresses = user.getAddresses();
-        return addresses.stream().filter(Address::isActive).collect(Collectors.toSet());
+        return addresses.stream()
+                .filter(Address::isActive)
+                .collect(Collectors.toSet());
     }
 }

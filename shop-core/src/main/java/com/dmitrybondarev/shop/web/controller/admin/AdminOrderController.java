@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +20,8 @@ import javax.validation.Valid;
 public class AdminOrderController {
 
     private OrderService orderService;
+
+    private static final String ID_ORDER_FOR_EDIT = "idOrderForEdit";
 
     public AdminOrderController(OrderService orderService) {
         this.orderService = orderService;
@@ -38,8 +39,8 @@ public class AdminOrderController {
     public String showOrderEditForm(@PathVariable long id,
                                     Model model,
                                     HttpSession httpSession) {
-        httpSession.removeAttribute("idOrderForEdit");
-        httpSession.setAttribute("idOrderForEdit", id);
+        httpSession.removeAttribute(ID_ORDER_FOR_EDIT);
+        httpSession.setAttribute(ID_ORDER_FOR_EDIT, id);
 
         OrderDto orderDto = orderService.getOrderDtoById(id);
         model.addAttribute("orderDto", orderDto);
@@ -52,7 +53,7 @@ public class AdminOrderController {
                             BindingResult result,
                             HttpServletRequest request,
                             Model model) {
-        long idOrderForEdit = (Long) request.getSession().getAttribute("idOrderForEdit");
+        long idOrderForEdit = (Long) request.getSession().getAttribute(ID_ORDER_FOR_EDIT);
         orderDto.setId(idOrderForEdit);
 
         if (result.hasErrors()) {

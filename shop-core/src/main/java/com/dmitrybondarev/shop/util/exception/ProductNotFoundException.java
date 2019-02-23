@@ -1,6 +1,6 @@
 package com.dmitrybondarev.shop.util.exception;
 
-public class ProductNotFoundException extends RuntimeException {
+public class ProductNotFoundException extends Exception {
 
     private static final long serialVersionUID = 586131053366287163L;
 

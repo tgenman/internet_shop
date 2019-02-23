@@ -9,10 +9,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.Cookie;
@@ -25,6 +23,8 @@ import java.util.UUID;
 public class CartController {
 
     private CartService cartService;
+
+    private static final String CART_UID = "cartUID";
 
     public CartController(CartService cartService) {
         this.cartService = cartService;
@@ -46,7 +46,7 @@ public class CartController {
             cart = cartService.getCartByUserEmail(userDetails.getUsername(), cartUID);
         }
 
-        response.addCookie(new Cookie("cartUID", cartUID));
+        response.addCookie(new Cookie(CART_UID, cartUID));
 
         model.addAttribute("sum", this.countSum(cart));
         model.addAttribute("cart", cart);
@@ -68,7 +68,7 @@ public class CartController {
 
         cartService.modificationCartByUserEmail(userDetails.getUsername(), productId,1,cartUID);
 
-        response.addCookie(new Cookie("cartUID", cartUID));
+        response.addCookie(new Cookie(CART_UID, cartUID));
         return "redirect:/product";
     }
 
@@ -85,7 +85,7 @@ public class CartController {
             return "redirect:/cart";
         }
 
-        response.addCookie(new Cookie("cartUID", cartUID));
+        response.addCookie(new Cookie(CART_UID, cartUID));
 
 
         cartService.modificationCartByUserEmail(userDetails.getUsername(), productId, -1, cartUID);

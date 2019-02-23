@@ -8,7 +8,7 @@ public interface OrderService {
 
     List<OrderDto> getAllOrderDto();
 
-    List<OrderDto> getAllOrderDtoByUserEmail(String email);
+    List<OrderDto> getAllOrdersDtoByUserEmail(String email);
 
     void createOrder(OrderDto orderDto);
 

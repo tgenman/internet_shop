@@ -1,6 +1,6 @@
 package com.dmitrybondarev.shop.util.exception;
 
-public class OrderNotFoundException extends RuntimeException  {
+public class OrderNotFoundException extends Exception  {
 
     private static final long serialVersionUID = 5861315366287163L;
 

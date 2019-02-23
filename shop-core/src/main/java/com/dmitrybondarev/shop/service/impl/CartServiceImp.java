@@ -3,23 +3,19 @@ package com.dmitrybondarev.shop.service.impl;
 import com.dmitrybondarev.shop.model.Cart;
 import com.dmitrybondarev.shop.model.Product;
 import com.dmitrybondarev.shop.model.User;
-import com.dmitrybondarev.shop.model.dto.CartDto;
 import com.dmitrybondarev.shop.repository.CartRepository;
 import com.dmitrybondarev.shop.repository.ProductRepository;
 import com.dmitrybondarev.shop.repository.UserRepository;
 import com.dmitrybondarev.shop.service.api.CartService;
-import com.dmitrybondarev.shop.util.MapperUtil;
 import com.dmitrybondarev.shop.util.exception.ProductNotFoundException;
 import com.dmitrybondarev.shop.util.exception.UserNotFoundException;
 import com.dmitrybondarev.shop.util.logging.Loggable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.context.request.RequestContextHolder;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class CartServiceImp implements CartService {
@@ -30,8 +26,6 @@ public class CartServiceImp implements CartService {
 
     private CartRepository cartRepository;
 
-    private MapperUtil mapperUtil;
-
     public CartServiceImp(UserRepository userRepository, ProductRepository productRepository, CartRepository cartRepository) {
         this.userRepository = userRepository;
         this.productRepository = productRepository;
@@ -41,10 +35,9 @@ public class CartServiceImp implements CartService {
     @Override
     @Loggable
     @Transactional
-    public Cart getCartByUserEmail(String emailUser, String cartUID) {
-        Optional<User> optionalUser = userRepository.findByEmail(emailUser);
-        if (!optionalUser.isPresent()) throw new UserNotFoundException("No user found with email: "+ emailUser);
-        User user = optionalUser.get();
+    public Cart getCartByUserEmail(String emailUser, String cartUID) throws UserNotFoundException {
+        User user = userRepository.findByEmail(emailUser)
+                .orElseThrow(() -> new UserNotFoundException("No user found with email: "+ emailUser));
 
         Cart cart = this.checkCartFromUserAndInit(user);
 
@@ -56,7 +49,7 @@ public class CartServiceImp implements CartService {
     @Override
     @Loggable
     @Transactional
-    public Cart getCartByByCardUID(String cartUID) {
+    public Cart getCartByByCardUID(String cartUID) {   // Not always use??
 
         Optional<Cart> optionalCart = cartRepository.findBySessionId(cartUID);
 
@@ -73,14 +66,12 @@ public class CartServiceImp implements CartService {
     @Override
     @Loggable
     @Transactional
-    public void modificationCartByUserEmail(String emailUser, long productId, int amount, String cartUID) {
-        Optional<User> optionalUser = userRepository.findByEmail(emailUser);
-        Optional<Product> optionalProduct = productRepository.findById(productId);
-        if (!optionalUser.isPresent()) throw new UserNotFoundException("No user found with email: "+ emailUser);
-        if (!optionalProduct.isPresent()) throw new ProductNotFoundException("No product found with id: "+ productId);
+    public void modificationCartByUserEmail(String emailUser, long productId, int amount, String cartUID) throws UserNotFoundException, ProductNotFoundException {
+        User user = userRepository.findByEmail(emailUser)
+                .orElseThrow(() -> new UserNotFoundException("No user found with email: "+ emailUser));
 
-        User user = optionalUser.get();
-        Product product = optionalProduct.get();
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ProductNotFoundException("No product found with id: "+ productId));
 
         Cart cart = this.checkCartFromUserAndInit(user);
 
@@ -93,13 +84,11 @@ public class CartServiceImp implements CartService {
     }
 
     @Override
-    public void modificationCartByCartId(String cartUid, long productId, int amount) {
-        Optional<Product> optionalProduct = productRepository.findById(productId);
-        if (!optionalProduct.isPresent()) throw new ProductNotFoundException("No product found with id: "+ productId);
-        Product product = optionalProduct.get();
+    public void modificationCartByCartId(String cartUid, long productId, int amount) throws ProductNotFoundException {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ProductNotFoundException("No product found with id: "+ productId));
 
-        Optional<Cart> optionalCart = cartRepository.findBySessionId(cartUid);
-        Cart cart = optionalCart.orElseGet(Cart::new);
+        Cart cart = cartRepository.findBySessionId(cartUid).orElseGet(Cart::new);
 
         this.modificationProductAmount(cart, product, amount);
         cart.setUser(null);
